@@ -1,0 +1,16 @@
+{
+  "name": "Bella Vita",
+  "short_name": "Bella Vita",
+  "start_url": "/Bellavita/",
+  "display": "standalone",
+  "background_color": "#2a2a28",
+  "theme_color": "#2a2a28",
+  "icons": [
+    {
+      "src": "/Bellavita/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
