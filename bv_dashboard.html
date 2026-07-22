@@ -198,8 +198,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
   <div class="card click" onclick="nav('vencidas',document.querySelector('.nav-item:nth-child(2)'))">
     <div class="ctitle">Deuda pendiente</div>
-    <div class="mval2" style="color:var(--red)">$33,8M</div>
-    <div class="msub">78 facturas &middot; ver &rarr;</div>
+    <div class="mval2" style="color:var(--red)" id="deudaTotal">$10,5M</div>
+    <div class="msub" id="deudaCount">52 facturas &middot; ver &rarr;</div>
   </div>
   <div class="card click" onclick="openM('stock')">
     <div class="ctitle">Stock P3000</div>
