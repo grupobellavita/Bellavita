@@ -902,8 +902,10 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load async
   loadDolar();
   loadClima();
-  // Sync from Google Sheet on startup
-  setTimeout(syncFromSheet, 1000);
+  // Sync from Google Sheet on startup - load first, then render
+  document.getElementById('syncStatus').textContent = 'Cargando desde Sheet...';
+  document.getElementById('syncStatus').style.color = 'var(--text3)';
+  syncFromSheet();
 });
 
 
@@ -975,10 +977,18 @@ async function syncFromSheet() {
       }
     } catch(e) {}
   }
+  // Always re-render after sync attempt
+  renderSaldos();
+  renderV();
+  renderNotas();
+  renderCheques();
+  renderAgResumen();
   if (synced > 0) {
-    renderSaldos(); renderV(); renderNotas(); renderCheques(); renderAgResumen();
-    document.getElementById('syncStatus').textContent = 'Sincronizado con Google Sheet';
+    document.getElementById('syncStatus').textContent = 'Sincronizado ✓ ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
     document.getElementById('syncStatus').style.color = 'var(--green)';
+  } else {
+    document.getElementById('syncStatus').textContent = 'Sin conexion al Sheet - datos locales';
+    document.getElementById('syncStatus').style.color = 'var(--text3)';
   }
 }
 
