@@ -888,6 +888,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }).join('');
   }
 
+  // Update deuda card from real VENC data
+  (function(){
+    var paid = bvGet('paid_facs',[]);
+    var v = VENC.filter(function(f){ return paid.indexOf(f.num)<0; });
+    var total = v.reduce(function(s,f){return s+f.pe;},0);
+    var el = document.getElementById('deudaTotal');
+    var el2 = document.getElementById('deudaCount');
+    if(el) el.textContent = '$' + (total/1e6).toFixed(1) + 'M';
+    if(el2) el2.textContent = v.length + ' facturas · ver →';
+  })();
+
   // Load async
   loadDolar();
   loadClima();
