@@ -1029,6 +1029,10 @@ function renderStock() {
   });
 
   el.innerHTML =
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
+    '<div style="font-size:12px;color:var(--text3)">Actualizado: ' + STOCK_DATA.fecha + '</div>' +
+    '<button class="mbtn btn-p" style="font-size:12px;padding:7px 14px" onclick="openStockEdit()">&#9998; Editar stock</button>' +
+    '</div>' +
     '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px">' +
       tabla('Cordoba &mdash; Alberdi', cba, true, 'var(--blue)') +
       tabla('Catamarca &mdash; Promet', cat, false, 'var(--amber)') +
@@ -1044,6 +1048,89 @@ function renderStock() {
       '<div style="font-size:11px;color:var(--text3);margin-top:6px">Cobertura basada en ventas promedio reales (jun25-jul26). Fecha: ' + STOCK_DATA.fecha + '</div>' +
     '</div>';
 }
+
+
+function openStockEdit() {
+  var cba = bvGet('stock_cba', null) || STOCK_DATA.cba;
+  var cat = bvGet('stock_cat', null) || STOCK_DATA.cat;
+  var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
+  var ucj = {P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
+
+  var box = document.getElementById('mbox');
+  box.innerHTML = '<div class="mhdr"><div class="mtitle">Editar stock</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
+    '<div style="font-size:11px;color:var(--text3);margin-bottom:12px">Ingresá unidades. Las cajas se calculan solas.</div>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
+    '<thead><tr style="font-size:10px;color:var(--text3)"><th style="text-align:left">SKU</th>' +
+    '<th style="text-align:center">CBA (u)</th><th style="text-align:center">CAT (u)</th></tr></thead><tbody>' +
+    skus.map(function(s) {
+      var c = cba.find(function(r){return r.sku===s;}) || {u:0};
+      var t = cat.find(function(r){return r.sku===s;}) || {u:0};
+      return '<tr style="border-bottom:1px solid var(--border)">' +
+        '<td style="padding:6px 0;font-weight:600;color:var(--accent)">' + s + '</td>' +
+        '<td style="padding:6px 4px"><input class="minp" id="cba_'+s+'" type="number" value="'+(+c.u||0)+'" style="text-align:center"></td>' +
+        '<td style="padding:6px 4px"><input class="minp" id="cat_'+s+'" type="number" value="'+(+t.u||0)+'" style="text-align:center"></td>' +
+        '</tr>';
+    }).join('') +
+    '</tbody></table>' +
+    '<div class="mbtns" style="margin-top:14px">' +
+    '<button class="mbtn btn-p" onclick="saveStockEdit()">Guardar stock</button>' +
+    '<button class="mbtn btn-s" onclick="closeM()">Cancelar</button>' +
+    '</div>';
+  document.getElementById('overlay').style.display = 'flex';
+}
+
+function saveStockEdit() {
+  var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
+  var ucj = {P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
+  var new_cba = skus.map(function(s) {
+    var u = parseFloat(document.getElementById('cba_'+s).value)||0;
+    return {sku:s, u:u, cj:Math.round(u/ucj[s]*100)/100};
+  });
+  var new_cat = skus.map(function(s) {
+    var u = parseFloat(document.getElementById('cat_'+s).value)||0;
+    return {sku:s, u:u, cj:Math.round(u/ucj[s]*100)/100};
+  });
+  // Also add cod for CBA
+  var cods = {P250:200,P500:201,P1000:202,P2000:203,P3000:204,V250:205,V500:206};
+  new_cba.forEach(function(r){ r.cod = cods[r.sku]; });
+  
+  bvSet('stock_cba', new_cba);
+  bvSet('stock_cat', new_cat);
+  // Update STOCK_DATA in memory
+  STOCK_DATA.cba = new_cba;
+  STOCK_DATA.cat = new_cat;
+  STOCK_DATA.fecha = new Date().toLocaleDateString('es-AR');
+  closeM();
+  renderStock();
+  // Update dashboard card
+  updateStockCard();
+}
+
+function updateStockCard() {
+  var cba = STOCK_DATA.cba;
+  var cat = STOCK_DATA.cat;
+  var rupturas = [];
+  var vp = STOCK_DATA.ventas_prom;
+  ['P250','P500','P1000','P2000','P3000','V250','V500'].forEach(function(s){
+    var c = (cba.find(function(r){return r.sku===s;})||{u:0}).u;
+    var t = (cat.find(function(r){return r.sku===s;})||{u:0}).u;
+    if((+c||0)+(+t||0)<=0) rupturas.push(s);
+  });
+  var p3cba = (cba.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
+  var p3cat = (cat.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
+  var el = document.getElementById('stockResumen');
+  var el2 = document.getElementById('stockSubtitle');
+  if(el) el.innerHTML = '<div class="mval2" style="font-size:20px;color:var(--green)">'+(p3cba+p3cat).toFixed(0)+' cj P3000</div>';
+  if(el2) el2.innerHTML = rupturas.length>0 ? '<span style="color:var(--red)">⚠ Ruptura: '+rupturas.join(', ')+'</span>' : 'Ver detalle →';
+}
+
+// Load saved stock on init
+(function(){
+  var savedCba = bvGet('stock_cba', null);
+  var savedCat = bvGet('stock_cat', null);
+  if(savedCba) STOCK_DATA.cba = savedCba;
+  if(savedCat) STOCK_DATA.cat = savedCat;
+})();
 
 function exportData() {
   var keys = ['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli'];
