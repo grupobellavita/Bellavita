@@ -1020,20 +1020,24 @@ var FIN_DATA = {
   mes_actual: 6, // julio = index 6
 };
 
-var MESES_FIN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+var MARGEN_REAL = 0.43; var LITROS_TN = 1099; var MESES_FIN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
 function getFin() {
   return bvGet('finanzas', {
-    costos_fijos: 5000000,
     oficina: 300000,
+    logistica: 200000,
     sueldo: 2000000,
+    sueldo_paolo: 200000,
+    seguro_nacho: 150000,
+    seguro_paolo: 100000,
     cm: 350000,
+    combustible: 500000,
+    varios: 1000000,
     cuota_aove: 0,
-    fasoneo: 0,
-    logistica: 0,
-    imprenta: 0,
-    otros: 1350000,
-    margen_bruto_pct: 35,
+    margen_bruto_pct: 43,
+    tn_compradas: 20,
+    precio_aove_usd: 4700,
+    tc: 1475,
     nota: ''
   });
 }
@@ -1043,8 +1047,8 @@ function calcFinanzas() {
   var cheques = bvGet('cheques', []);
   var totalCheques = cheques.reduce(function(s,c){ return s + (+c.monto||0); }, 0);
 
-  var totalCostFijos = fin.oficina + fin.sueldo + fin.cm + fin.cuota_aove +
-    fin.fasoneo + fin.logistica + fin.imprenta + fin.otros;
+  var totalCostFijos = fin.oficina + fin.logistica + fin.sueldo + fin.sueldo_paolo +
+    fin.seguro_nacho + fin.seguro_paolo + fin.cm + fin.combustible + fin.varios + fin.cuota_aove;
 
   // Mes actual (julio)
   var ventasMesActual = FIN_DATA.ventas_2026_real[FIN_DATA.mes_actual] || 0;
@@ -1112,7 +1116,7 @@ function renderFinanzas() {
     '<div class="card click" onclick="openFinEdit()">' +
       '<div class="ctitle">Costos fijos mes <span style="font-size:9px;color:var(--text3);font-weight:400;text-transform:none">editar</span></div>' +
       '<div class="mval2" style="color:var(--red)">' + fmtM(r.totalCostFijos) + '</div>' +
-      '<div class="msub">Oficina + sueldo + CM + otros</div>' +
+      '<div class="msub">$4,8M/mes · 9 rubros reales</div>' +
       '<div class="mhint">+ cuota AOVE + otros</div>' +
     '</div>' +
 
@@ -1161,9 +1165,11 @@ function renderFinanzas() {
     // Desglose costos
     '<div class="card">' +
       '<div class="ctitle">Desglose costos mensuales <span class="ctag tag-amber" style="cursor:pointer" onclick="openFinEdit()">editar</span></div>' +
-      ['oficina:Oficina', 'sueldo:Sueldo', 'cm:Community Manager',
-       'cuota_aove:Cuota AOVE', 'fasoneo:Fasoneo Promet',
-       'logistica:Logistica Alberdi', 'imprenta:Etiquetas/imprenta', 'otros:Otros'].map(function(item) {
+      ['oficina:Oficina Alta Gracia', 'logistica:Logistica Alberdi',
+       'sueldo:Sueldo Nacho (GG)', 'sueldo_paolo:Sueldo Paolo (ventas)',
+       'seguro_nacho:Seguro auto Nacho', 'seguro_paolo:Seguro auto Paolo',
+       'cm:Community Manager', 'combustible:Combustible general',
+       'varios:Varios / imprevistos', 'cuota_aove:Cuota AOVE (desde sep-26)'].map(function(item) {
         var parts = item.split(':');
         var k = parts[0], lbl = parts[1];
         var v = fin[k] || 0;
@@ -1212,9 +1218,13 @@ function renderFinanzas() {
           obs.push({txt: 'Julio esta por debajo del punto de equilibrio - mes estacional bajo', col: 'var(--amber)'});
         }
         obs.push({txt: 'Crecimiento 2026 vs 2025: +48% - ritmo excepcional', col: 'var(--green)'});
-        obs.push({txt: 'Deuda pendiente: $10.5M en 52 facturas (reporte real 21/jul/2026)', col: 'var(--amber)'});
-        obs.push({txt: 'Mayor riesgo: concentracion en Waggon (35% facturacion historica)', col: 'var(--red)'});
-        obs.push({txt: 'Cuota AOVE 2026-27 pendiente de definir segun negociacion', col: 'var(--text3)'});
+        obs.push({txt: 'Precio AOVE: USD 4.700/tn · 20 tn · cuota $11,55M/mes desde sep-26', col: 'var(--amber)'});
+        obs.push({txt: 'Costo total/litro: $8.481 (AOVE $6.309 + fason+etiq $2.173)', col: 'var(--text2)'});
+        obs.push({txt: 'Margen real 43% — precio venta $14.886/lt promedio facturas reales', col: 'var(--green)'});
+        obs.push({txt: 'Neto proyectado: 15tn=USD 32.500 · 20tn=USD 56.400 (fijos $4,8M/mes)', col: 'var(--green)'});
+        obs.push({txt: 'Pto. equilibrio: 749 lts/mes (8,18 tn/ano) — ritmo actual 1.100 lts/mes', col: 'var(--text2)'});
+        obs.push({txt: 'Mayor riesgo: concentracion Waggon (33% volumen historico)', col: 'var(--red)'});
+        obs.push({txt: 'Deuda pendiente: $10,5M en 52 facturas (reporte 21/jul/2026)', col: 'var(--amber)'});
         return obs.map(function(o) {
           return '<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.4">' +
             '<div style="width:6px;height:6px;border-radius:50%;background:' + o.col + ';flex-shrink:0;margin-top:4px"></div>' +
@@ -1267,15 +1277,17 @@ function openFinEdit() {
   var box = document.getElementById('mbox');
   box.innerHTML = '<div class="mhdr"><div class="mtitle">Editar costos mensuales</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
     [
-      ['oficina', 'Oficina / deposito', '300000'],
-      ['sueldo', 'Sueldo propio', '2000000'],
+      ['oficina', 'Oficina Alta Gracia (alquiler + SS)', '300000'],
+      ['logistica', 'Logistica y deposito Alberdi', '200000'],
+      ['sueldo', 'Sueldo Nacho (Gerente General)', '2000000'],
+      ['sueldo_paolo', 'Sueldo Paolo (Sub-GG ventas)', '200000'],
+      ['seguro_nacho', 'Seguro auto Nacho', '150000'],
+      ['seguro_paolo', 'Seguro auto Paolo', '100000'],
       ['cm', 'Community Manager', '350000'],
-      ['cuota_aove', 'Cuota AOVE mensual', '0'],
-      ['fasoneo', 'Fasoneo Promet promedio', '0'],
-      ['logistica', 'Logistica Alberdi', '0'],
-      ['imprenta', 'Etiquetas / imprenta prom.', '0'],
-      ['otros', 'Otros gastos fijos', '1350000'],
-      ['margen_bruto_pct', 'Margen bruto % (sobre ventas)', '35'],
+      ['combustible', 'Combustible general', '500000'],
+      ['varios', 'Varios / imprevistos', '1000000'],
+      ['cuota_aove', 'Cuota AOVE mensual (desde sep-26)', '0'],
+      ['margen_bruto_pct', 'Margen bruto % real (43% con fasoneo)', '43'],
     ].map(function(row) {
       return '<div style="margin-bottom:10px"><div class="mlbl" style="margin-bottom:4px">' + row[1] + '</div>' +
         '<input class="minp" id="fin_' + row[0] + '" type="number" value="' + (fin[row[0]] || row[2]) + '"></div>';
@@ -1286,7 +1298,7 @@ function openFinEdit() {
 
 function saveFinEdit() {
   var fin = getFin();
-  ['oficina','sueldo','cm','cuota_aove','fasoneo','logistica','imprenta','otros','margen_bruto_pct'].forEach(function(k) {
+  ['oficina','logistica','sueldo','sueldo_paolo','seguro_nacho','seguro_paolo','cm','combustible','varios','cuota_aove','margen_bruto_pct'].forEach(function(k) {
     var el = document.getElementById('fin_' + k);
     if (el) fin[k] = parseFloat(el.value) || 0;
   });
