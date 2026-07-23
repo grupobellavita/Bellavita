@@ -12,6 +12,13 @@
   --green:#4ade80;--red:#f87171;--amber:#fbbf24;--blue:#60a5fa;--purple:#a78bfa;
   --accent:#e8650a;
 }
+body.light{
+  --bg:#f5f5f0;--bg1:#eeeeea;--bg2:#ffffff;--bg3:#f0f0ec;--bg4:#e8e8e4;
+  --border:#ddd;--border2:#ccc;--border3:#bbb;
+  --text:#1a1a1a;--text2:#555;--text3:#888;--text4:#aaa;
+  --green:#16a34a;--red:#dc2626;--amber:#d97706;--blue:#2563eb;--purple:#7c3aed;
+  --accent:#e8650a;
+}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;font-size:14px}
@@ -73,6 +80,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .al-r{background:rgba(248,113,113,.07);border:1px solid rgba(248,113,113,.16);color:#fca5a5}
 .al-a{background:rgba(251,191,36,.06);border:1px solid rgba(251,191,36,.14);color:#fcd34d}
 .al-g{background:rgba(74,222,128,.06);border:1px solid rgba(74,222,128,.13);color:#86efac}
+.al-done{background:var(--bg3);border:1px solid var(--border);color:var(--text3);display:flex;align-items:center;gap:10px;padding:8px 11px;border-radius:10px;margin-bottom:6px;font-size:13px}
 .aldot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:4px}
 .srow{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .sb{font-size:11px;padding:5px 11px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
@@ -153,6 +161,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   <div class="nav-bottom">
     <div id="syncStatus" style="font-size:10px;color:var(--text3);margin-bottom:8px;min-height:14px"></div>
     <div class="nav-date" id="navDate"></div>
+    <button class="nav-export" style="margin-top:8px" onclick="toggleTheme()" id="themeBtn">&#9788; Modo claro</button>
     <button class="nav-export" onclick="exportToSheet()">&#9729; Sincronizar con Sheet</button>
     <button class="nav-export" style="margin-top:6px" onclick="syncFromSheet()">&#8635; Cargar desde Sheet</button>
     <button class="nav-export" style="margin-top:6px" onclick="exportData()">&#8595; Exportar JSON</button>
@@ -208,12 +217,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 
   <div class="card s2">
-    <div class="ctitle">Alertas activas <span class="ctag tag-red">5</span></div>
-    <div class="al al-r" onclick="openM('w_waggon')"><div class="aldot" style="background:var(--red)"></div><div>Waggon &mdash; 31 dias sin pedir aceitunas (patron c/12d)</div></div>
-    <div class="al al-r" onclick="openM('w_aove')"><div class="aldot" style="background:var(--red)"></div><div>Reunion AOVE hoy &mdash; definir toneladas y precio</div></div>
-    <div class="al al-a" onclick="openM('w_etiq')"><div class="aldot" style="background:var(--amber)"></div><div>Etiquetas P1000 + V500 en camino &mdash; ~10 dias</div></div>
-    <div class="al al-a"><div class="aldot" style="background:var(--amber)"></div><div>P500 Cordoba: -0.08 cj (prestamo Dist 550)</div></div>
-    <div class="al al-g"><div class="aldot" style="background:var(--green)"></div><div>Promet: 69 cajas en proceso de envasado</div></div>
+    <div class="ctitle">Alertas activas <span class="ctag tag-red" id="alertasBadge">5</span></div>
+    <div id="alertasContainer"></div>
   </div>
 
   <div class="card s2">
@@ -777,7 +782,7 @@ function openM(type) {
       '<div class="mrow"><div class="mlbl">Ultimo pedido</div><div class="mval">8/jul/2026 (solo rodajada)</div></div>' +
       '<div class="mrow"><div class="mlbl">Pepinillos sin pedir</div><div class="mval" style="color:var(--red)">47 dias</div></div>' +
       '<p style="font-size:12px;color:var(--text2);margin-top:12px">El pedido completo habitual es $800k-$1,5M. Esta significativamente atrasado.</p>' +
-      '<div class="mbtns"><button class="mbtn btn-g" onclick="closeM()">Marcar contactado</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
+      '<div class="mbtns"><button class="mbtn btn-g" onclick="markAlertaDone(&apos;waggon&apos;);closeM()">\u2713 Marcar contactado</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
   } else if (type === 'w_aove') {
     h = '<div class="mhdr"><div class="mtitle">Reunion AOVE</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
       '<div class="mrow"><div class="mlbl">Fecha</div><div class="mval">Hoy, 20 jul 2026</div></div>' +
@@ -793,7 +798,7 @@ function openM(type) {
       '<div class="mrow"><div class="mlbl">V500 (2 planchas)</div><div class="mval" style="color:var(--amber)">En produccion</div></div>' +
       '<div class="mrow"><div class="mlbl">Llegada estimada</div><div class="mval">~30 jul 2026</div></div>' +
       '<div class="mrow"><div class="mlbl">Unidades que desbloquea</div><div class="mval">240u P1000 + 360u V500</div></div>' +
-      '<div class="mbtns"><button class="mbtn btn-g" onclick="closeM()">Marcar recibido</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
+      '<div class="mbtns"><button class="mbtn btn-g" onclick="markAlertaDone(&apos;etiq&apos;);closeM()">\u2713 Marcar recibido</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
   }
   if (h) { box.innerHTML = h; document.getElementById('overlay').style.display = 'flex'; }
 }
@@ -825,6 +830,130 @@ function saveAOVE() {
 }
 
 // Export/Import
+function toggleTheme() {
+  var body = document.body;
+  var isLight = body.classList.toggle('light');
+  var btn = document.getElementById('themeBtn');
+  if (btn) btn.innerHTML = isLight ? '&#9790; Modo oscuro' : '&#9788; Modo claro';
+  localStorage.setItem('bv_theme', isLight ? 'light' : 'dark');
+}
+
+// Apply saved theme
+(function(){
+  if (localStorage.getItem('bv_theme') === 'light') {
+    document.body.classList.add('light');
+    var btn = document.getElementById('themeBtn');
+    if (btn) btn.innerHTML = '&#9790; Modo oscuro';
+  }
+})();
+
+
+// ===== ALERTAS EJECUTABLES =====
+function getAlertasState() { return bvGet('alertas_state', {}); }
+
+function renderAlertas() {
+  var st = getAlertasState();
+  var alertas = [
+    {id:'waggon', cls:'al-r', col:'var(--red)', txt:'Waggon — 31 dias sin pedir aceitunas (patron c/12d)', modal:'w_waggon'},
+    {id:'aove',   cls:'al-r', col:'var(--red)', txt:'Reunion AOVE — definir toneladas y precio', modal:'w_aove'},
+    {id:'etiq',   cls:'al-a', col:'var(--amber)', txt:'Etiquetas P1000 + V500 en camino — ~10 dias', modal:'w_etiq'},
+    {id:'p500',   cls:'al-a', col:'var(--amber)', txt:'P500 Cordoba: -0.08 cj (prestamo Dist 550)'},
+    {id:'promet', cls:'al-g', col:'var(--green)', txt:'Promet: 69 cajas en proceso de envasado'},
+  ];
+  var el = document.getElementById('alertasContainer');
+  if (!el) return;
+  var pendientes = 0;
+  el.innerHTML = alertas.map(function(a) {
+    var done = st[a.id];
+    if (done) {
+      return '<div class="al al-done" data-aid="' + a.id + '" onclick="undoAlerta(this.dataset.aid)">' +
+        '<div class="aldot" style="background:var(--green)"></div>' +
+        '<div style="flex:1;text-decoration:line-through;color:var(--text3)">' + a.txt + '</div>' +
+        '<span style="color:var(--green);font-size:12px">✓ Listo</span></div>';
+    }
+    pendientes++;
+    if (a.modal) {
+      return '<div class="al ' + a.cls + '" data-modal="' + a.modal + '" onclick="openM(this.dataset.modal)">' +
+        '<div class="aldot" style="background:' + a.col + '"></div>' +
+        '<div style="flex:1">' + a.txt + '</div>' +
+        '<span style="font-size:11px;opacity:.7">tocar →</span></div>';
+    }
+    return '<div class="al ' + a.cls + '" data-aid="' + a.id + '" onclick="markAlertaDone(this.dataset.aid)">' +
+      '<div class="aldot" style="background:' + a.col + '"></div>' +
+      '<div style="flex:1">' + a.txt + '</div>' +
+      '<span style="font-size:11px;opacity:.7">tocar →</span></div>';
+  }).join('');
+  var badge = document.getElementById('alertasBadge');
+  if (badge) { badge.textContent = pendientes; badge.style.display = pendientes > 0 ? '' : 'none'; }
+}
+
+function markAlertaDone(id) {
+  id = id.replace(/&apos;/g, "'");
+  var st = getAlertasState();
+  st[id] = true;
+  bvSet('alertas_state', st);
+  renderAlertas();
+}
+
+function undoAlerta(id) {
+  var st = getAlertasState();
+  delete st[id];
+  bvSet('alertas_state', st);
+  renderAlertas();
+}
+
+// ===== CLIENTES PATRON — SEPARAR INACTIVOS =====
+function renderPFull() {
+  var estados = bvGet('estados_cli', {});
+  var lista = PAT.slice();
+  var activos = lista.filter(function(a){ return estados[a.cliente] !== 'inactivo'; });
+  var inactivos = lista.filter(function(a){ return estados[a.cliente] === 'inactivo'; });
+
+  if (sp2 === 'ratio') activos.sort(function(a,b){return b.ratio-a.ratio;});
+  else if (sp2 === 'dias') activos.sort(function(a,b){return b.dias_sin-a.dias_sin;});
+  window._patLista = activos.concat(inactivos);
+
+  var html = activos.map(function(a, i) {
+    var est = estados[a.cliente] || 'activo';
+    var col = est === 'contactado' ? 'var(--green)' : a.nivel === 'rojo' ? 'var(--red)' : 'var(--amber)';
+    var bc = est === 'contactado' ? 'bg2c' : a.nivel === 'rojo' ? 'br2' : 'ba2';
+    var com = bvGet('com_cli_' + i, '');
+    return '<div class="pi" data-pi="' + i + '" onclick="openPatIdx(parseInt(this.dataset.pi))">' +
+      '<div class="pdot" style="background:' + col + '"></div>' +
+      '<div class="pinfo"><div class="pcli">' + a.cliente + (com ? ' <span class="has-comment">*</span>' : '') + '</div>' +
+      '<div class="psub">' + a.dias_sin + 'd sin comprar &middot; c/' + a.prom + 'd' +
+      (est === 'contactado' ? ' &middot; <span style="color:var(--green)">✓ contactado</span>' : '') + '</div></div>' +
+      '<div class="pbadge ' + bc + '">' + a.ratio + 'x</div></div>';
+  }).join('');
+
+  if (inactivos.length > 0) {
+    var showInact = bvGet('show_inactivos', false);
+    html += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:6px 0" onclick="toggleInactivos()">' +
+      '<span style="font-size:12px;color:var(--text3)">Clientes inactivos (' + inactivos.length + ')</span>' +
+      '<span style="color:var(--text3);font-size:12px" id="inactToggle">' + (showInact ? '▲ ocultar' : '▼ ver') + '</span></div>';
+    if (showInact) {
+      html += '<div id="inactivos-list">' + inactivos.map(function(a, i) {
+        var realIdx = activos.length + i;
+        return '<div class="pi" data-pi="' + realIdx + '" onclick="openPatIdx(parseInt(this.dataset.pi))" style="opacity:.5">' +
+          '<div class="pdot" style="background:var(--text3)"></div>' +
+          '<div class="pinfo"><div class="pcli">' + a.cliente + '</div>' +
+          '<div class="psub">' + a.dias_sin + 'd sin comprar &middot; inactivo</div></div>' +
+          '<div class="pbadge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)">' + a.ratio + 'x</div></div>';
+      }).join('') + '</div>';
+    }
+    html += '</div>';
+  }
+
+  document.getElementById('pfull').innerHTML = html;
+}
+
+function toggleInactivos() {
+  var show = bvGet('show_inactivos', false);
+  bvSet('show_inactivos', !show);
+  renderPFull();
+}
+
 function exportData() {
   var keys = ['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli'];
   var data = {exportDate: new Date().toLocaleDateString('es-AR'), version: '1.0'};
@@ -908,6 +1037,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load async
   loadDolar();
   loadClima();
+  renderAlertas();
   // Sync from Google Sheet on startup - load first, then render
   document.getElementById('syncStatus').textContent = 'Cargando desde Sheet...';
   document.getElementById('syncStatus').style.color = 'var(--text3)';
@@ -1018,12 +1148,12 @@ async function exportToSheet() {
 
 // ===== FINANZAS =====
 var FIN_DATA = {
-  ventas_2025: [12526240, 11986432, 14941835, 12217757, 22146872, 9480551, 10746884, 9295242, 18823142, 15471271, 29492151, 11513952],
-  ventas_2026_proy: [26823350, 10227780, 15283293, 22015162, 6751309, 38398271, 4315768, 13766253, 27877073, 22912952, 43677876, 17052163],
-  ventas_2026_real: [26823350, 10227780, 15283293, 22015162, 6751309, 38398271, 4315768, 0, 0, 0, 0, 0],
-  total_2025: 178642329,
-  total_2026_proy: 249101250,
-  mes_actual: 6, // julio = index 6
+  ventas_2025: [12526240.18, 11986431.96, 14941834.68, 12217756.780000001, 22146872.15, 9480551.4, 10746884.0, 9295242.0, 18823142.4, 15471271.32, 29492151.200000003, 11513952.0],
+  ventas_2026_proy: [26823350.42, 10227779.8, 15283292.6, 22015161.8, 6751308.800000001, 21301303.6, 8831056.4, 13766253, 27877074, 22912953, 43677876, 17052163],
+  ventas_2026_real: [26823350.42, 10227779.8, 15283292.6, 22015161.8, 6751308.800000001, 21301303.6, 8831056.4, 0, 0, 0, 0, 0],
+  total_2025: 178642330.07,
+  total_2026_proy: 236519572.42000002,
+  mes_actual: 6,
 };
 
 var MARGEN_REAL = 0.43; var LITROS_TN = 1099; var MESES_FIN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
