@@ -16,7 +16,7 @@ body.light{
   --bg:#f5f5f0;--bg1:#eeeeea;--bg2:#ffffff;--bg3:#f0f0ec;--bg4:#e8e8e4;
   --border:#ddd;--border2:#ccc;--border3:#bbb;
   --text:#1a1a1a;--text2:#555;--text3:#888;--text4:#aaa;
-  --green:#16a34a;--red:#dc2626;--amber:#d97706;--blue:#2563eb;--purple:#7c3aed;
+  --green:#16a34a;--red:#dc2626;--amber:#d97706;--blue:#2563eb;
   --accent:#e8650a;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -32,9 +32,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .nav-item.active{color:var(--text);background:var(--bg2);border-left-color:var(--accent)}
 .nav-sep{height:1px;background:var(--border);margin:8px 0}
 .nav-bottom{padding:14px 18px;border-top:1px solid var(--border)}
-.nav-date{font-size:11px;color:var(--text3);line-height:1.7}
-.nav-export{width:100%;margin-top:8px;padding:8px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s}
+.nav-date{font-size:11px;color:var(--text3);line-height:1.7;margin-bottom:6px}
+.nav-export{width:100%;margin-top:6px;padding:8px;border-radius:8px;background:var(--bg3);border:1px solid var(--border2);color:var(--text2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .15s}
 .nav-export:hover{border-color:var(--accent);color:var(--text)}
+.sync-status{font-size:10px;color:var(--text3);min-height:14px;margin-bottom:4px}
 .main{flex:1;height:100vh;overflow-y:auto;padding:24px 28px}
 .section{display:none}
 .section.active{display:block}
@@ -57,12 +58,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .dcomp{font-size:12px;color:var(--text2);margin-bottom:2px}
 .dventa{font-size:20px;font-weight:700;line-height:1}
 .ddiv{border-top:1px solid var(--border);margin:10px 0 8px}
-.dprom{display:flex;justify-content:space-between;align-items:center;font-size:12px}
+.dprom{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:3px}
 .ctemp{font-size:40px;font-weight:200;line-height:1;margin:4px 0}
-.cdesc{font-size:13px;color:var(--text2);margin-top:4px}
+.cdesc{font-size:13px;margin-top:4px}
 .cstats{display:flex;gap:14px;margin-top:8px;flex-wrap:wrap}
-.cstat{font-size:11px;color:var(--text3)}
-.cstat b{color:var(--text2);font-weight:500}
+.cstat{font-size:11px}
+.cstat b{font-weight:500}
 .brow{display:flex;justify-content:space-between;align-items:center;padding:9px 0}
 .brow:not(:last-child){border-bottom:1px solid var(--border)}
 .bname{font-size:13px;color:var(--text2)}
@@ -127,7 +128,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 .mrow:last-child{border-bottom:none}
 .mlbl{font-size:12px;color:var(--text2)}
 .mval{font-size:14px;font-weight:500}
-.minp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-size:13px;outline:none;font-family:inherit;transition:border-color .2s}
+.minp{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--text);font-size:13px;outline:none;font-family:inherit;transition:border-color .2s;margin-bottom:0}
 .minp:focus{border-color:var(--accent)}
 .mbtns{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
 .mbtn{padding:9px 16px;border-radius:9px;border:none;cursor:pointer;font-size:13px;font-weight:500;transition:opacity .15s}
@@ -140,64 +141,76 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 @keyframes spin{to{transform:rotate(360deg)}}
 .sp{display:inline-block;animation:spin .8s linear infinite}
 @media(max-width:860px){.sidebar{width:180px}.g4{grid-template-columns:repeat(2,1fr)}.s4{grid-column:span 2}}
-@media(max-width:640px){.sidebar{display:none}html,body{overflow:auto}.shell{display:block;height:auto}.main{height:auto;padding:14px}.g4,.g2{grid-template-columns:1fr}.s2,.s4{grid-column:span 1}}
+@media(max-width:640px){
+  .sidebar{display:none}
+  html,body{overflow:auto}
+  .shell{display:block;height:auto}
+  .main{height:auto;padding:14px}
+  .g4,.g2{grid-template-columns:1fr}
+  .s2,.s4{grid-column:span 1}
+}
 </style>
 </head>
 <body>
 <div class="shell">
-
 <div class="sidebar">
   <div class="logo">Bella <span>Vita</span></div>
   <div class="nav">
     <div class="nav-item active" onclick="nav('dash',this)">&#11043; &nbsp;Dashboard</div>
     <div class="nav-item" onclick="nav('vencidas',this)">&#10696; &nbsp;Facturas vencidas</div>
     <div class="nav-item" onclick="nav('clientes',this)">&#9711; &nbsp;Clientes patron</div>
-    <div class="nav-item" onclick="nav('agenda',this)">&#9839; &nbsp;Agenda</div>
     <div class="nav-item" onclick="nav('stock',this)">&#9744; &nbsp;Stock</div>
     <div class="nav-item" onclick="nav('finanzas',this)">&#9783; &nbsp;Finanzas</div>
     <div class="nav-sep"></div>
+    <div class="nav-item" onclick="nav('agenda',this)">&#9839; &nbsp;Agenda</div>
     <div class="nav-item" onclick="nav('notas',this)">&#9633; &nbsp;Notas</div>
     <div class="nav-item" onclick="nav('cheques',this)">&#11053; &nbsp;Cheques</div>
   </div>
   <div class="nav-bottom">
-    <div id="syncStatus" style="font-size:10px;color:var(--text3);margin-bottom:8px;min-height:14px"></div>
     <div class="nav-date" id="navDate"></div>
-    <button class="nav-export" style="margin-top:8px" onclick="toggleTheme()" id="themeBtn">&#9788; Modo claro</button>
-    <button class="nav-export" onclick="exportToSheet()">&#9729; Sincronizar con Sheet</button>
-    <button class="nav-export" style="margin-top:6px" onclick="syncFromSheet()">&#8635; Cargar desde Sheet</button>
-    <button class="nav-export" style="margin-top:6px" onclick="exportData()">&#8595; Exportar JSON</button>
-    <button class="nav-export" style="margin-top:6px" onclick="document.getElementById('impFile').click()">&#8593; Importar datos</button>
+    <div class="sync-status" id="syncStatus"></div>
+    <button class="nav-export" onclick="syncFromSheet()">&#9729; Sincronizar</button>
+    <button class="nav-export" onclick="syncFromSheet()">&#8635; Cargar Sheet</button>
+    <button class="nav-export" onclick="exportData()">&#8595; Exportar JSON</button>
+    <button class="nav-export" onclick="document.getElementById('impFile').click()">&#8593; Importar</button>
+    <button class="nav-export" onclick="toggleTheme()" id="themeBtn">&#9788; Modo claro</button>
     <input type="file" id="impFile" accept=".json" style="display:none" onchange="importData(this)">
   </div>
 </div>
 
 <div class="main">
+<div id="mobileNav" style="display:none;padding:0 0 12px;border-bottom:1px solid var(--border);margin-bottom:14px">
+  <div style="display:flex;flex-wrap:wrap;gap:6px">
+    <button class="sb" onclick="nav('dash',this);closeMobileNav()">&#11043; Dashboard</button>
+    <button class="sb" onclick="nav('vencidas',this);closeMobileNav()">&#10696; Facturas</button>
+    <button class="sb" onclick="nav('clientes',this);closeMobileNav()">&#9711; Clientes</button>
+    <button class="sb" onclick="nav('stock',this);closeMobileNav()">&#9744; Stock</button>
+    <button class="sb" onclick="nav('finanzas',this);closeMobileNav()">&#9783; Finanzas</button>
+    <button class="sb" onclick="nav('agenda',this);closeMobileNav()">&#9839; Agenda</button>
+    <button class="sb" onclick="nav('notas',this);closeMobileNav()">&#9633; Notas</button>
+    <button class="sb" onclick="nav('cheques',this);closeMobileNav()">&#11053; Cheques</button>
+    <button class="sb" onclick="toggleTheme()">&#9788; Tema</button>
+    <button class="sb" onclick="syncFromSheet()">&#9729; Sync</button>
+    <button class="sb" onclick="exportData()">&#8595; Export</button>
+  </div>
+</div>
 
+<!-- DASHBOARD -->
 <div class="section active" id="sec-dash">
 <div class="grid g4">
-
-  <div class="card s2" id="dolarCard">
-    <div class="ctitle">Tipo de cambio</div>
-    <div class="loading"><span class="sp">&#8635;</span> Cargando...</div>
-  </div>
-
-  <div class="card" id="climaCard">
-    <div class="ctitle">Clima &middot; Alta Gracia</div>
-    <div class="loading"><span class="sp">&#8635;</span></div>
-  </div>
-
+  <div class="card s2" id="dolarCard"><div class="ctitle">Tipo de cambio</div><div class="loading"><span class="sp">&#8635;</span> Cargando...</div></div>
+  <div class="card" id="climaCard"><div class="ctitle">Clima &middot; Alta Gracia</div><div class="loading"><span class="sp">&#8635;</span></div></div>
   <div class="card click" onclick="openM('bancos')">
     <div class="ctitle">Cuentas <span style="font-size:9px;color:var(--text3);font-weight:400;text-transform:none">tocar para editar</span></div>
     <div class="brow"><div class="bname">&#127970; Macro</div><div class="bval empty" id="sm">&mdash;</div></div>
     <div class="brow"><div class="bname">&#127970; Santander</div><div class="bval empty" id="ss">&mdash;</div></div>
     <div class="brow"><div class="bname">&#128179; Mercado Pago</div><div class="bval empty" id="smp">&mdash;</div></div>
-    <div class="btrow"><div class="bname" style="color:var(--text);font-weight:500">Total</div><div class="btotal" id="stotal">&mdash;</div></div>
+    <div class="btrow"><div class="bname" style="color:var(--text);font-weight:500">Total</div><div id="stotal">&mdash;</div></div>
   </div>
-
   <div class="card click" onclick="openM('julio')">
     <div class="ctitle">Julio 2026</div>
-    <div class="mval2" style="color:var(--amber)">$8.8M</div>
-    <div class="msub">Julio 2026 completo</div>
+    <div class="mval2" style="color:var(--amber)">$8,8M</div>
+    <div class="msub">Julio completo</div>
     <div class="mhint">Prom. anual: $27M/mes</div>
   </div>
   <div class="card click" onclick="openM('h1')">
@@ -208,38 +221,33 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
   <div class="card click" onclick="nav('vencidas',document.querySelector('.nav-item:nth-child(2)'))">
     <div class="ctitle">Deuda pendiente</div>
-    <div class="mval2" style="color:var(--red)" id="deudaTotal">$10,5M</div>
-    <div class="msub" id="deudaCount">52 facturas &middot; ver &rarr;</div>
+    <div class="mval2" style="color:var(--red)" id="deudaTotal">$13,7M</div>
+    <div class="msub" id="deudaCount">69 facturas &middot; ver &rarr;</div>
   </div>
   <div class="card click" onclick="nav('stock',document.querySelector('.nav-item:nth-child(4)'))">
     <div class="ctitle">Stock total</div>
-    <div id="stockResumen">
-      <div class="mval2" style="font-size:20px">CBA + CAT</div>
-      <div class="msub" id="stockSubtitle">Ver detalle &rarr;</div>
-    </div>
+    <div id="stockResumen"><div class="mval2" style="font-size:20px;color:var(--green)">220 cj P3000</div></div>
+    <div class="msub" id="stockSubtitle">CBA + CAT &middot; ver &rarr;</div>
   </div>
-
   <div class="card s2">
     <div class="ctitle">Alertas activas <span class="ctag tag-red" id="alertasBadge">5</span></div>
     <div id="alertasContainer"></div>
   </div>
-
   <div class="card s2">
     <div class="ctitle">Agenda proxima <span class="ctag tag-amber" id="agCount">&mdash;</span></div>
     <div id="agResumen"></div>
   </div>
-
   <div class="card s2">
-    <div class="ctitle">Clientes fuera de patron <span class="ctag tag-red">32</span></div>
+    <div class="ctitle">Clientes fuera de patron <span class="ctag tag-red">29</span></div>
     <div id="plist"></div>
   </div>
-
 </div>
 </div>
 
+<!-- FACTURAS VENCIDAS -->
 <div class="section" id="sec-vencidas">
   <div class="card">
-    <div class="ctitle">Facturas vencidas <span class="ctag tag-red" id="vCount">69 &middot; $13.7M</span></div>
+    <div class="ctitle">Facturas vencidas <span class="ctag tag-red" id="vCount">69 &middot; $13,7M</span></div>
     <div class="srow">
       <button class="sb on" onclick="sortV('dd')">Mas antigua</button>
       <button class="sb" onclick="sortV('da')">Mas reciente</button>
@@ -250,19 +258,30 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
+<!-- CLIENTES -->
 <div class="section" id="sec-clientes">
   <div class="card">
-    <div class="ctitle">Clientes fuera de patron <span class="ctag tag-red">32</span></div>
+    <div class="ctitle">Clientes fuera de patron <span class="ctag tag-red">29</span></div>
     <div class="srow">
       <button class="sb on" onclick="sortP('ratio')">Mayor desvio</button>
       <button class="sb" onclick="sortP('dias')">Mas dias</button>
       <button class="sb" onclick="sortP('todos')">Todos</button>
-      <button class="sb" onclick="sortP('activos')">Solo activos</button>
     </div>
     <div id="pfull"></div>
   </div>
 </div>
 
+<!-- STOCK -->
+<div class="section" id="sec-stock">
+  <div id="sec-stock-content"></div>
+</div>
+
+<!-- FINANZAS -->
+<div class="section" id="sec-finanzas">
+  <div id="sec-finanzas-content"></div>
+</div>
+
+<!-- AGENDA -->
 <div class="section" id="sec-agenda">
   <div class="card">
     <div class="ctitle">Agenda</div>
@@ -271,11 +290,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <div style="font-size:12px;color:var(--text2);margin-bottom:8px">Agregar recordatorio</div>
       <input class="minp" id="agTxt" placeholder="Ej: Llamar a Waggon" style="margin-bottom:6px">
       <input class="minp" id="agFecha" type="date" style="margin-bottom:8px">
-      <button class="mbtn btn-p" style="width:100%" onclick="addAgenda()">Agregar a agenda</button>
+      <button class="mbtn btn-p" style="width:100%" onclick="addAgenda()">Agregar</button>
     </div>
   </div>
 </div>
 
+<!-- NOTAS -->
 <div class="section" id="sec-notas">
   <div class="card">
     <div class="ctitle">Notas rapidas</div>
@@ -285,14 +305,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
-<div class="section" id="sec-stock">
-  <div id="sec-stock-content"></div>
-</div>
-
-<div class="section" id="sec-finanzas">
-  <div id="sec-finanzas-content" style="padding:0"></div>
-</div>
-
+<!-- CHEQUES -->
 <div class="section" id="sec-cheques">
   <div class="card">
     <div class="ctitle">Cheques emitidos</div>
@@ -302,7 +315,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
       <input class="minp" id="chBen" placeholder="Beneficiario" style="margin-bottom:6px">
       <input class="minp" id="chMonto" type="number" placeholder="Monto $" style="margin-bottom:6px">
       <input class="minp" id="chFecha" type="date" style="margin-bottom:6px">
-      <input class="minp" id="chNum" placeholder="Numero de cheque (opcional)" style="margin-bottom:8px">
+      <input class="minp" id="chNum" placeholder="Numero (opcional)" style="margin-bottom:8px">
+      <input class="minp" id="chConc" placeholder="Concepto" style="margin-bottom:8px">
       <button class="mbtn btn-p" style="width:100%" onclick="addCheque()">Agregar cheque</button>
     </div>
   </div>
@@ -311,1354 +325,1127 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 </div>
 </div>
 
+<!-- MODAL -->
 <div class="overlay" id="overlay" style="display:none" onclick="closeM(event)">
   <div class="modal" id="mbox"></div>
 </div>
 
+<!-- MOBILE NAV BUTTON -->
+<button id="hamburger" onclick="toggleMobileNav()" style="display:none;position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:var(--accent);color:#fff;font-size:22px;border:none;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.4);z-index:99;align-items:center;justify-content:center">&#9776;</button>
+
+<style>
+@media(max-width:640px){#hamburger{display:flex!important}}
+</style>
+
 <script>
-const VENC = [{"num": 3591, "cliente": "Cristian Sabatini", "fecha": "14/12/2022", "monto": 4525, "pe": 2240, "dias": 1317}, {"num": 3934, "cliente": "walter", "fecha": "12/4/2023", "monto": 8017, "pe": 1580, "dias": 1198}, {"num": 4387, "cliente": "Anibal Hebenstreit Hebenstreit", "fecha": "3/11/2023", "monto": 22200, "pe": 22200, "dias": 993}, {"num": 4478, "cliente": "Agus aloy", "fecha": "31/12/2023", "monto": 12000, "pe": 12000, "dias": 935}, {"num": 4726, "cliente": "Alfredo Turin", "fecha": "8/7/2024", "monto": 48000, "pe": 8000, "dias": 745}, {"num": 4742, "cliente": "Alfredo Turin", "fecha": "23/7/2024", "monto": 135000, "pe": 55000, "dias": 730}, {"num": 5095, "cliente": "Fede campisi", "fecha": "16/2/25", "monto": 102000, "pe": 59000, "dias": 522}, {"num": 5576, "cliente": "Flaca proven", "fecha": "14/11/25", "monto": 19000, "pe": 19000, "dias": 251}, {"num": 5600, "cliente": "Plant Bs As", "fecha": "26/11/25", "monto": 1326968, "pe": 1196408, "dias": 239}, {"num": 5680, "cliente": "Plant Bs As", "fecha": "8/1/26", "monto": 528992, "pe": 528992, "dias": 196}, {"num": 5685, "cliente": "Ezequiel Lightnuts Distri Dietetica", "fecha": "9/1/26", "monto": 1061100, "pe": 887684, "dias": 195}, {"num": 5749, "cliente": "El Terron", "fecha": "19/2/26", "monto": 138000, "pe": 94350, "dias": 154}, {"num": 5795, "cliente": "Torino", "fecha": "12/3/26", "monto": 46000, "pe": 46000, "dias": 133}, {"num": 5805, "cliente": "El Terron", "fecha": "19/3/26", "monto": 184000, "pe": 184000, "dias": 126}, {"num": 5842, "cliente": "Chiche", "fecha": "8/4/26", "monto": 120000, "pe": 120000, "dias": 106}, {"num": 5860, "cliente": "El Terron", "fecha": "16/4/26", "monto": 92000, "pe": 92000, "dias": 98}, {"num": 5859, "cliente": "Herencia", "fecha": "16/4/26", "monto": 184000, "pe": 100200, "dias": 98}, {"num": 5875, "cliente": "Carina Rueck Vendedora Aceite Oliva", "fecha": "28/4/26", "monto": 349208, "pe": 274208, "dias": 86}, {"num": 5888, "cliente": "Ferroviario", "fecha": "5/5/26", "monto": 184000, "pe": 36000, "dias": 79}, {"num": 5899, "cliente": "Activa", "fecha": "13/5/26", "monto": 700144, "pe": 700144, "dias": 71}, {"num": 5902, "cliente": "El Terron", "fecha": "17/5/26", "monto": 128000, "pe": 128000, "dias": 67}, {"num": 5906, "cliente": "Herencia", "fecha": "21/5/26", "monto": 184000, "pe": 184000, "dias": 63}, {"num": 5908, "cliente": "Chiche", "fecha": "26/5/26", "monto": 176800, "pe": 176800, "dias": 58}, {"num": 5919, "cliente": "Mariano atencio", "fecha": "31/5/26", "monto": 48000, "pe": 48000, "dias": 53}, {"num": 5922, "cliente": "Plant Bs As", "fecha": "2/6/26", "monto": 786000, "pe": 786000, "dias": 51}, {"num": 5921, "cliente": "Medano", "fecha": "3/6/26", "monto": 1084316, "pe": 182704, "dias": 50}, {"num": 5927, "cliente": "Herencia", "fecha": "4/6/26", "monto": 92000, "pe": 92000, "dias": 49}, {"num": 5935, "cliente": "Egui Martin Boca De Lobo Restaurant", "fecha": "9/6/26", "monto": 46000, "pe": 46000, "dias": 44}, {"num": 5940, "cliente": "Ferroviario", "fecha": "11/6/26", "monto": 184000, "pe": 184000, "dias": 42}, {"num": 5944, "cliente": "Jose Perez Perez", "fecha": "12/6/26", "monto": 69600, "pe": 69600, "dias": 41}, {"num": 5946, "cliente": "Tomasa", "fecha": "12/6/26", "monto": 64800, "pe": 64800, "dias": 41}, {"num": 5950, "cliente": "Chiche", "fecha": "17/6/26", "monto": 40400, "pe": 40400, "dias": 36}, {"num": 5955, "cliente": "El Terron", "fecha": "18/6/26", "monto": 92000, "pe": 92000, "dias": 35}, {"num": 5954, "cliente": "Jose Perez Perez", "fecha": "18/6/26", "monto": 44026, "pe": 44026, "dias": 35}, {"num": 5972, "cliente": "Oveja", "fecha": "19/6/26", "monto": 282000, "pe": 182000, "dias": 34}, {"num": 5980, "cliente": "Herencia", "fecha": "24/6/26", "monto": 230000, "pe": 230000, "dias": 29}, {"num": 5970, "cliente": "Nico Vazques Maniosso", "fecha": "25/6/26", "monto": 92000, "pe": 39500, "dias": 28}, {"num": 5976, "cliente": "Chiche", "fecha": "30/6/26", "monto": 57200, "pe": 57200, "dias": 23}, {"num": 5985, "cliente": "Agus perez", "fecha": "6/7/26", "monto": 20000, "pe": 10000, "dias": 17}, {"num": 5991, "cliente": "El Terron", "fecha": "8/7/26", "monto": 92000, "pe": 92000, "dias": 15}, {"num": 5990, "cliente": "Herencia", "fecha": "8/7/26", "monto": 184000, "pe": 184000, "dias": 15}, {"num": 5989, "cliente": "Martin Mariani", "fecha": "8/7/26", "monto": 304000, "pe": 304000, "dias": 15}, {"num": 5992, "cliente": "Mauro La Zete", "fecha": "8/7/26", "monto": 184000, "pe": 184000, "dias": 15}, {"num": 5993, "cliente": "Waggon", "fecha": "8/7/26", "monto": 275160, "pe": 275160, "dias": 15}, {"num": 5998, "cliente": "Anibal Gramajo Cliente Aceite", "fecha": "10/7/26", "monto": 188000, "pe": 188000, "dias": 13}, {"num": 5999, "cliente": "Hernan Zula Vgb", "fecha": "10/7/26", "monto": 552000, "pe": 552000, "dias": 13}, {"num": 5997, "cliente": "Leyendas", "fecha": "10/7/26", "monto": 47000, "pe": 47000, "dias": 13}, {"num": 6000, "cliente": "Horacio Cliente Aceite La Bolsa", "fecha": "13/7/26", "monto": 214800, "pe": 211500, "dias": 10}, {"num": 6002, "cliente": "Chachi Digiacomo", "fecha": "13/7/26", "monto": 46000, "pe": 46000, "dias": 10}, {"num": 6001, "cliente": "Fabiana Zamboni", "fecha": "13/7/26", "monto": 50000, "pe": 50000, "dias": 10}, {"num": 6003, "cliente": "Medano", "fecha": "15/7/26", "monto": 286800, "pe": 286800, "dias": 8}, {"num": 6004, "cliente": "Plant Bs As", "fecha": "15/7/26", "monto": 794000, "pe": 794000, "dias": 8}, {"num": 6005, "cliente": "El Terron", "fecha": "16/7/26", "monto": 92000, "pe": 92000, "dias": 7}, {"num": 6006, "cliente": "Bonafide", "fecha": "16/7/26", "monto": 188000, "pe": 188000, "dias": 7}, {"num": 6007, "cliente": "Juan Finelli", "fecha": "17/7/26", "monto": 98000, "pe": 98000, "dias": 6}, {"num": 6008, "cliente": "Surge Cafe", "fecha": "17/7/26", "monto": 188000, "pe": 188000, "dias": 6}, {"num": 6009, "cliente": "alemanno Dist", "fecha": "20/7/26", "monto": 506000, "pe": 506000, "dias": 3}, {"num": 6011, "cliente": "Victoria Cortez", "fecha": "20/7/26", "monto": 12000, "pe": 12000, "dias": 3}, {"num": 6010, "cliente": "Jose Carlos Rebagliatti", "fecha": "20/7/26", "monto": 99800, "pe": 99800, "dias": 3}, {"num": 6012, "cliente": "Federico Ortiz", "fecha": "21/7/26", "monto": 188000, "pe": 188000, "dias": 2}, {"num": 6015, "cliente": "Juan Banco Macro", "fecha": "22/7/26", "monto": 100000, "pe": 100000, "dias": 1}, {"num": 6014, "cliente": "Dist 550", "fecha": "22/7/26", "monto": 770000, "pe": 770000, "dias": 1}, {"num": 6013, "cliente": "Chiche", "fecha": "22/7/26", "monto": 40000, "pe": 40000, "dias": 1}, {"num": 6021, "cliente": "Nico Vazques Maniosso", "fecha": "23/7/26", "monto": 94000, "pe": 94000, "dias": 0}, {"num": 6020, "cliente": "Zulema Mama Carla Genari", "fecha": "23/7/26", "monto": 50000, "pe": 50000, "dias": 0}, {"num": 6019, "cliente": "Activate", "fecha": "23/7/26", "monto": 386880, "pe": 386880, "dias": 0}, {"num": 6018, "cliente": "El Terron", "fecha": "23/7/26", "monto": 92000, "pe": 92000, "dias": 0}, {"num": 6017, "cliente": "Andres Bergero Cliente", "fecha": "23/7/26", "monto": 482808, "pe": 482808, "dias": 0}, {"num": 6016, "cliente": "Le Blend", "fecha": "23/7/26", "monto": 47000, "pe": 47000, "dias": 0}];
-const PAT = [{"cliente": "Molvento", "dias_sin": 347, "prom": 12, "ratio": 28.0, "nivel": "rojo", "ultimo": "2025-08-07"}, {"cliente": "Oma Zula", "dias_sin": 165, "prom": 14, "ratio": 11.8, "nivel": "rojo", "ultimo": "2026-02-05"}, {"cliente": "Baco Wines Vgb", "dias_sin": 235, "prom": 20, "ratio": 11.8, "nivel": "rojo", "ultimo": "2025-11-27"}, {"cliente": "Ezequiel Lightnuts Distri Dietetica", "dias_sin": 192, "prom": 19, "ratio": 10.3, "nivel": "rojo", "ultimo": "2026-01-09"}, {"cliente": "Fede campisi", "dias_sin": 160, "prom": 17, "ratio": 9.7, "nivel": "rojo", "ultimo": "2026-02-10"}, {"cliente": "Lapacho", "dias_sin": 119, "prom": 14, "ratio": 8.2, "nivel": "rojo", "ultimo": "2026-03-23"}, {"cliente": "Josefina Fuego Camiare Vgb", "dias_sin": 165, "prom": 20, "ratio": 8.2, "nivel": "rojo", "ultimo": "2026-02-05"}, {"cliente": "Andres goya", "dias_sin": 278, "prom": 38, "ratio": 7.4, "nivel": "rojo", "ultimo": "2025-10-15"}, {"cliente": "Gonzi Torres Pellegrini", "dias_sin": 139, "prom": 21, "ratio": 6.6, "nivel": "rojo", "ultimo": "2026-03-03"}, {"cliente": "Lili Secre Kuniki", "dias_sin": 234, "prom": 38, "ratio": 6.2, "nivel": "rojo", "ultimo": "2025-11-28"}, {"cliente": "Didi", "dias_sin": 264, "prom": 49, "ratio": 5.4, "nivel": "rojo", "ultimo": "2025-10-29"}, {"cliente": "Torino", "dias_sin": 130, "prom": 30, "ratio": 4.3, "nivel": "rojo", "ultimo": "2026-03-12"}, {"cliente": "Barbi", "dias_sin": 133, "prom": 32, "ratio": 4.2, "nivel": "rojo", "ultimo": "2026-03-09"}, {"cliente": "Andres Bergero Cliente", "dias_sin": 221, "prom": 54, "ratio": 4.1, "nivel": "rojo", "ultimo": "2025-12-11"}, {"cliente": "Silvi Digiacomo", "dias_sin": 294, "prom": 74, "ratio": 4.0, "nivel": "rojo", "ultimo": "2025-09-29"}];
+const VENC=[{"num": 3591, "cliente": "Cristian Sabatini", "fecha": "14/12/2022", "monto": 4525, "pe": 2240, "dias": 1317}, {"num": 3934, "cliente": "walter", "fecha": "12/4/2023", "monto": 8017, "pe": 1580, "dias": 1198}, {"num": 4387, "cliente": "Anibal Hebenstreit Hebenstreit", "fecha": "3/11/2023", "monto": 22200, "pe": 22200, "dias": 993}, {"num": 4478, "cliente": "Agus aloy", "fecha": "31/12/2023", "monto": 12000, "pe": 12000, "dias": 935}, {"num": 4726, "cliente": "Alfredo Turin", "fecha": "8/7/2024", "monto": 48000, "pe": 8000, "dias": 745}, {"num": 4742, "cliente": "Alfredo Turin", "fecha": "23/7/2024", "monto": 135000, "pe": 55000, "dias": 730}, {"num": 5095, "cliente": "Fede campisi", "fecha": "16/2/25", "monto": 102000, "pe": 59000, "dias": 522}, {"num": 5576, "cliente": "Flaca proven", "fecha": "14/11/25", "monto": 19000, "pe": 19000, "dias": 251}, {"num": 5600, "cliente": "Plant Bs As", "fecha": "26/11/25", "monto": 1326968, "pe": 1196408, "dias": 239}, {"num": 5680, "cliente": "Plant Bs As", "fecha": "8/1/26", "monto": 528992, "pe": 528992, "dias": 196}, {"num": 5685, "cliente": "Ezequiel Lightnuts Distri Dietetica", "fecha": "9/1/26", "monto": 1061100, "pe": 887684, "dias": 195}, {"num": 5749, "cliente": "El Terron", "fecha": "19/2/26", "monto": 138000, "pe": 94350, "dias": 154}, {"num": 5795, "cliente": "Torino", "fecha": "12/3/26", "monto": 46000, "pe": 46000, "dias": 133}, {"num": 5805, "cliente": "El Terron", "fecha": "19/3/26", "monto": 184000, "pe": 184000, "dias": 126}, {"num": 5842, "cliente": "Chiche", "fecha": "8/4/26", "monto": 120000, "pe": 120000, "dias": 106}, {"num": 5860, "cliente": "El Terron", "fecha": "16/4/26", "monto": 92000, "pe": 92000, "dias": 98}, {"num": 5859, "cliente": "Herencia", "fecha": "16/4/26", "monto": 184000, "pe": 100200, "dias": 98}, {"num": 5875, "cliente": "Carina Rueck Vendedora Aceite Oliva", "fecha": "28/4/26", "monto": 349208, "pe": 274208, "dias": 86}, {"num": 5888, "cliente": "Ferroviario", "fecha": "5/5/26", "monto": 184000, "pe": 36000, "dias": 79}, {"num": 5899, "cliente": "Activa", "fecha": "13/5/26", "monto": 700144, "pe": 700144, "dias": 71}, {"num": 5902, "cliente": "El Terron", "fecha": "17/5/26", "monto": 128000, "pe": 128000, "dias": 67}, {"num": 5906, "cliente": "Herencia", "fecha": "21/5/26", "monto": 184000, "pe": 184000, "dias": 63}, {"num": 5908, "cliente": "Chiche", "fecha": "26/5/26", "monto": 176800, "pe": 176800, "dias": 58}, {"num": 5919, "cliente": "Mariano atencio", "fecha": "31/5/26", "monto": 48000, "pe": 48000, "dias": 53}, {"num": 5922, "cliente": "Plant Bs As", "fecha": "2/6/26", "monto": 786000, "pe": 786000, "dias": 51}, {"num": 5921, "cliente": "Medano", "fecha": "3/6/26", "monto": 1084316, "pe": 182704, "dias": 50}, {"num": 5927, "cliente": "Herencia", "fecha": "4/6/26", "monto": 92000, "pe": 92000, "dias": 49}, {"num": 5935, "cliente": "Egui Martin Boca De Lobo Restaurant", "fecha": "9/6/26", "monto": 46000, "pe": 46000, "dias": 44}, {"num": 5940, "cliente": "Ferroviario", "fecha": "11/6/26", "monto": 184000, "pe": 184000, "dias": 42}, {"num": 5944, "cliente": "Jose Perez Perez", "fecha": "12/6/26", "monto": 69600, "pe": 69600, "dias": 41}, {"num": 5946, "cliente": "Tomasa", "fecha": "12/6/26", "monto": 64800, "pe": 64800, "dias": 41}, {"num": 5950, "cliente": "Chiche", "fecha": "17/6/26", "monto": 40400, "pe": 40400, "dias": 36}, {"num": 5955, "cliente": "El Terron", "fecha": "18/6/26", "monto": 92000, "pe": 92000, "dias": 35}, {"num": 5954, "cliente": "Jose Perez Perez", "fecha": "18/6/26", "monto": 44026, "pe": 44026, "dias": 35}, {"num": 5972, "cliente": "Oveja", "fecha": "19/6/26", "monto": 282000, "pe": 182000, "dias": 34}, {"num": 5980, "cliente": "Herencia", "fecha": "24/6/26", "monto": 230000, "pe": 230000, "dias": 29}, {"num": 5970, "cliente": "Nico Vazques Maniosso", "fecha": "25/6/26", "monto": 92000, "pe": 39500, "dias": 28}, {"num": 5976, "cliente": "Chiche", "fecha": "30/6/26", "monto": 57200, "pe": 57200, "dias": 23}, {"num": 5985, "cliente": "Agus perez", "fecha": "6/7/26", "monto": 20000, "pe": 10000, "dias": 17}, {"num": 5991, "cliente": "El Terron", "fecha": "8/7/26", "monto": 92000, "pe": 92000, "dias": 15}, {"num": 5990, "cliente": "Herencia", "fecha": "8/7/26", "monto": 184000, "pe": 184000, "dias": 15}, {"num": 5989, "cliente": "Martin Mariani", "fecha": "8/7/26", "monto": 304000, "pe": 304000, "dias": 15}, {"num": 5992, "cliente": "Mauro La Zete", "fecha": "8/7/26", "monto": 184000, "pe": 184000, "dias": 15}, {"num": 5993, "cliente": "Waggon", "fecha": "8/7/26", "monto": 275160, "pe": 275160, "dias": 15}, {"num": 5998, "cliente": "Anibal Gramajo Cliente Aceite", "fecha": "10/7/26", "monto": 188000, "pe": 188000, "dias": 13}, {"num": 5999, "cliente": "Hernan Zula Vgb", "fecha": "10/7/26", "monto": 552000, "pe": 552000, "dias": 13}, {"num": 5997, "cliente": "Leyendas", "fecha": "10/7/26", "monto": 47000, "pe": 47000, "dias": 13}, {"num": 6000, "cliente": "Horacio Cliente Aceite La Bolsa", "fecha": "13/7/26", "monto": 214800, "pe": 211500, "dias": 10}, {"num": 6002, "cliente": "Chachi Digiacomo", "fecha": "13/7/26", "monto": 46000, "pe": 46000, "dias": 10}, {"num": 6001, "cliente": "Fabiana Zamboni", "fecha": "13/7/26", "monto": 50000, "pe": 50000, "dias": 10}, {"num": 6003, "cliente": "Medano", "fecha": "15/7/26", "monto": 286800, "pe": 286800, "dias": 8}, {"num": 6004, "cliente": "Plant Bs As", "fecha": "15/7/26", "monto": 794000, "pe": 794000, "dias": 8}, {"num": 6005, "cliente": "El Terron", "fecha": "16/7/26", "monto": 92000, "pe": 92000, "dias": 7}, {"num": 6006, "cliente": "Bonafide", "fecha": "16/7/26", "monto": 188000, "pe": 188000, "dias": 7}, {"num": 6007, "cliente": "Juan Finelli", "fecha": "17/7/26", "monto": 98000, "pe": 98000, "dias": 6}, {"num": 6008, "cliente": "Surge Cafe", "fecha": "17/7/26", "monto": 188000, "pe": 188000, "dias": 6}, {"num": 6009, "cliente": "alemanno Dist", "fecha": "20/7/26", "monto": 506000, "pe": 506000, "dias": 3}, {"num": 6011, "cliente": "Victoria Cortez", "fecha": "20/7/26", "monto": 12000, "pe": 12000, "dias": 3}, {"num": 6010, "cliente": "Jose Carlos Rebagliatti", "fecha": "20/7/26", "monto": 99800, "pe": 99800, "dias": 3}, {"num": 6012, "cliente": "Federico Ortiz", "fecha": "21/7/26", "monto": 188000, "pe": 188000, "dias": 2}, {"num": 6015, "cliente": "Juan Banco Macro", "fecha": "22/7/26", "monto": 100000, "pe": 100000, "dias": 1}, {"num": 6014, "cliente": "Dist 550", "fecha": "22/7/26", "monto": 770000, "pe": 770000, "dias": 1}, {"num": 6013, "cliente": "Chiche", "fecha": "22/7/26", "monto": 40000, "pe": 40000, "dias": 1}, {"num": 6021, "cliente": "Nico Vazques Maniosso", "fecha": "23/7/26", "monto": 94000, "pe": 94000, "dias": 0}, {"num": 6020, "cliente": "Zulema Mama Carla Genari", "fecha": "23/7/26", "monto": 50000, "pe": 50000, "dias": 0}, {"num": 6019, "cliente": "Activate", "fecha": "23/7/26", "monto": 386880, "pe": 386880, "dias": 0}, {"num": 6018, "cliente": "El Terron", "fecha": "23/7/26", "monto": 92000, "pe": 92000, "dias": 0}, {"num": 6017, "cliente": "Andres Bergero Cliente", "fecha": "23/7/26", "monto": 482808, "pe": 482808, "dias": 0}, {"num": 6016, "cliente": "Le Blend", "fecha": "23/7/26", "monto": 47000, "pe": 47000, "dias": 0}];
+const PAT=[{"cliente": "Molvento", "dias_sin": 350, "prom": 12, "ratio": 28.2, "nivel": "rojo", "ultimo": "2025-08-07"}, {"cliente": "Oma Zula", "dias_sin": 168, "prom": 14, "ratio": 12.0, "nivel": "rojo", "ultimo": "2026-02-05"}, {"cliente": "Baco Wines Vgb", "dias_sin": 238, "prom": 20, "ratio": 11.9, "nivel": "rojo", "ultimo": "2025-11-27"}, {"cliente": "Ezequiel Lightnuts Distri Dietetica", "dias_sin": 195, "prom": 19, "ratio": 10.4, "nivel": "rojo", "ultimo": "2026-01-09"}, {"cliente": "Fede campisi", "dias_sin": 163, "prom": 17, "ratio": 9.9, "nivel": "rojo", "ultimo": "2026-02-10"}, {"cliente": "Lapacho", "dias_sin": 122, "prom": 14, "ratio": 8.4, "nivel": "rojo", "ultimo": "2026-03-23"}, {"cliente": "Josefina Fuego Camiare Vgb", "dias_sin": 168, "prom": 20, "ratio": 8.4, "nivel": "rojo", "ultimo": "2026-02-05"}, {"cliente": "Andres goya", "dias_sin": 281, "prom": 38, "ratio": 7.4, "nivel": "rojo", "ultimo": "2025-10-15"}, {"cliente": "Gonzi Torres Pellegrini", "dias_sin": 142, "prom": 21, "ratio": 6.8, "nivel": "rojo", "ultimo": "2026-03-03"}, {"cliente": "Lili Secre Kuniki", "dias_sin": 237, "prom": 38, "ratio": 6.2, "nivel": "rojo", "ultimo": "2025-11-28"}, {"cliente": "Didi", "dias_sin": 267, "prom": 49, "ratio": 5.4, "nivel": "rojo", "ultimo": "2025-10-29"}, {"cliente": "Torino", "dias_sin": 133, "prom": 30, "ratio": 4.4, "nivel": "rojo", "ultimo": "2026-03-12"}, {"cliente": "Barbi", "dias_sin": 136, "prom": 32, "ratio": 4.2, "nivel": "rojo", "ultimo": "2026-03-09"}, {"cliente": "Silvi Digiacomo", "dias_sin": 297, "prom": 74, "ratio": 4.0, "nivel": "rojo", "ultimo": "2025-09-29"}, {"cliente": "Willy Oviedo", "dias_sin": 285, "prom": 76, "ratio": 3.8, "nivel": "rojo", "ultimo": "2025-10-11"}, {"cliente": "Roque Mu\u00f1oz", "dias_sin": 310, "prom": 83, "ratio": 3.7, "nivel": "rojo", "ultimo": "2025-09-16"}, {"cliente": "Monica Buron Clienta", "dias_sin": 294, "prom": 84, "ratio": 3.5, "nivel": "rojo", "ultimo": "2025-10-02"}, {"cliente": "Pistacho", "dias_sin": 225, "prom": 75, "ratio": 3.0, "nivel": "rojo", "ultimo": "2025-12-10"}, {"cliente": "la casa de JP", "dias_sin": 150, "prom": 58, "ratio": 2.6, "nivel": "rojo", "ultimo": "2026-02-23"}, {"cliente": "Ana Laura Somaini", "dias_sin": 164, "prom": 70, "ratio": 2.3, "nivel": "amarillo", "ultimo": "2026-02-09"}];
 </script>
 <script>
-// Dashboard JS - generated clean
-// All strings use ASCII-safe characters
+var SHEET_URL='https://script.google.com/macros/s/AKfycbxKN5kzEj-zPWFfyKny4BWdN85tcesW6vhvua8hH3KDhikmw-K2UOPgIvJk5oOwwA1M/exec';
+var HOY_DATE=new Date(2026,6,23);
+var DIAS_S=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
+var MESES_S=['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
-const FECHA_HOY = '23/07/2026';
-const HOY_DATE = new Date(2026, 6, 23);
-
-// Storage helpers
-function bvGet(k, def) {
-  try { return JSON.parse(localStorage.getItem('bv_' + k)) || def; } catch(e) { return def; }
+// Storage
+function bvGet(k,def){try{return JSON.parse(localStorage.getItem('bv_'+k))||def;}catch(e){return def;}}
+function bvSet(k,v){
+  localStorage.setItem('bv_'+k,JSON.stringify(v));
+  var url=SHEET_URL+'?action=set&key='+encodeURIComponent(k)+'&value='+encodeURIComponent(JSON.stringify(v));
+  fetch(url).catch(function(){});
 }
-function bvSet(k, v) { localStorage.setItem('bv_' + k, JSON.stringify(v)); }
+function fmtFecha(f){var d=new Date(f+'T12:00:00');return d.getDate()+'/'+MESES_S[d.getMonth()]+'/'+d.getFullYear();}
 
-// Date formatting
-const DIAS_S = ['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
-const MESES_S = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-function fmtFecha(f) {
-  const d = new Date(f + 'T12:00:00');
-  return d.getDate() + '/' + MESES_S[d.getMonth()] + '/' + d.getFullYear();
+// Theme
+function toggleTheme(){
+  var isLight=document.body.classList.toggle('light');
+  var btn=document.getElementById('themeBtn');
+  if(btn)btn.innerHTML=isLight?'&#9790; Modo oscuro':'&#9788; Modo claro';
+  localStorage.setItem('bv_theme',isLight?'light':'dark');
+}
+
+// Mobile nav
+function toggleMobileNav(){
+  var el=document.getElementById('mobileNav');
+  var hb=document.getElementById('hamburger');
+  if(!el)return;
+  var vis=el.style.display!=='none';
+  el.style.display=vis?'none':'block';
+  if(hb)hb.innerHTML=vis?'&#9776;':'&#10005;';
+}
+function closeMobileNav(){
+  var el=document.getElementById('mobileNav');
+  var hb=document.getElementById('hamburger');
+  if(el)el.style.display='none';
+  if(hb)hb.innerHTML='&#9776;';
 }
 
 // Nav
-function nav(id, el) {
-  document.querySelectorAll('.section').forEach(function(s) { s.classList.remove('active'); });
-  document.getElementById('sec-' + id).classList.add('active');
-  document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
-  if (el) el.classList.add('active');
-  if (id === 'vencidas') renderV();
-  if (id === 'clientes') renderPFull();
-  if (id === 'agenda') renderAgFull();
-  if (id === 'notas') renderNotas();
-  if (id === 'cheques') renderCheques();
-  if (id === 'stock') { renderStock(); }
-  if (id === 'finanzas') { renderFinanzas(); var fc=document.getElementById('sec-finanzas'); if(fc){ var inner=document.getElementById('sec-finanzas-content'); if(inner) inner.innerHTML=''; renderFinanzas(); } }
+function nav(id,el){
+  document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
+  if(el)el.classList.add('active');
+  if(id==='vencidas')renderV();
+  if(id==='clientes')renderPFull();
+  if(id==='agenda')renderAgFull();
+  if(id==='notas')renderNotas();
+  if(id==='cheques')renderCheques();
+  if(id==='stock')renderStock();
+  if(id==='finanzas'){var fc=document.getElementById('sec-finanzas-content');if(fc)renderFinanzas();}
 }
 
-// Dolar
-async function loadDolar() {
-  var c = document.getElementById('dolarCard');
-  try {
-    var r = await fetch('https://api.dolarapi.com/v1/dolares');
-    var d = await r.json();
-    var blue = d.find(function(x){return x.casa==='blue';}) || {compra:1505,venta:1515};
-    var of = d.find(function(x){return x.casa==='oficial';}) || {compra:1475,venta:1490};
-    var mep = d.find(function(x){return x.casa==='bolsa';}) || {compra:1490,venta:1500};
-    var prom = Math.round((+of.compra + +of.venta) / 2);
-    var promBlue = Math.round((+blue.compra + +blue.venta) / 2);
-    c.innerHTML = '<div class="ctitle">Tipo de cambio</div>' +
-      '<div class="d3">' +
-      '<div class="dcol"><div class="dlbl">BNA Oficial</div>' +
-        '<div class="dcomp" style="color:var(--text2)">Compra</div><div class="dventa" style="color:var(--blue)">$' + Math.round(+of.compra).toLocaleString('es') + '</div>' +
-        '<div class="dcomp" style="color:var(--text2);margin-top:6px">Venta</div><div class="dventa" style="color:var(--blue)">$' + Math.round(+of.venta).toLocaleString('es') + '</div>' +
-      '</div>' +
-      '<div class="dcol"><div class="dlbl">Blue (infodolar)</div>' +
-        '<div class="dcomp" style="color:var(--text2)">Compra</div><div class="dventa" style="color:var(--amber)">$' + Math.round(+blue.compra).toLocaleString('es') + '</div>' +
-        '<div class="dcomp" style="color:var(--text2);margin-top:6px">Venta</div><div class="dventa" style="color:var(--amber)">$' + Math.round(+blue.venta).toLocaleString('es') + '</div>' +
-      '</div>' +
-      '</div>' +
-      '<div class="ddiv"></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:11px;color:var(--text2)">Promedio BNA</span><span style="font-weight:700;font-size:15px;color:var(--blue)">$' + prom.toLocaleString('es') + '</span></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;color:var(--text2)">Promedio Blue</span><span style="font-weight:700;font-size:15px;color:var(--amber)">$' + promBlue.toLocaleString('es') + '</span></div>';
-  } catch(e) {
-    c.innerHTML = '<div class="ctitle">Tipo de cambio</div>' +
-      '<div class="d3">' +
-      '<div class="dcol"><div class="dlbl">BNA Oficial</div><div class="dcomp" style="color:var(--text2)">Compra</div><div class="dventa" style="color:var(--blue)">$1.475</div><div class="dcomp" style="color:var(--text2);margin-top:6px">Venta</div><div class="dventa" style="color:var(--blue)">$1.490</div></div>' +
-      '<div class="dcol"><div class="dlbl">Blue (infodolar)</div><div class="dcomp" style="color:var(--text2)">Compra</div><div class="dventa" style="color:var(--amber)">$1.500</div><div class="dcomp" style="color:var(--text2);margin-top:6px">Venta</div><div class="dventa" style="color:var(--amber)">$1.515</div></div>' +
-      '</div><div class="ddiv"></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><span style="font-size:11px;color:var(--text2)">Promedio BNA</span><span style="font-weight:700;font-size:15px;color:var(--blue)">aprox. $1.483</span></div>' +
-      '<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:11px;color:var(--text2)">Promedio Blue</span><span style="font-weight:700;font-size:15px;color:var(--amber)">aprox. $1.508</span></div>';
+// Dolar - with cache
+function renderDolarCard(data,isCache){
+  var c=document.getElementById('dolarCard');
+  if(!c)return;
+  var note=isCache?
+    '<div style="font-size:10px;color:var(--amber);margin-top:4px">&#9888; Sin conexion &mdash; dato: '+data.updated+'</div>':
+    '<div style="font-size:10px;color:var(--text3);margin-top:4px">Actualizado '+data.updated+' &middot; c/5 min</div>';
+  c.innerHTML='<div class="ctitle">Tipo de cambio</div>'+
+    '<div class="d3">'+
+    '<div class="dcol"><div class="dlbl">BNA Oficial</div>'+
+    '<div class="dcomp" style="color:var(--text2)">Compra</div>'+
+    '<div class="dventa" style="color:var(--blue)">$'+data.bna_compra.toLocaleString('es')+'</div>'+
+    '<div class="dcomp" style="color:var(--text2);margin-top:6px">Venta</div>'+
+    '<div class="dventa" style="color:var(--blue)">$'+data.bna_venta.toLocaleString('es')+'</div></div>'+
+    '<div class="dcol"><div class="dlbl">Blue (infodolar)</div>'+
+    '<div class="dcomp" style="color:var(--text2)">Compra</div>'+
+    '<div class="dventa" style="color:var(--amber)">$'+data.blue_compra.toLocaleString('es')+'</div>'+
+    '<div class="dcomp" style="color:var(--text2);margin-top:6px">Venta</div>'+
+    '<div class="dventa" style="color:var(--amber)">$'+data.blue_venta.toLocaleString('es')+'</div></div>'+
+    '</div><div class="ddiv"></div>'+
+    '<div class="dprom"><span style="color:var(--text2)">Promedio BNA</span><span style="font-weight:700;font-size:15px;color:var(--blue)">$'+data.prom_bna.toLocaleString('es')+'</span></div>'+
+    '<div class="dprom"><span style="color:var(--text2)">Promedio Blue</span><span style="font-weight:700;font-size:15px;color:var(--amber)">$'+data.prom_blue.toLocaleString('es')+'</span></div>'+
+    note;
+}
+
+async function loadDolar(){
+  var c=document.getElementById('dolarCard');
+  try{
+    var r=await fetch('https://api.dolarapi.com/v1/dolares');
+    var d=await r.json();
+    var blue=d.find(function(x){return x.casa==='blue';})||{compra:0,venta:0};
+    var of=d.find(function(x){return x.casa==='oficial';})||{compra:0,venta:0};
+    var now=new Date();
+    var nowStr=now.toLocaleDateString('es-AR')+' '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+    var data={
+      bna_compra:Math.round(+of.compra),bna_venta:Math.round(+of.venta),
+      blue_compra:Math.round(+blue.compra),blue_venta:Math.round(+blue.venta),
+      prom_bna:Math.round((+of.compra+(+of.venta))/2),
+      prom_blue:Math.round((+blue.compra+(+blue.venta))/2),
+      updated:nowStr
+    };
+    bvGet('last_dolar',null); // just to keep pattern
+    localStorage.setItem('bv_last_dolar',JSON.stringify(data));
+    renderDolarCard(data,false);
+  }catch(e){
+    var last=JSON.parse(localStorage.getItem('bv_last_dolar')||'null');
+    if(last)renderDolarCard(last,true);
+    else if(c)c.innerHTML='<div class="ctitle">Tipo de cambio</div><div style="font-size:12px;color:var(--text3);padding:10px 0">Sin conexion &mdash; sin datos previos</div>';
   }
 }
 
 // Clima
-async function loadClima() {
-  var c = document.getElementById('climaCard');
-  try {
-    var r = await fetch('https://wttr.in/Alta+Gracia,Cordoba,Argentina?format=j1');
-    var d = await r.json();
-    var cur = d.current_condition[0];
-    var desc = (cur.lang_es && cur.lang_es[0]) ? cur.lang_es[0].value : cur.weatherDesc[0].value;
-    c.innerHTML = '<div class="ctitle">Clima &middot; Alta Gracia</div>' +
-      '<div class="ctemp">' + cur.temp_C + '&deg;</div>' +
-      '<div class="cdesc">' + desc + '</div>' +
-      '<div class="cstats">' +
-      '<div class="cstat">Sens. <b>' + cur.FeelsLikeC + '&deg;</b></div>' +
-      '<div class="cstat">Hum <b>' + cur.humidity + '%</b></div>' +
-      '<div class="cstat">Viento <b>' + cur.windspeedKmph + ' km/h</b></div>' +
-      '</div>';
-  } catch(e) {
-    c.innerHTML = '<div class="ctitle">Clima &middot; Alta Gracia</div><div class="ctemp">&mdash;</div><div class="cdesc" style="color:var(--text3)">No disponible</div>';
+async function loadClima(){
+  var c=document.getElementById('climaCard');
+  try{
+    var r=await fetch('https://wttr.in/Alta+Gracia,Cordoba,Argentina?format=j1');
+    var d=await r.json();
+    var cur=d.current_condition[0];
+    var desc=(cur.lang_es&&cur.lang_es[0])?cur.lang_es[0].value:cur.weatherDesc[0].value;
+    var wcode=parseInt(cur.weatherCode);
+    var bg,icon;
+    if(wcode===113){bg='linear-gradient(135deg,#f6d365,#fda085)';icon='[sol]';}
+    else if(wcode<=116){bg='linear-gradient(135deg,#89c4f4,#f6d365)';icon='[parcial]';}
+    else if(wcode<=122){bg='linear-gradient(135deg,#b0bec5,#78909c)';icon='[nublado]';}
+    else if(wcode<=200){bg='linear-gradient(135deg,#78909c,#546e7a)';icon='[niebla]';}
+    else if(wcode<=282){bg='linear-gradient(135deg,#4a90d9,#1565c0)';icon='[lluvia]';}
+    else if(wcode<=377){bg='linear-gradient(135deg,#e0e0e0,#b0bec5)';icon='[nieve]';}
+    else{bg='linear-gradient(135deg,#4a90d9,#1565c0)';icon='[tormenta]';}
+    var maxT=d.weather&&d.weather[0]?d.weather[0].maxtempC:'?';
+    var minT=d.weather&&d.weather[0]?d.weather[0].mintempC:'?';
+    var now=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+    c.style.background=bg;
+    c.style.border='none';
+    c.innerHTML='<div class="ctitle" style="color:rgba(0,0,0,.5)">Alta Gracia <span style="font-size:9px;opacity:.6">'+now+'</span></div>'+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+      '<span style="font-size:24px">'+icon+'</span>'+
+      '<div><div class="ctemp" style="color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3)">'+cur.temp_C+'&deg;</div>'+
+      '<div style="font-size:11px;color:rgba(255,255,255,.85)">'+desc+'</div></div></div>'+
+      '<div style="display:flex;gap:12px;margin-top:6px;font-size:11px;color:rgba(255,255,255,.9)">'+
+      '<span>&uarr; '+maxT+'&deg;</span><span>&darr; '+minT+'&deg;</span>'+
+      '<span>'+cur.humidity+'%</span><span>'+cur.windspeedKmph+' km/h</span></div>';
+  }catch(e){
+    c.style.background='';
+    c.innerHTML='<div class="ctitle">Clima &middot; Alta Gracia</div><div class="ctemp">&mdash;</div><div style="font-size:12px;color:var(--text3)">No disponible</div>';
   }
 }
 
 // Saldos
-function getSaldos() { return bvGet('saldos', {macro:0, santander:0, mp:0}); }
-function fmtS(n) {
-  if (n === 0 || n === null || n === undefined) return null;
-  if (n < 0) return '<span style="color:var(--red)">-$' + Math.abs(Number(n)).toLocaleString('es') + '</span>';
-  return '$' + Number(n).toLocaleString('es');
+function getSaldos(){return bvGet('saldos',{macro:0,santander:0,mp:0});}
+function fmtS(n){
+  if(n===0||n===null||n===undefined)return null;
+  if(n<0)return '<span style="color:var(--red)">-$'+Math.abs(Number(n)).toLocaleString('es')+'</span>';
+  return '$'+Number(n).toLocaleString('es');
 }
-function renderSaldos() {
-  var s = getSaldos();
-  var map = {macro:'sm', santander:'ss', mp:'smp'};
-  Object.entries(map).forEach(function(entry) {
-    var k = entry[0], id = entry[1];
-    var el = document.getElementById(id);
-    if (!el) return;
-    var v = fmtS(s[k]);
-    el.innerHTML = v || '&mdash;';
-    el.className = 'bval' + (v ? '' : ' empty');
+function renderSaldos(){
+  var s=getSaldos();
+  var map={macro:'sm',santander:'ss',mp:'smp'};
+  Object.entries(map).forEach(function(e){
+    var k=e[0],id=e[1];
+    var el=document.getElementById(id);
+    if(!el)return;
+    var v=fmtS(s[k]);
+    el.innerHTML=v||'&mdash;';
+    el.className='bval'+(v?'':' empty');
   });
-  var t = (+s.macro||0) + (+s.santander||0) + (+s.mp||0);
-  var stEl = document.getElementById('stotal');
-  if (t === 0) { stEl.innerHTML = '&mdash;'; stEl.style.color = 'var(--green)'; }
-  else if (t < 0) { stEl.innerHTML = '-$' + Math.abs(t).toLocaleString('es'); stEl.style.color = 'var(--red)'; }
-  else { stEl.innerHTML = '$' + t.toLocaleString('es'); stEl.style.color = 'var(--green)'; }
+  var t=(+s.macro||0)+(+s.santander||0)+(+s.mp||0);
+  var stEl=document.getElementById('stotal');
+  if(stEl){
+    if(t===0)stEl.innerHTML='&mdash;';
+    else if(t<0){stEl.innerHTML='<span style="color:var(--red)">-$'+Math.abs(t).toLocaleString('es')+'</span>';}
+    else stEl.innerHTML='<span style="color:var(--green)">$'+t.toLocaleString('es')+'</span>';
+  }
 }
 
 // Vencidas
-var sv = 'dd';
-function sortV(m) {
-  sv = m;
-  document.querySelectorAll('#sec-vencidas .sb').forEach(function(b) {
-    b.classList.toggle('on', b.getAttribute('onclick').indexOf(m) >= 0);
-  });
+var sv='dd';
+function sortV(m){
+  sv=m;
+  document.querySelectorAll('#sec-vencidas .sb').forEach(function(b){b.classList.toggle('on',b.getAttribute('onclick').indexOf(m)>=0);});
   renderV();
 }
-function renderV() {
-  var paid = bvGet('paid_facs', []);
-  var v = VENC.filter(function(f) { return paid.indexOf(f.num) < 0; });
-  if (sv === 'dd') v.sort(function(a,b){return b.dias-a.dias;});
-  else if (sv === 'da') v.sort(function(a,b){return a.dias-b.dias;});
-  else if (sv === 'md') v.sort(function(a,b){return b.pe-a.pe;});
+function renderV(){
+  var paid=bvGet('paid_facs',[]);
+  var v=VENC.filter(function(f){return paid.indexOf(f.num)<0;});
+  if(sv==='dd')v.sort(function(a,b){return b.dias-a.dias;});
+  else if(sv==='da')v.sort(function(a,b){return a.dias-b.dias;});
+  else if(sv==='md')v.sort(function(a,b){return b.pe-a.pe;});
   else v.sort(function(a,b){return a.pe-b.pe;});
-  var total = v.reduce(function(s,f){return s+f.pe;}, 0);
-  var el = document.getElementById('vCount');
-  if (el) el.textContent = v.length + ' &middot; $' + Math.round(total/1e6*10)/10 + 'M';
-  document.getElementById('vlist').innerHTML = v.slice(0,50).map(function(f) {
-    var com = bvGet('com_fac_' + f.num, '');
-    return '<div class="vi" onclick="openVenc(' + f.num + ')">' +
-      '<div><div class="vcli">' + f.cliente + (com ? ' <span class="has-comment">*</span>' : '') + '</div>' +
-      '<div class="vfecha">#' + f.num + ' &middot; ' + f.fecha + '</div></div>' +
-      '<div style="text-align:right"><div class="vmonto">$' + f.pe.toLocaleString('es') + '</div>' +
-      '<div class="vdias">' + f.dias + 'd</div></div></div>';
+  var total=v.reduce(function(s,f){return s+f.pe;},0);
+  var el=document.getElementById('vCount');
+  if(el)el.textContent=v.length+' \u00b7 $'+Math.round(total/1e6*10)/10+'M';
+  var deudaEl=document.getElementById('deudaTotal');
+  if(deudaEl)deudaEl.textContent='$'+Math.round(total/1e6*10)/10+'M';
+  var deudaCnt=document.getElementById('deudaCount');
+  if(deudaCnt)deudaCnt.textContent=v.length+' facturas \u00b7 ver \u2192';
+  document.getElementById('vlist').innerHTML=v.slice(0,50).map(function(f){
+    var com=bvGet('com_fac_'+f.num,'');
+    return '<div class="vi" onclick="openVenc('+f.num+')">'+
+      '<div><div class="vcli">'+f.cliente+(com?' <span class="has-comment">*</span>':'')+' </div>'+
+      '<div class="vfecha">#'+f.num+' &middot; '+f.fecha+'</div></div>'+
+      '<div style="text-align:right"><div class="vmonto">$'+f.pe.toLocaleString('es')+'</div>'+
+      '<div class="vdias">'+f.dias+'d</div></div></div>';
   }).join('');
 }
 
 // Patrones
-var sp2 = 'ratio';
-window._patLista = PAT;
-function sortP(m) {
-  sp2 = m;
-  document.querySelectorAll('#sec-clientes .sb').forEach(function(b) {
-    b.classList.toggle('on', b.getAttribute('onclick').indexOf(m) >= 0);
-  });
+var sp2='ratio';
+window._patLista=PAT;
+function sortP(m){
+  sp2=m;
+  document.querySelectorAll('#sec-clientes .sb').forEach(function(b){b.classList.toggle('on',b.getAttribute('onclick').indexOf(m)>=0);});
   renderPFull();
 }
-function renderPFull() {
-  var estados = bvGet('estados_cli', {});
-  var lista = PAT.slice();
-  if (sp2 === 'activos') lista = lista.filter(function(a){ return estados[a.cliente] !== 'inactivo'; });
-  else if (sp2 === 'ratio') lista.sort(function(a,b){return b.ratio-a.ratio;});
-  else if (sp2 === 'dias') lista.sort(function(a,b){return b.dias_sin-a.dias_sin;});
-  window._patLista = lista;
-  document.getElementById('pfull').innerHTML = lista.map(function(a, i) {
-    var est = estados[a.cliente] || 'activo';
-    var col = est === 'inactivo' ? 'var(--text3)' : a.nivel === 'rojo' ? 'var(--red)' : 'var(--amber)';
-    var bc = est === 'inactivo' ? 'bg2c' : a.nivel === 'rojo' ? 'br2' : 'ba2';
-    var com = bvGet('com_cli_' + i, '');
-    return '<div class="pi" data-pi="' + i + '" onclick="openPatIdx(parseInt(this.dataset.pi))">' +
-      '<div class="pdot" style="background:' + col + '"></div>' +
-      '<div class="pinfo"><div class="pcli">' + a.cliente + (com ? ' <span class="has-comment">*</span>' : '') + '</div>' +
-      '<div class="psub">' + a.dias_sin + 'd sin comprar &middot; c/' + a.prom + 'd' + (est !== 'activo' ? ' &middot; ' + est : '') + '</div></div>' +
-      '<div class="pbadge ' + bc + '">' + a.ratio + 'x</div></div>';
+function renderPFull(){
+  var estados=bvGet('estados_cli',{});
+  var activos=PAT.filter(function(a){return estados[a.cliente]!=='inactivo';});
+  var inactivos=PAT.filter(function(a){return estados[a.cliente]==='inactivo';});
+  if(sp2==='ratio')activos.sort(function(a,b){return b.ratio-a.ratio;});
+  else if(sp2==='dias')activos.sort(function(a,b){return b.dias_sin-a.dias_sin;});
+  window._patLista=activos.concat(inactivos);
+  var h=activos.map(function(a,i){
+    var est=estados[a.cliente]||'activo';
+    var col=est==='contactado'?'var(--green)':a.nivel==='rojo'?'var(--red)':'var(--amber)';
+    var bc=est==='contactado'?'bg2c':a.nivel==='rojo'?'br2':'ba2';
+    var com=bvGet('com_cli_'+i,'');
+    return '<div class="pi" data-pi="'+i+'" onclick="openPatIdx(parseInt(this.dataset.pi))">'+
+      '<div class="pdot" style="background:'+col+'"></div>'+
+      '<div class="pinfo"><div class="pcli">'+a.cliente+(com?' <span class="has-comment">*</span>':'')+' </div>'+
+      '<div class="psub">'+a.dias_sin+'d sin comprar &middot; c/'+a.prom+'d'+
+      (est==='contactado'?' &middot; <span style="color:var(--green)">\u2713 contactado</span>':'')+' </div></div>'+
+      '<div class="pbadge '+bc+'">'+a.ratio+'x</div></div>';
   }).join('');
+  if(inactivos.length>0){
+    var showIn=bvGet('show_inactivos',false);
+    h+='<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">'+
+      '<div style="display:flex;justify-content:space-between;cursor:pointer;padding:6px 0" onclick="toggleInactivos()">'+
+      '<span style="font-size:12px;color:var(--text3)">Inactivos ('+inactivos.length+')</span>'+
+      '<span style="color:var(--text3);font-size:12px">'+(showIn?'\u25b2 ocultar':'\u25bc ver')+'</span></div>';
+    if(showIn){
+      h+=inactivos.map(function(a,i){
+        var ri=activos.length+i;
+        return '<div class="pi" data-pi="'+ri+'" onclick="openPatIdx(parseInt(this.dataset.pi))" style="opacity:.5">'+
+          '<div class="pdot" style="background:var(--text3)"></div>'+
+          '<div class="pinfo"><div class="pcli">'+a.cliente+'</div>'+
+          '<div class="psub">'+a.dias_sin+'d &middot; inactivo</div></div>'+
+          '<div class="pbadge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)">'+a.ratio+'x</div></div>';
+      }).join('');
+    }
+    h+='</div>';
+  }
+  document.getElementById('pfull').innerHTML=h;
 }
+function toggleInactivos(){bvSet('show_inactivos',!bvGet('show_inactivos',false));renderPFull();}
 
-function openPatIdx(i) {
-  var lista = window._patLista || PAT;
-  var a = lista[i];
-  if (!a) return;
-  var estados = bvGet('estados_cli', {});
-  var est = estados[a.cliente] || 'activo';
-  var com = bvGet('com_cli_' + i, '');
-  window._currentPatIdx = i;
-  var box = document.getElementById('mbox');
-  box.innerHTML = '<div class="mhdr"><div class="mtitle">' + a.cliente + '</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-    '<div class="mrow"><div class="mlbl">Dias sin comprar</div><div class="mval" style="color:var(--red)">' + a.dias_sin + ' dias</div></div>' +
-    '<div class="mrow"><div class="mlbl">Patron habitual</div><div class="mval">cada ' + a.prom + ' dias</div></div>' +
-    '<div class="mrow"><div class="mlbl">Ultima compra</div><div class="mval">' + a.ultimo + '</div></div>' +
-    '<div class="mrow"><div class="mlbl">Desvio</div><div class="mval" style="color:var(--red)">' + a.ratio + 'x el patron</div></div>' +
-    '<div class="mrow"><div class="mlbl">Estado</div><div class="mval" style="color:' + (est==='inactivo'?'var(--text3)':est==='contactado'?'var(--green)':'var(--text)') + '">' + est + '</div></div>' +
-    '<div style="margin-top:14px"><div class="mlbl" style="margin-bottom:5px">Comentario</div>' +
-    '<input class="minp" id="com_cli" value="' + com.replace(/"/g,'&quot;') + '" placeholder="Ej: Llame, dijo que viene la semana que viene...">' +
-    '</div>' +
-    '<div style="margin-top:12px"><div class="mlbl" style="margin-bottom:5px">Crear recordatorio en agenda</div>' +
-    '<div style="display:flex;gap:6px">' +
-    '<input class="minp" id="rec_fecha" type="date" style="flex:1">' +
-    '<input class="minp" id="rec_txt" placeholder="Ej: Llamar de nuevo" style="flex:2">' +
-    '</div></div>' +
-    '<div class="mbtns">' +
-    '<button class="mbtn btn-g" onclick="setEstadoCurrent(\'contactado\')">Contactado</button>' +
-    '<button class="mbtn btn-d" onclick="setEstadoCurrent(\'inactivo\')">Inactivo</button>' +
-    '<button class="mbtn btn-s" onclick="setEstadoCurrent(\'activo\')">Reactivar</button>' +
-    '<button class="mbtn btn-p" onclick="saveComPatCurrent()">Guardar</button>' +
-    '<button class="mbtn btn-s" onclick="closeM()">Cerrar</button>' +
+function openPatIdx(i){
+  var lista=window._patLista||PAT;
+  var a=lista[i];if(!a)return;
+  var estados=bvGet('estados_cli',{});
+  var est=estados[a.cliente]||'activo';
+  var com=bvGet('com_cli_'+i,'');
+  window._currentPatIdx=i;
+  var box=document.getElementById('mbox');
+  box.innerHTML='<div class="mhdr"><div class="mtitle">'+a.cliente+'</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+    '<div class="mrow"><div class="mlbl">Dias sin comprar</div><div class="mval" style="color:var(--red)">'+a.dias_sin+' dias</div></div>'+
+    '<div class="mrow"><div class="mlbl">Patron habitual</div><div class="mval">cada '+a.prom+' dias</div></div>'+
+    '<div class="mrow"><div class="mlbl">Ultima compra</div><div class="mval">'+a.ultimo+'</div></div>'+
+    '<div class="mrow"><div class="mlbl">Desvio</div><div class="mval" style="color:var(--red)">'+a.ratio+'x</div></div>'+
+    '<div class="mrow"><div class="mlbl">Estado</div><div class="mval" style="color:'+(est==='inactivo'?'var(--text3)':est==='contactado'?'var(--green)':'var(--text)')+'">'+est+'</div></div>'+
+    '<div style="margin-top:14px"><div class="mlbl" style="margin-bottom:5px">Comentario</div>'+
+    '<input class="minp" id="com_cli" value="'+com.replace(/"/g,'&quot;')+'" placeholder="Ej: Llame, dijo que viene la semana...">'+
+    '</div>'+
+    '<div style="margin-top:12px"><div class="mlbl" style="margin-bottom:5px">Crear recordatorio</div>'+
+    '<div style="display:flex;gap:6px">'+
+    '<input class="minp" id="rec_fecha" type="date" style="flex:1">'+
+    '<input class="minp" id="rec_txt" placeholder="Ej: Llamar de nuevo" style="flex:2">'+
+    '</div></div>'+
+    '<div class="mbtns">'+
+    '<button class="mbtn btn-g" onclick="setEstadoCurrent(\'contactado\')">Contactado</button>'+
+    '<button class="mbtn btn-d" onclick="setEstadoCurrent(\'inactivo\')">Inactivo</button>'+
+    '<button class="mbtn btn-s" onclick="setEstadoCurrent(\'activo\')">Reactivar</button>'+
+    '<button class="mbtn btn-p" onclick="saveComPatCurrent()">Guardar</button>'+
+    '<button class="mbtn btn-s" onclick="closeM()">Cerrar</button>'+
     '</div>';
-  document.getElementById('overlay').style.display = 'flex';
+  document.getElementById('overlay').style.display='flex';
 }
 
-function setEstadoCurrent(est) {
-  var i = window._currentPatIdx;
-  var lista = window._patLista || PAT;
-  var a = lista[i];
-  if (!a) return;
-  var estados = bvGet('estados_cli', {});
-  estados[a.cliente] = est;
-  bvSet('estados_cli', estados);
-  closeM();
-  renderPFull();
+function setEstadoCurrent(est){
+  var i=window._currentPatIdx;
+  var lista=window._patLista||PAT;
+  var a=lista[i];if(!a)return;
+  var estados=bvGet('estados_cli',{});
+  estados[a.cliente]=est;
+  bvSet('estados_cli',estados);
+  closeM();renderPFull();
 }
 
-function saveComPatCurrent() {
-  var i = window._currentPatIdx;
-  var lista = window._patLista || PAT;
-  var a = lista[i];
-  if (!a) return;
-  var com = document.getElementById('com_cli').value.trim();
-  var fecha = document.getElementById('rec_fecha').value;
-  var txt = document.getElementById('rec_txt').value.trim();
-  bvSet('com_cli_' + i, com);
-  if (fecha && txt) {
-    var ag = bvGet('agenda', []);
-    ag.push({txt: txt + ' - ' + a.cliente, fecha: fecha, col: 'var(--accent)', tipo: 'usuario'});
-    bvSet('agenda', ag);
+function saveComPatCurrent(){
+  var i=window._currentPatIdx;
+  var lista=window._patLista||PAT;
+  var a=lista[i];if(!a)return;
+  var com=document.getElementById('com_cli').value.trim();
+  var fecha=document.getElementById('rec_fecha').value;
+  var txt=document.getElementById('rec_txt').value.trim();
+  bvSet('com_cli_'+i,com);
+  if(fecha&&txt){
+    var ag=bvGet('agenda',[]);
+    ag.push({txt:txt+' - '+a.cliente,fecha:fecha,col:'var(--accent)',tipo:'usuario'});
+    bvSet('agenda',ag);
     renderAgResumen();
   }
-  closeM();
-  renderPFull();
+  closeM();renderPFull();
 }
 
-// Vencidas modal
-function openVenc(num) {
-  var f = VENC.find(function(v){ return v.num === num; });
-  if (!f) return;
-  var com = bvGet('com_fac_' + num, '');
-  var box = document.getElementById('mbox');
-  box.innerHTML = '<div class="mhdr"><div class="mtitle">Factura #' + f.num + '</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-    '<div class="mrow"><div class="mlbl">Cliente</div><div class="mval">' + f.cliente + '</div></div>' +
-    '<div class="mrow"><div class="mlbl">Fecha emision</div><div class="mval">' + f.fecha + '</div></div>' +
-    '<div class="mrow"><div class="mlbl">Monto total</div><div class="mval">$' + f.monto.toLocaleString('es') + '</div></div>' +
-    '<div class="mrow"><div class="mlbl">Pendiente</div><div class="mval" style="color:var(--red)">$' + f.pe.toLocaleString('es') + '</div></div>' +
-    '<div class="mrow"><div class="mlbl">Dias vencida</div><div class="mval" style="color:var(--red)">' + f.dias + ' dias</div></div>' +
-    '<div style="margin-top:14px"><div class="mlbl" style="margin-bottom:5px">Comentario</div>' +
-    '<input class="minp" id="com_fac" value="' + com.replace(/"/g,'&quot;') + '" placeholder="Ej: Acordamos pago para el 25/jul...">' +
-    '</div>' +
-    '<div style="margin-top:12px"><div class="mlbl" style="margin-bottom:5px">Registrar pago</div>' +
-    '<div style="display:flex;gap:6px;margin-bottom:8px">' +
-    '<input class="minp" id="pago_monto" type="number" placeholder="Monto $" style="flex:1">' +
-    '<input class="minp" id="pago_fecha" type="date" style="flex:1" value="2026-07-20">' +
-    '</div></div>' +
-    '<div class="mbtns">' +
-    '<button class="mbtn btn-p" onclick="markPagada(' + f.num + ',' + f.pe + ')">Pago total</button>' +
-    '<button class="mbtn btn-g" onclick="markParcial(' + f.num + ')">Pago parcial</button>' +
-    '<button class="mbtn btn-s" onclick="saveComFac(' + f.num + ')">Guardar comentario</button>' +
-    '<button class="mbtn btn-s" onclick="closeM()">Cerrar</button>' +
-    '</div>';
-  document.getElementById('overlay').style.display = 'flex';
+// Alertas
+function getAlertasState(){return bvGet('alertas_state',{});}
+
+function renderAlertas(){
+  var st=getAlertasState();
+  var alertas=[
+    {id:'waggon',cls:'al-r',col:'var(--red)',txt:'Waggon \u2014 31 dias sin pedir aceitunas (patron c/12d)',modal:'w_waggon'},
+    {id:'aove',cls:'al-r',col:'var(--red)',txt:'Reunion AOVE \u2014 definir toneladas y precio',modal:'w_aove'},
+    {id:'etiq',cls:'al-a',col:'var(--amber)',txt:'Etiquetas P1000 + V500 en camino \u2014 ~10 dias',modal:'w_etiq'},
+    {id:'p500',cls:'al-a',col:'var(--amber)',txt:'P500 Cordoba: -1u (prestamo Dist 550)'},
+    {id:'promet',cls:'al-g',col:'var(--green)',txt:'Promet: 334 cajas pedido 16/jul en proceso'},
+  ];
+  var el=document.getElementById('alertasContainer');
+  if(!el)return;
+  var pend=0;
+  el.innerHTML=alertas.map(function(a){
+    var done=st[a.id];
+    if(done){
+      return '<div class="al-done" data-aid="'+a.id+'" onclick="undoAlerta(this.dataset.aid)">'+
+        '<div class="aldot" style="background:var(--green)"></div>'+
+        '<div style="flex:1;text-decoration:line-through;color:var(--text3)">'+a.txt+'</div>'+
+        '<span style="color:var(--green);font-size:12px">\u2713 Listo</span></div>';
+    }
+    pend++;
+    if(a.modal){
+      return '<div class="al '+a.cls+'" data-modal="'+a.modal+'" onclick="openM(this.dataset.modal)">'+
+        '<div class="aldot" style="background:'+a.col+'"></div>'+
+        '<div style="flex:1">'+a.txt+'</div>'+
+        '<span style="font-size:11px;opacity:.7">tocar \u2192</span></div>';
+    }
+    return '<div class="al '+a.cls+'" data-aid="'+a.id+'" onclick="markAlertaDone(this.dataset.aid)">'+
+      '<div class="aldot" style="background:'+a.col+'"></div>'+
+      '<div style="flex:1">'+a.txt+'</div>'+
+      '<span style="font-size:11px;opacity:.7">tocar \u2192</span></div>';
+  }).join('');
+  var badge=document.getElementById('alertasBadge');
+  if(badge){badge.textContent=pend;badge.style.display=pend>0?'':'none';}
 }
 
-function saveComFac(num) {
-  var com = document.getElementById('com_fac').value.trim();
-  bvSet('com_fac_' + num, com);
-  closeM();
-  renderV();
+function markAlertaDone(id){
+  var st=getAlertasState();
+  st[id]=true;
+  bvSet('alertas_state',st);
+  renderAlertas();
 }
-
-function markPagada(num, pe) {
-  var monto = parseFloat(document.getElementById('pago_monto').value || pe);
-  var fecha = document.getElementById('pago_fecha').value || '2026-07-20';
-  var fechaFmt = fecha.split('-').reverse().join('/');
-  var pagos = bvGet('pagos', []);
-  pagos.push({num:num, monto:monto, fecha:fechaFmt, tipo:'total'});
-  bvSet('pagos', pagos);
-  var paid = bvGet('paid_facs', []);
-  if (paid.indexOf(num) < 0) paid.push(num);
-  bvSet('paid_facs', paid);
-  closeM();
-  renderV();
-  alert('Factura #' + num + ' marcada como pagada el ' + fechaFmt + '\n$' + monto.toLocaleString('es'));
-}
-
-function markParcial(num) {
-  var monto = parseFloat(document.getElementById('pago_monto').value || 0);
-  var fecha = document.getElementById('pago_fecha').value || '2026-07-20';
-  if (!monto) { alert('Ingresa el monto del pago parcial'); return; }
-  var fechaFmt = fecha.split('-').reverse().join('/');
-  var pagos = bvGet('pagos', []);
-  pagos.push({num:num, monto:monto, fecha:fechaFmt, tipo:'parcial'});
-  bvSet('pagos', pagos);
-  closeM();
-  alert('Pago parcial de $' + monto.toLocaleString('es') + ' registrado el ' + fechaFmt);
+function undoAlerta(id){
+  var st=getAlertasState();
+  delete st[id];
+  bvSet('alertas_state',st);
+  renderAlertas();
 }
 
 // Agenda
-var AG_BASE = [
-  {txt:'Negociacion compra AOVE 2026-27', fecha:'2026-07-20', col:'var(--red)', tipo:'sistema'},
-  {txt:'Contactar Waggon - aceitunas', fecha:'2026-07-22', col:'var(--red)', tipo:'sistema'},
-  {txt:'Etiquetas P1000 + V500 (Pixel Grafica)', fecha:'2026-07-30', col:'var(--amber)', tipo:'sistema'},
-  {txt:'Proximo pedido Waggon P3000 (~220u)', fecha:'2026-08-15', col:'var(--amber)', tipo:'sistema'},
-  {txt:'Llega AOVE nueva campana - lote 1', fecha:'2026-08-01', col:'var(--blue)', tipo:'sistema'},
+var AG_BASE=[
+  {txt:'Negociacion compra AOVE 2026-27',fecha:'2026-07-20',col:'var(--red)',tipo:'sistema'},
+  {txt:'Contactar Waggon - aceitunas',fecha:'2026-07-22',col:'var(--red)',tipo:'sistema'},
+  {txt:'Etiquetas P1000 + V500 (Pixel Grafica)',fecha:'2026-07-30',col:'var(--amber)',tipo:'sistema'},
+  {txt:'Proximo pedido Waggon P3000 (~220u)',fecha:'2026-08-15',col:'var(--amber)',tipo:'sistema'},
+  {txt:'Llega AOVE nueva campana - lote 1',fecha:'2026-08-01',col:'var(--blue)',tipo:'sistema'},
+  {txt:'Primer vto. cheque Pixel Grafica ($464k)',fecha:'2026-07-31',col:'var(--red)',tipo:'sistema'},
+  {txt:'Segundo vto. cheque Pixel Grafica ($464k)',fecha:'2026-08-15',col:'var(--amber)',tipo:'sistema'},
 ];
 
-function getAg() {
-  var user = bvGet('agenda', []);
-  return AG_BASE.concat(user).sort(function(a,b){ return a.fecha.localeCompare(b.fecha); });
+function getAg(){
+  var user=bvGet('agenda',[]);
+  return AG_BASE.concat(user).sort(function(a,b){return a.fecha.localeCompare(b.fecha);});
 }
 
-function renderAgResumen() {
-  var ag = getAg().slice(0, 5);
-  var el = document.getElementById('agCount');
-  if (el) el.textContent = getAg().length;
-  var res = document.getElementById('agResumen');
-  if (!res) return;
-  res.innerHTML = ag.map(function(a, i) {
-    return '<div class="agitem">' +
-      '<div class="agcol"><div class="agdot" style="background:' + a.col + '"></div>' +
-      (i < ag.length-1 ? '<div class="agline"></div>' : '') +
-      '</div>' +
-      '<div><div class="agtext">' + a.txt + '</div><div class="agdate">' + fmtFecha(a.fecha) + '</div></div></div>';
+function renderAgResumen(){
+  var ag=getAg().slice(0,5);
+  var el=document.getElementById('agCount');
+  if(el)el.textContent=getAg().length;
+  var res=document.getElementById('agResumen');
+  if(!res)return;
+  res.innerHTML=ag.map(function(a,i){
+    return '<div class="agitem">'+
+      '<div class="agcol"><div class="agdot" style="background:'+a.col+'"></div>'+
+      (i<ag.length-1?'<div class="agline"></div>':'')+
+      '</div><div><div class="agtext">'+a.txt+'</div><div class="agdate">'+fmtFecha(a.fecha)+'</div></div></div>';
   }).join('');
 }
 
-function renderAgFull() {
-  var ag = getAg();
-  var el = document.getElementById('agFull');
-  if (!el) return;
-  el.innerHTML = ag.map(function(a, i) {
-    var del = a.tipo !== 'sistema' ? '<span style="margin-left:8px;cursor:pointer;color:var(--text3)" onclick="delAg(' + i + ')">&times;</span>' : '';
-    return '<div class="agitem">' +
-      '<div class="agcol"><div class="agdot" style="background:' + a.col + '"></div>' +
-      (i < ag.length-1 ? '<div class="agline"></div>' : '') +
-      '</div>' +
-      '<div style="flex:1"><div class="agtext">' + a.txt + del + '</div><div class="agdate">' + fmtFecha(a.fecha) + '</div></div></div>';
+function renderAgFull(){
+  var ag=getAg();
+  var el=document.getElementById('agFull');
+  if(!el)return;
+  el.innerHTML=ag.map(function(a,i){
+    var del=a.tipo!=='sistema'?'<span style="margin-left:8px;cursor:pointer;color:var(--text3)" onclick="delAg('+i+')">&times;</span>':'';
+    return '<div class="agitem">'+
+      '<div class="agcol"><div class="agdot" style="background:'+a.col+'"></div>'+
+      (i<ag.length-1?'<div class="agline"></div>':'')+
+      '</div><div style="flex:1"><div class="agtext">'+a.txt+del+'</div><div class="agdate">'+fmtFecha(a.fecha)+'</div></div></div>';
   }).join('');
 }
 
-function addAgenda() {
-  var txt = document.getElementById('agTxt').value.trim();
-  var fecha = document.getElementById('agFecha').value;
-  if (!txt || !fecha) { alert('Completa texto y fecha'); return; }
-  var ag = bvGet('agenda', []);
-  ag.push({txt:txt, fecha:fecha, col:'var(--blue)', tipo:'usuario'});
-  bvSet('agenda', ag);
-  document.getElementById('agTxt').value = '';
-  document.getElementById('agFecha').value = '';
-  renderAgFull();
-  renderAgResumen();
+function addAgenda(){
+  var txt=document.getElementById('agTxt').value.trim();
+  var fecha=document.getElementById('agFecha').value;
+  if(!txt||!fecha){alert('Completa texto y fecha');return;}
+  var ag=bvGet('agenda',[]);
+  ag.push({txt:txt,fecha:fecha,col:'var(--blue)',tipo:'usuario'});
+  bvSet('agenda',ag);
+  document.getElementById('agTxt').value='';
+  document.getElementById('agFecha').value='';
+  renderAgFull();renderAgResumen();
 }
 
-function delAg(i) {
-  var allAg = getAg();
-  var item = allAg[i];
-  if (item.tipo === 'sistema') { alert('No se puede borrar un evento del sistema.'); return; }
-  var user = bvGet('agenda', []);
-  var idx = user.findIndex(function(a){ return a.txt === item.txt && a.fecha === item.fecha; });
-  if (idx >= 0) { user.splice(idx, 1); bvSet('agenda', user); }
-  renderAgFull();
-  renderAgResumen();
+function delAg(i){
+  var allAg=getAg();
+  var item=allAg[i];
+  if(item.tipo==='sistema'){alert('No se puede borrar un evento del sistema.');return;}
+  var user=bvGet('agenda',[]);
+  var idx=user.findIndex(function(a){return a.txt===item.txt&&a.fecha===item.fecha;});
+  if(idx>=0){user.splice(idx,1);bvSet('agenda',user);}
+  renderAgFull();renderAgResumen();
 }
 
 // Notas
-function saveNota() {
-  var inp = document.getElementById('notaInp');
-  var t = inp.value.trim();
-  if (!t) return;
-  var ns = bvGet('notas', []);
-  var now = new Date();
-  ns.unshift({t:t, ts:now.toLocaleDateString('es-AR') + ' ' + now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})});
-  bvSet('notas', ns.slice(0,30));
-  inp.value = '';
-  renderNotas();
+function saveNota(){
+  var inp=document.getElementById('notaInp');
+  var t=inp.value.trim();if(!t)return;
+  var ns=bvGet('notas',[]);
+  var now=new Date();
+  ns.unshift({t:t,ts:now.toLocaleDateString('es-AR')+' '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})});
+  bvSet('notas',ns.slice(0,30));
+  inp.value='';renderNotas();
 }
-function renderNotas() {
-  var ns = bvGet('notas', []);
-  var el = document.getElementById('nlist');
-  if (!el) return;
-  el.innerHTML = ns.map(function(n, i) {
-    return '<div class="nota-i">' + n.t + '<div class="nota-ts">' + n.ts + ' <span style="cursor:pointer;color:var(--text3)" onclick="delNota(' + i + ')">&times;</span></div></div>';
+function renderNotas(){
+  var ns=bvGet('notas',[]);
+  var el=document.getElementById('nlist');
+  if(!el)return;
+  el.innerHTML=ns.map(function(n,i){
+    return '<div class="nota-i">'+n.t+'<div class="nota-ts">'+n.ts+' <span style="cursor:pointer;color:var(--text3)" onclick="delNota('+i+')">&times;</span></div></div>';
   }).join('');
 }
-function delNota(i) { var ns=bvGet('notas',[]); ns.splice(i,1); bvSet('notas',ns); renderNotas(); }
+function delNota(i){var ns=bvGet('notas',[]);ns.splice(i,1);bvSet('notas',ns);renderNotas();}
 
 // Cheques
-function addCheque() {
-  var ben = document.getElementById('chBen').value.trim();
-  var monto = parseFloat(document.getElementById('chMonto').value || 0);
-  var fecha = document.getElementById('chFecha').value;
-  var num = document.getElementById('chNum').value.trim();
-  if (!ben || !monto || !fecha) { alert('Completa beneficiario, monto y fecha'); return; }
-  var ch = bvGet('cheques', []);
-  ch.unshift({ben:ben, monto:monto, fecha:fecha, num:num});
-  bvSet('cheques', ch);
-  ['chBen','chMonto','chFecha','chNum'].forEach(function(id){ document.getElementById(id).value=''; });
+function addCheque(){
+  var ben=document.getElementById('chBen').value.trim();
+  var monto=parseFloat(document.getElementById('chMonto').value||0);
+  var fecha=document.getElementById('chFecha').value;
+  var num=document.getElementById('chNum').value.trim();
+  var conc=document.getElementById('chConc').value.trim();
+  if(!ben||!monto||!fecha){alert('Completa beneficiario, monto y fecha');return;}
+  var ch=bvGet('cheques',[]);
+  ch.unshift({ben:ben,monto:monto,fecha:fecha,num:num,concepto:conc});
+  bvSet('cheques',ch);
+  ['chBen','chMonto','chFecha','chNum','chConc'].forEach(function(id){document.getElementById(id).value='';});
   renderCheques();
 }
-function renderCheques() {
-  var ch = bvGet('cheques', []);
-  var el = document.getElementById('cheqList');
-  if (!el) return;
-  if (!ch.length) { el.innerHTML = '<div style="font-size:12px;color:var(--text3);text-align:center;padding:10px">Sin cheques cargados</div>'; return; }
-  el.innerHTML = ch.map(function(c, i) {
-    var f = new Date(c.fecha + 'T12:00:00');
-    var dias = (f - HOY_DATE) / (1000*60*60*24);
-    var col = dias < 0 ? 'var(--red)' : dias < 7 ? 'var(--amber)' : 'var(--green)';
-    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 8px;border-bottom:1px solid var(--border)">' +
-      '<div><div style="font-size:13px;font-weight:500">' + c.ben + (c.num ? ' <span style="color:var(--text3);font-size:11px">#'+c.num+'</span>' : '') + '</div>' +
-      '<div style="font-size:11px;color:' + col + '">' + fmtFecha(c.fecha) + (dias < 0 ? ' - VENCIDO' : dias === 0 ? ' - HOY' : ' - en ' + Math.round(dias) + 'd') + '</div></div>' +
-      '<div style="display:flex;align-items:center;gap:10px">' +
-      '<div style="font-size:15px;font-weight:600;color:var(--amber)">$' + c.monto.toLocaleString('es') + '</div>' +
-      '<span style="cursor:pointer;color:var(--text3)" onclick="delCheque(' + i + ')">&times;</span></div></div>';
+function renderCheques(){
+  var ch=bvGet('cheques',[]);
+  var el=document.getElementById('cheqList');
+  if(!el)return;
+  if(!ch.length){el.innerHTML='<div style="font-size:12px;color:var(--text3);text-align:center;padding:10px">Sin cheques cargados</div>';return;}
+  var total=ch.reduce(function(s,c){return s+(+c.monto||0);},0);
+  el.innerHTML='<div style="font-size:11px;color:var(--text2);margin-bottom:8px">Total emitido: <b>$'+total.toLocaleString('es')+'</b></div>'+
+  ch.map(function(c,i){
+    var f=new Date(c.fecha+'T12:00:00');
+    var dias=Math.round((f-HOY_DATE)/(1000*60*60*24));
+    var col=dias<0?'var(--red)':dias<7?'var(--amber)':'var(--green)';
+    var tag=dias<0?'VENCIDO '+Math.abs(dias)+'d':dias===0?'HOY':'en '+dias+'d';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 8px;border-bottom:1px solid var(--border)">'+
+      '<div><div style="font-size:13px;font-weight:500">'+c.ben+(c.num?' <span style="color:var(--text3);font-size:11px">#'+c.num+'</span>':'')+' </div>'+
+      '<div style="font-size:11px;color:'+col+'">'+tag+' &middot; '+fmtFecha(c.fecha)+(c.concepto?' &middot; '+c.concepto:'')+'</div></div>'+
+      '<div style="display:flex;align-items:center;gap:10px">'+
+      '<div style="font-size:15px;font-weight:600;color:var(--amber)">$'+c.monto.toLocaleString('es')+'</div>'+
+      '<span style="cursor:pointer;color:var(--text3)" onclick="delCheque('+i+')">&times;</span></div></div>';
   }).join('');
 }
-function delCheque(i) { var ch=bvGet('cheques',[]); ch.splice(i,1); bvSet('cheques',ch); renderCheques(); }
+function delCheque(i){var ch=bvGet('cheques',[]);ch.splice(i,1);bvSet('cheques',ch);renderCheques();}
 
-// Modal - Metricas
-function openM(type) {
-  var box = document.getElementById('mbox');
-  var s = getSaldos();
-  var h = '';
-  if (type === 'bancos') {
-    h = '<div class="mhdr"><div class="mtitle">Cuentas bancarias</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      ['macro','santander','mp'].map(function(k) {
-        var labels = {macro:'Banco Macro', santander:'Santander Rio', mp:'Mercado Pago'};
-        return '<div style="margin-bottom:12px"><div class="mlbl" style="margin-bottom:5px">' + labels[k] + '</div>' +
-          '<input class="minp" id="inp_' + k + '" type="number" placeholder="Saldo en ARS" value="' + (s[k]||'') + '"></div>';
-      }).join('') +
-      '<div class="mbtns"><button class="mbtn btn-p" onclick="saveBancos()">Guardar</button><button class="mbtn btn-s" onclick="closeM()">Cancelar</button></div>';
-  } else if (type === 'julio') {
-    h = '<div class="mhdr"><div class="mtitle">Julio 2026</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      '<div class="mrow"><div class="mlbl">Ventas julio 2026</div><div class="mval" style="color:var(--amber)">$8,831,056</div></div>' +
-      '<div class="mrow"><div class="mlbl">Proyeccion mes completo</div><div class="mval">$15.931.000</div></div>' +
-      '<div class="mrow"><div class="mlbl">Julio 2025</div><div class="mval" style="color:var(--text2)">$10.746.884</div></div>' +
-      '<div class="mrow"><div class="mlbl">Avance del mes</div><div class="mval">27% (dia 20/31)</div></div>' +
-      '<p style="font-size:12px;color:var(--text2);margin-top:12px">Julio es un mes bajo estacionalmente. El promedio proyectado para el año completo es $27M/mes.</p>';
-  } else if (type === 'h1') {
-    h = '<div class="mhdr"><div class="mtitle">Crecimiento H1 2026</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      '<div class="mrow"><div class="mlbl">H1 2025</div><div class="mval">$83.299.687</div></div>' +
-      '<div class="mrow"><div class="mlbl">H1 2026</div><div class="mval" style="color:var(--green)">$123.377.280</div></div>' +
-      '<div class="mrow"><div class="mlbl">Variacion</div><div class="mval" style="color:var(--green)">+$40.077.593 (+48,1%)</div></div>' +
-      '<p style="font-size:12px;color:var(--text2);margin-top:12px">Motores: clientes nuevos (Medano +$5,3M, Activate +$2,8M) &middot; P3000 crecio +902% &middot; Aceitunas +1.728%</p>';
-  } else if (type === 'stock') {
-    h = '<div class="mhdr"><div class="mtitle">Stock actual</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      [['P250','2,17 cj / 26u','1,2 meses','var(--amber)'],
-       ['P500','-0,08 cj','Ruptura (prestamo)','var(--red)'],
-       ['P1000','0 cj','Ruptura','var(--red)'],
-       ['P2000','0 cj','Ruptura','var(--red)'],
-       ['P3000','55 cj / 220u','~1,1 mes','var(--amber)'],
-       ['V250','11,67 cj / 280u','2,2 meses','var(--green)'],
-       ['V500','7,33 cj / 88u','0,7 meses','var(--red)']
-      ].map(function(row) {
-        return '<div class="mrow"><div class="mlbl">' + row[0] + '</div><div style="text-align:right"><div class="mval">' + row[1] + '</div><div style="font-size:11px;color:' + row[3] + '">' + row[2] + '</div></div></div>';
-      }).join('') +
-      '<p style="font-size:12px;color:var(--text2);margin-top:12px">Promet en proceso: 9xP500 &middot; 10xP2000 &middot; 20xP1000 &middot; 30xV500</p>';
-  } else if (type === 'w_waggon') {
-    h = '<div class="mhdr"><div class="mtitle">Alerta: Waggon</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      '<div class="mrow"><div class="mlbl">Dias sin comprar aceitunas</div><div class="mval" style="color:var(--red)">31 dias</div></div>' +
-      '<div class="mrow"><div class="mlbl">Patron habitual</div><div class="mval">cada 12 dias</div></div>' +
-      '<div class="mrow"><div class="mlbl">Ultimo pedido</div><div class="mval">8/jul/2026 (solo rodajada)</div></div>' +
-      '<div class="mrow"><div class="mlbl">Pepinillos sin pedir</div><div class="mval" style="color:var(--red)">47 dias</div></div>' +
-      '<p style="font-size:12px;color:var(--text2);margin-top:12px">El pedido completo habitual es $800k-$1,5M. Esta significativamente atrasado.</p>' +
-      '<div class="mbtns"><button class="mbtn btn-g" onclick="markAlertaDone(&apos;waggon&apos;);closeM()">\u2713 Marcar contactado</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
-  } else if (type === 'w_aove') {
-    h = '<div class="mhdr"><div class="mtitle">Reunion AOVE</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      '<div class="mrow"><div class="mlbl">Fecha</div><div class="mval">Hoy, 20 jul 2026</div></div>' +
-      '<div class="mrow"><div class="mlbl">Rango precio</div><div class="mval">USD 4.500-4.700/tn</div></div>' +
-      '<div class="mrow"><div class="mlbl">Tn recomendadas</div><div class="mval">17-20 tn</div></div>' +
-      '<div class="mrow"><div class="mlbl">Envasado proyectado</div><div class="mval">14,51 tn</div></div>' +
-      '<div style="margin-top:14px"><div class="mlbl" style="margin-bottom:6px">Resultado de la reunion</div>' +
-      '<textarea class="minp" id="notaAOVE" rows="3" placeholder="Precio acordado, toneladas, condiciones..."></textarea>' +
-      '<div class="mbtns"><button class="mbtn btn-p" onclick="saveAOVE()">Guardar resultado</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div></div>';
-  } else if (type === 'w_etiq') {
-    h = '<div class="mhdr"><div class="mtitle">Etiquetas en camino</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-      '<div class="mrow"><div class="mlbl">P1000 (6 planchas)</div><div class="mval" style="color:var(--amber)">En produccion</div></div>' +
-      '<div class="mrow"><div class="mlbl">V500 (2 planchas)</div><div class="mval" style="color:var(--amber)">En produccion</div></div>' +
-      '<div class="mrow"><div class="mlbl">Llegada estimada</div><div class="mval">~30 jul 2026</div></div>' +
-      '<div class="mrow"><div class="mlbl">Unidades que desbloquea</div><div class="mval">240u P1000 + 360u V500</div></div>' +
-      '<div class="mbtns"><button class="mbtn btn-g" onclick="markAlertaDone(&apos;etiq&apos;);closeM()">\u2713 Marcar recibido</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
-  }
-  if (h) { box.innerHTML = h; document.getElementById('overlay').style.display = 'flex'; }
-}
+// Stock
+var STOCK_DATA={"fecha": "23/07/2026", "cba": [{"cod": 200, "sku": "P250", "u": 26, "cj": 2.17}, {"cod": 201, "sku": "P500", "u": -1, "cj": -0.08}, {"cod": 202, "sku": "P1000", "u": 0, "cj": 0.0}, {"cod": 203, "sku": "P2000", "u": 0, "cj": 0.0}, {"cod": 204, "sku": "P3000", "u": 177, "cj": 44.25}, {"cod": 205, "sku": "V250", "u": 280, "cj": 11.67}, {"cod": 206, "sku": "V500", "u": 40, "cj": 3.33}], "cat": [{"sku": "P250", "u": 180, "cj": 15.0}, {"sku": "P500", "u": 240, "cj": 20.0}, {"sku": "P1000", "u": 480, "cj": 40.0}, {"sku": "P2000", "u": 96, "cj": 24.0}, {"sku": "P3000", "u": 704, "cj": 176.0}, {"sku": "V250", "u": 456, "cj": 19.0}, {"sku": "V500", "u": 720, "cj": 60.0}], "ventas_prom": {"P250": 11, "P500": 46, "P1000": 52, "P2000": 25, "P3000": 198, "V250": 125, "V500": 125}};
 
-function closeM(e) {
-  if (e && e.target !== document.getElementById('overlay')) return;
-  document.getElementById('overlay').style.display = 'none';
-}
+function renderStock(){
+  var el=document.getElementById('sec-stock-content');
+  if(!el)return;
+  var cba=STOCK_DATA.cba;
+  var cat=STOCK_DATA.cat;
+  var vp=STOCK_DATA.ventas_prom;
+  var skus=['P250','P500','P1000','P2000','P3000','V250','V500'];
 
-function saveBancos() {
-  var s = getSaldos();
-  ['macro','santander','mp'].forEach(function(k) {
-    var el = document.getElementById('inp_' + k);
-    if (el) { var v = parseFloat(el.value||0); if (!isNaN(v)) s[k]=v; }
-  });
-  bvSet('saldos', s);
-  renderSaldos();
-  closeM();
-}
-
-function saveAOVE() {
-  var t = document.getElementById('notaAOVE').value.trim();
-  if (!t) { closeM(); return; }
-  var ns = bvGet('notas', []);
-  ns.unshift({t:'[AOVE 20/jul] ' + t, ts: new Date().toLocaleDateString('es-AR')});
-  bvSet('notas', ns);
-  closeM();
-  alert('Resultado guardado en Notas.');
-}
-
-// Export/Import
-function toggleTheme() {
-  var body = document.body;
-  var isLight = body.classList.toggle('light');
-  var btn = document.getElementById('themeBtn');
-  if (btn) btn.innerHTML = isLight ? '&#9790; Modo oscuro' : '&#9788; Modo claro';
-  localStorage.setItem('bv_theme', isLight ? 'light' : 'dark');
-}
-
-// Apply saved theme
-(function(){
-  if (localStorage.getItem('bv_theme') === 'light') {
-    document.body.classList.add('light');
-    var btn = document.getElementById('themeBtn');
-    if (btn) btn.innerHTML = '&#9790; Modo oscuro';
-  }
-})();
-
-
-// ===== ALERTAS EJECUTABLES =====
-function getAlertasState() { return bvGet('alertas_state', {}); }
-
-function renderAlertas() {
-  var st = getAlertasState();
-  var alertas = [
-    {id:'waggon', cls:'al-r', col:'var(--red)', txt:'Waggon — 31 dias sin pedir aceitunas (patron c/12d)', modal:'w_waggon'},
-    {id:'aove',   cls:'al-r', col:'var(--red)', txt:'Reunion AOVE — definir toneladas y precio', modal:'w_aove'},
-    {id:'etiq',   cls:'al-a', col:'var(--amber)', txt:'Etiquetas P1000 + V500 en camino — ~10 dias', modal:'w_etiq'},
-    {id:'p500',   cls:'al-a', col:'var(--amber)', txt:'P500 Cordoba: -0.08 cj (prestamo Dist 550)'},
-    {id:'promet', cls:'al-g', col:'var(--green)', txt:'Promet: 69 cajas en proceso de envasado'},
-  ];
-  var el = document.getElementById('alertasContainer');
-  if (!el) return;
-  var pendientes = 0;
-  el.innerHTML = alertas.map(function(a) {
-    var done = st[a.id];
-    if (done) {
-      return '<div class="al al-done" data-aid="' + a.id + '" onclick="undoAlerta(this.dataset.aid)">' +
-        '<div class="aldot" style="background:var(--green)"></div>' +
-        '<div style="flex:1;text-decoration:line-through;color:var(--text3)">' + a.txt + '</div>' +
-        '<span style="color:var(--green);font-size:12px">✓ Listo</span></div>';
-    }
-    pendientes++;
-    if (a.modal) {
-      return '<div class="al ' + a.cls + '" data-modal="' + a.modal + '" onclick="openM(this.dataset.modal)">' +
-        '<div class="aldot" style="background:' + a.col + '"></div>' +
-        '<div style="flex:1">' + a.txt + '</div>' +
-        '<span style="font-size:11px;opacity:.7">tocar →</span></div>';
-    }
-    return '<div class="al ' + a.cls + '" data-aid="' + a.id + '" onclick="markAlertaDone(this.dataset.aid)">' +
-      '<div class="aldot" style="background:' + a.col + '"></div>' +
-      '<div style="flex:1">' + a.txt + '</div>' +
-      '<span style="font-size:11px;opacity:.7">tocar →</span></div>';
-  }).join('');
-  var badge = document.getElementById('alertasBadge');
-  if (badge) { badge.textContent = pendientes; badge.style.display = pendientes > 0 ? '' : 'none'; }
-}
-
-function markAlertaDone(id) {
-  id = id.replace(/&apos;/g, "'");
-  var st = getAlertasState();
-  st[id] = true;
-  bvSet('alertas_state', st);
-  renderAlertas();
-}
-
-function undoAlerta(id) {
-  var st = getAlertasState();
-  delete st[id];
-  bvSet('alertas_state', st);
-  renderAlertas();
-}
-
-// ===== CLIENTES PATRON — SEPARAR INACTIVOS =====
-function renderPFull() {
-  var estados = bvGet('estados_cli', {});
-  var lista = PAT.slice();
-  var activos = lista.filter(function(a){ return estados[a.cliente] !== 'inactivo'; });
-  var inactivos = lista.filter(function(a){ return estados[a.cliente] === 'inactivo'; });
-
-  if (sp2 === 'ratio') activos.sort(function(a,b){return b.ratio-a.ratio;});
-  else if (sp2 === 'dias') activos.sort(function(a,b){return b.dias_sin-a.dias_sin;});
-  window._patLista = activos.concat(inactivos);
-
-  var html = activos.map(function(a, i) {
-    var est = estados[a.cliente] || 'activo';
-    var col = est === 'contactado' ? 'var(--green)' : a.nivel === 'rojo' ? 'var(--red)' : 'var(--amber)';
-    var bc = est === 'contactado' ? 'bg2c' : a.nivel === 'rojo' ? 'br2' : 'ba2';
-    var com = bvGet('com_cli_' + i, '');
-    return '<div class="pi" data-pi="' + i + '" onclick="openPatIdx(parseInt(this.dataset.pi))">' +
-      '<div class="pdot" style="background:' + col + '"></div>' +
-      '<div class="pinfo"><div class="pcli">' + a.cliente + (com ? ' <span class="has-comment">*</span>' : '') + '</div>' +
-      '<div class="psub">' + a.dias_sin + 'd sin comprar &middot; c/' + a.prom + 'd' +
-      (est === 'contactado' ? ' &middot; <span style="color:var(--green)">✓ contactado</span>' : '') + '</div></div>' +
-      '<div class="pbadge ' + bc + '">' + a.ratio + 'x</div></div>';
-  }).join('');
-
-  if (inactivos.length > 0) {
-    var showInact = bvGet('show_inactivos', false);
-    html += '<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">' +
-      '<div style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;padding:6px 0" onclick="toggleInactivos()">' +
-      '<span style="font-size:12px;color:var(--text3)">Clientes inactivos (' + inactivos.length + ')</span>' +
-      '<span style="color:var(--text3);font-size:12px" id="inactToggle">' + (showInact ? '▲ ocultar' : '▼ ver') + '</span></div>';
-    if (showInact) {
-      html += '<div id="inactivos-list">' + inactivos.map(function(a, i) {
-        var realIdx = activos.length + i;
-        return '<div class="pi" data-pi="' + realIdx + '" onclick="openPatIdx(parseInt(this.dataset.pi))" style="opacity:.5">' +
-          '<div class="pdot" style="background:var(--text3)"></div>' +
-          '<div class="pinfo"><div class="pcli">' + a.cliente + '</div>' +
-          '<div class="psub">' + a.dias_sin + 'd sin comprar &middot; inactivo</div></div>' +
-          '<div class="pbadge" style="background:var(--bg3);color:var(--text3);border:1px solid var(--border)">' + a.ratio + 'x</div></div>';
-      }).join('') + '</div>';
-    }
-    html += '</div>';
+  function cobertura(u,sku){
+    var vm=vp[sku]||1;
+    if(u<=0)return{txt:'Ruptura',col:'var(--red)'};
+    var m=u/vm;
+    if(m<1)return{txt:m.toFixed(1)+' mes',col:'var(--red)'};
+    if(m<2)return{txt:m.toFixed(1)+' meses',col:'var(--amber)'};
+    return{txt:m.toFixed(1)+' meses',col:'var(--green)'};
   }
 
-  document.getElementById('pfull').innerHTML = html;
-}
-
-function toggleInactivos() {
-  var show = bvGet('show_inactivos', false);
-  bvSet('show_inactivos', !show);
-  renderPFull();
-}
-
-
-// ===== STOCK =====
-var STOCK_DATA = {"fecha": "23/07/2026", "cba": [{"cod": 200, "sku": "P250", "u": 26, "cj": 2.17}, {"cod": 201, "sku": "P500", "u": -1, "cj": -0.08}, {"cod": 202, "sku": "P1000", "u": 0, "cj": 0.0}, {"cod": 203, "sku": "P2000", "u": 0, "cj": 0.0}, {"cod": 204, "sku": "P3000", "u": 177, "cj": 44.25}, {"cod": 205, "sku": "V250", "u": 280, "cj": 11.67}, {"cod": 206, "sku": "V500", "u": 40, "cj": 3.33}], "cat": [{"sku": "P250", "u": 180, "cj": 15.0}, {"sku": "P500", "u": 0, "cj": 0.0}, {"sku": "P1000", "u": 480, "cj": 40.0}, {"sku": "P2000", "u": 96, "cj": 24.0}, {"sku": "P3000", "u": 704, "cj": 176.0}, {"sku": "V250", "u": 456, "cj": 19.0}, {"sku": "V500", "u": 720, "cj": 60.0}], "ventas_prom": {"P250": 11, "P500": 46, "P1000": 52, "P2000": 25, "P3000": 198, "V250": 125, "V500": 125}};
-
-function renderStock() {
-  var el = document.getElementById('sec-stock-content');
-  if (!el) return;
-
-  var cba = STOCK_DATA.cba;
-  var cat = STOCK_DATA.cat;
-  var vp = STOCK_DATA.ventas_prom;
-  var ucj = {P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
-  var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
-
-  function cobertura(u, sku) {
-    var vm = vp[sku] || 1;
-    if (u <= 0) return {txt:'Ruptura', col:'var(--red)'};
-    var m = u / vm;
-    if (m < 1) return {txt: m.toFixed(1) + ' mes', col:'var(--red)'};
-    if (m < 2) return {txt: m.toFixed(1) + ' meses', col:'var(--amber)'};
-    return {txt: m.toFixed(1) + ' meses', col:'var(--green)'};
-  }
-
-  function fila(sku, u, cj, showCob) {
-    var cob = showCob ? cobertura(u, sku) : null;
-    var uCol = u < 0 ? 'var(--red)' : u === 0 ? 'var(--text3)' : 'var(--text)';
-    return '<tr>' +
-      '<td style="font-weight:600;color:var(--accent)">' + sku + '</td>' +
-      '<td style="text-align:right;color:' + uCol + '">' + u + '</td>' +
-      '<td style="text-align:right;color:var(--text2)">' + cj.toFixed(2) + '</td>' +
-      (showCob ? '<td style="text-align:right;color:' + cob.col + ';font-size:11px">' + cob.txt + '</td>' : '') +
-      '</tr>';
-  }
-
-  function tabla(titulo, data, showCob, color) {
-    var cat_map = {};
-    data.forEach(function(r){ cat_map[r.sku] = r; });
-    var rows = skus.map(function(s){
-      var r = cat_map[s] || {sku:s,u:0,cj:0};
-      return fila(s, r.u, r.cj, showCob);
-    }).join('');
-    var total_u = data.reduce(function(s,r){return s+(+r.u||0);},0);
-    var total_cj = data.reduce(function(s,r){return s+(+r.cj||0);},0);
-    return '<div class="card" style="flex:1;min-width:200px">' +
-      '<div class="ctitle" style="color:' + color + '">' + titulo + '</div>' +
-      '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
-      '<thead><tr style="font-size:10px;color:var(--text3)">' +
-      '<th style="text-align:left;padding:4px 0">SKU</th>' +
-      '<th style="text-align:right">Unid.</th>' +
-      '<th style="text-align:right">Cajas</th>' +
-      (showCob ? '<th style="text-align:right">Cobert.</th>' : '') +
-      '</tr></thead><tbody>' + rows +
-      '<tr style="border-top:1px solid var(--border);font-weight:600;font-size:12px">' +
-      '<td>TOTAL</td><td style="text-align:right">' + total_u + '</td>' +
-      '<td style="text-align:right">' + total_cj.toFixed(2) + '</td>' +
-      (showCob ? '<td></td>' : '') + '</tr>' +
-      '</tbody></table></div>';
-  }
-
-  // Consolidated
-  var consol = skus.map(function(s) {
-    var c = cba.find(function(r){return r.sku===s;}) || {u:0,cj:0};
-    var t = cat.find(function(r){return r.sku===s;}) || {u:0,cj:0};
-    return {sku:s, u:(+c.u||0)+(+t.u||0), cj:(+c.cj||0)+(+t.cj||0)};
-  });
-
-  el.innerHTML =
-    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">' +
-    '<div style="font-size:12px;color:var(--text3)">Actualizado: ' + STOCK_DATA.fecha + '</div>' +
-    '<button class="mbtn btn-p" style="font-size:12px;padding:7px 14px" onclick="openStockEdit()">&#9998; Editar stock</button>' +
-    '</div>' +
-    '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px">' +
-      tabla('Cordoba &mdash; Alberdi', cba, true, 'var(--blue)') +
-      tabla('Catamarca &mdash; Promet', cat, false, 'var(--amber)') +
-      tabla('Consolidado total', consol, true, 'var(--green)') +
-    '</div>' +
-    '<div class="card">' +
-      '<div class="ctitle">Leyenda cobertura</div>' +
-      '<div style="display:flex;gap:20px;font-size:12px">' +
-      '<span style="color:var(--green)">&#9632; 2+ meses</span>' +
-      '<span style="color:var(--amber)">&#9632; 1-2 meses</span>' +
-      '<span style="color:var(--red)">&#9632; Ruptura / menos de 1 mes</span>' +
-      '</div>' +
-      '<div style="font-size:11px;color:var(--text3);margin-top:6px">Cobertura basada en ventas promedio reales (jun25-jul26). Fecha: ' + STOCK_DATA.fecha + '</div>' +
-    '</div>';
-}
-
-
-function openStockEdit() {
-  var cba = bvGet('stock_cba', null) || STOCK_DATA.cba;
-  var cat = bvGet('stock_cat', null) || STOCK_DATA.cat;
-  var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
-  var ucj = {P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
-
-  var box = document.getElementById('mbox');
-  box.innerHTML = '<div class="mhdr"><div class="mtitle">Editar stock</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-    '<div style="font-size:11px;color:var(--text3);margin-bottom:12px">Ingresá unidades. Las cajas se calculan solas.</div>' +
-    '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
-    '<thead><tr style="font-size:10px;color:var(--text3)"><th style="text-align:left">SKU</th>' +
-    '<th style="text-align:center">CBA (u)</th><th style="text-align:center">CAT (u)</th></tr></thead><tbody>' +
-    skus.map(function(s) {
-      var c = cba.find(function(r){return r.sku===s;}) || {u:0};
-      var t = cat.find(function(r){return r.sku===s;}) || {u:0};
-      return '<tr style="border-bottom:1px solid var(--border)">' +
-        '<td style="padding:6px 0;font-weight:600;color:var(--accent)">' + s + '</td>' +
-        '<td style="padding:6px 4px"><input class="minp" id="cba_'+s+'" type="number" value="'+(+c.u||0)+'" style="text-align:center"></td>' +
-        '<td style="padding:6px 4px"><input class="minp" id="cat_'+s+'" type="number" value="'+(+t.u||0)+'" style="text-align:center"></td>' +
+  function tabla(titulo,data,showCob,color){
+    var map={};data.forEach(function(r){map[r.sku]=r;});
+    var rows=skus.map(function(s){
+      var r=map[s]||{sku:s,u:0,cj:0};
+      var uCol=(+r.u||0)<0?'var(--red)':(+r.u||0)===0?'var(--text3)':'var(--text)';
+      var cob=showCob?cobertura(+r.u||0,s):null;
+      return '<tr>'+
+        '<td style="font-weight:600;color:var(--accent);padding:5px 0">'+s+'</td>'+
+        '<td style="text-align:right;color:'+uCol+'">'+r.u+'</td>'+
+        '<td style="text-align:right;color:var(--text2)">'+(+r.cj||0).toFixed(2)+'</td>'+
+        (showCob?'<td style="text-align:right;color:'+cob.col+';font-size:11px">'+cob.txt+'</td>':'')+
         '</tr>';
-    }).join('') +
-    '</tbody></table>' +
-    '<div class="mbtns" style="margin-top:14px">' +
-    '<button class="mbtn btn-p" onclick="saveStockEdit()">Guardar stock</button>' +
-    '<button class="mbtn btn-s" onclick="closeM()">Cancelar</button>' +
+    }).join('');
+    var tu=data.reduce(function(s,r){return s+(+r.u||0);},0);
+    var tc=data.reduce(function(s,r){return s+(+r.cj||0);},0);
+    return '<div class="card" style="flex:1;min-width:220px">'+
+      '<div class="ctitle" style="color:'+color+'">'+titulo+'</div>'+
+      '<table style="width:100%;border-collapse:collapse;font-size:13px">'+
+      '<thead><tr style="font-size:10px;color:var(--text3)">'+
+      '<th style="text-align:left;padding:4px 0">SKU</th>'+
+      '<th style="text-align:right">Unid.</th>'+
+      '<th style="text-align:right">Cajas</th>'+
+      (showCob?'<th style="text-align:right">Cobert.</th>':'')+
+      '</tr></thead><tbody>'+rows+
+      '<tr style="border-top:1px solid var(--border);font-weight:600;font-size:12px">'+
+      '<td>TOTAL</td><td style="text-align:right">'+tu+'</td>'+
+      '<td style="text-align:right">'+tc.toFixed(2)+'</td>'+
+      (showCob?'<td></td>':'')+
+      '</tr></tbody></table></div>';
+  }
+
+  var consol=skus.map(function(s){
+    var c=cba.find(function(r){return r.sku===s;})||{u:0,cj:0};
+    var t=cat.find(function(r){return r.sku===s;})||{u:0,cj:0};
+    return{sku:s,u:(+c.u||0)+(+t.u||0),cj:(+c.cj||0)+(+t.cj||0)};
+  });
+
+  el.innerHTML=
+    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">'+
+    '<div style="font-size:12px;color:var(--text3)">Actualizado: '+STOCK_DATA.fecha+'</div>'+
+    '<button class="mbtn btn-p" style="font-size:12px;padding:7px 14px" onclick="openStockEdit()">&#9998; Editar stock</button>'+
+    '</div>'+
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px">'+
+      tabla('Cordoba &mdash; Alberdi',cba,true,'var(--blue)')+
+      tabla('Catamarca &mdash; Promet',cat,false,'var(--amber)')+
+      tabla('Consolidado total',consol,true,'var(--green)')+
+    '</div>'+
+    '<div class="card">'+
+    '<div class="ctitle">Leyenda cobertura</div>'+
+    '<div style="display:flex;gap:20px;font-size:12px">'+
+    '<span style="color:var(--green)">&#9632; 2+ meses</span>'+
+    '<span style="color:var(--amber)">&#9632; 1-2 meses</span>'+
+    '<span style="color:var(--red)">&#9632; Ruptura &lt; 1 mes</span>'+
+    '</div>'+
+    '<div style="font-size:11px;color:var(--text3);margin-top:6px">Cobertura basada en ventas promedio reales (jun25-jul26)</div>'+
     '</div>';
-  document.getElementById('overlay').style.display = 'flex';
 }
 
-function saveStockEdit() {
-  var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
-  var ucj = {P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
-  var new_cba = skus.map(function(s) {
-    var u = parseFloat(document.getElementById('cba_'+s).value)||0;
-    return {sku:s, u:u, cj:Math.round(u/ucj[s]*100)/100};
+function openStockEdit(){
+  var cba=bvGet('stock_cba',null)||STOCK_DATA.cba;
+  var cat=bvGet('stock_cat',null)||STOCK_DATA.cat;
+  var skus=['P250','P500','P1000','P2000','P3000','V250','V500'];
+  var box=document.getElementById('mbox');
+  box.innerHTML='<div class="mhdr"><div class="mtitle">Editar stock</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+    '<div style="font-size:11px;color:var(--text3);margin-bottom:12px">Ingresa unidades. Cajas se calculan solas.</div>'+
+    '<table style="width:100%;border-collapse:collapse;font-size:13px">'+
+    '<thead><tr style="font-size:10px;color:var(--text3)"><th style="text-align:left">SKU</th>'+
+    '<th style="text-align:center">CBA (u)</th><th style="text-align:center">CAT (u)</th></tr></thead><tbody>'+
+    skus.map(function(s){
+      var c=cba.find(function(r){return r.sku===s;})||{u:0};
+      var t=cat.find(function(r){return r.sku===s;})||{u:0};
+      return '<tr style="border-bottom:1px solid var(--border)">'+
+        '<td style="padding:6px 0;font-weight:600;color:var(--accent)">'+s+'</td>'+
+        '<td style="padding:6px 4px"><input class="minp" id="cba_'+s+'" type="number" value="'+(+c.u||0)+'" style="text-align:center"></td>'+
+        '<td style="padding:6px 4px"><input class="minp" id="cat_'+s+'" type="number" value="'+(+t.u||0)+'" style="text-align:center"></td>'+
+        '</tr>';
+    }).join('')+
+    '</tbody></table>'+
+    '<div class="mbtns" style="margin-top:14px">'+
+    '<button class="mbtn btn-p" onclick="saveStockEdit()">Guardar stock</button>'+
+    '<button class="mbtn btn-s" onclick="closeM()">Cancelar</button>'+
+    '</div>';
+  document.getElementById('overlay').style.display='flex';
+}
+
+function saveStockEdit(){
+  var skus=['P250','P500','P1000','P2000','P3000','V250','V500'];
+  var ucj={P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
+  var cods={P250:200,P500:201,P1000:202,P2000:203,P3000:204,V250:205,V500:206};
+  var new_cba=skus.map(function(s){
+    var u=parseFloat(document.getElementById('cba_'+s).value)||0;
+    return{sku:s,u:u,cj:Math.round(u/ucj[s]*100)/100,cod:cods[s]};
   });
-  var new_cat = skus.map(function(s) {
-    var u = parseFloat(document.getElementById('cat_'+s).value)||0;
-    return {sku:s, u:u, cj:Math.round(u/ucj[s]*100)/100};
+  var new_cat=skus.map(function(s){
+    var u=parseFloat(document.getElementById('cat_'+s).value)||0;
+    return{sku:s,u:u,cj:Math.round(u/ucj[s]*100)/100};
   });
-  // Also add cod for CBA
-  var cods = {P250:200,P500:201,P1000:202,P2000:203,P3000:204,V250:205,V500:206};
-  new_cba.forEach(function(r){ r.cod = cods[r.sku]; });
-  
-  bvSet('stock_cba', new_cba);
-  bvSet('stock_cat', new_cat);
-  // Update STOCK_DATA in memory
-  STOCK_DATA.cba = new_cba;
-  STOCK_DATA.cat = new_cat;
-  STOCK_DATA.fecha = new Date().toLocaleDateString('es-AR');
+  bvSet('stock_cba',new_cba);
+  bvSet('stock_cat',new_cat);
+  STOCK_DATA.cba=new_cba;
+  STOCK_DATA.cat=new_cat;
+  STOCK_DATA.fecha=new Date().toLocaleDateString('es-AR');
   closeM();
   renderStock();
-  // Update dashboard card
   updateStockCard();
 }
 
-function updateStockCard() {
-  var cba = STOCK_DATA.cba;
-  var cat = STOCK_DATA.cat;
-  var rupturas = [];
-  var vp = STOCK_DATA.ventas_prom;
+function updateStockCard(){
+  var cba=STOCK_DATA.cba;
+  var cat=STOCK_DATA.cat;
+  var vp=STOCK_DATA.ventas_prom;
+  var rupturas=[];
   ['P250','P500','P1000','P2000','P3000','V250','V500'].forEach(function(s){
-    var c = (cba.find(function(r){return r.sku===s;})||{u:0}).u;
-    var t = (cat.find(function(r){return r.sku===s;})||{u:0}).u;
-    if((+c||0)+(+t||0)<=0) rupturas.push(s);
+    var c=(cba.find(function(r){return r.sku===s;})||{u:0}).u;
+    var t=(cat.find(function(r){return r.sku===s;})||{u:0}).u;
+    if((+c||0)+(+t||0)<=0)rupturas.push(s);
   });
-  var p3cba = (cba.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
-  var p3cat = (cat.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
-  var el = document.getElementById('stockResumen');
-  var el2 = document.getElementById('stockSubtitle');
-  if(el) el.innerHTML = '<div class="mval2" style="font-size:20px;color:var(--green)">'+(p3cba+p3cat).toFixed(0)+' cj P3000</div>';
-  if(el2) el2.innerHTML = rupturas.length>0 ? '<span style="color:var(--red)">⚠ Ruptura: '+rupturas.join(', ')+'</span>' : 'Ver detalle →';
+  var p3cba=(cba.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
+  var p3cat=(cat.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
+  var el=document.getElementById('stockResumen');
+  var el2=document.getElementById('stockSubtitle');
+  if(el)el.innerHTML='<div class="mval2" style="font-size:20px;color:var(--green)">'+(p3cba+p3cat).toFixed(0)+' cj P3000</div>';
+  if(el2)el2.innerHTML=rupturas.length>0?'<span style="color:var(--red)">\u26a0 Ruptura: '+rupturas.join(', ')+'</span>':'CBA + CAT \u00b7 ver \u2192';
 }
 
-// Load saved stock on init
-(function(){
-  var savedCba = bvGet('stock_cba', null);
-  var savedCat = bvGet('stock_cat', null);
-  if(savedCba) STOCK_DATA.cba = savedCba;
-  if(savedCat) STOCK_DATA.cat = savedCat;
-})();
-
-function exportData() {
-  var keys = ['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli'];
-  var data = {exportDate: new Date().toLocaleDateString('es-AR'), version: '1.0'};
-  keys.forEach(function(k) { data[k] = bvGet(k, null); });
-  // Export comments
-  for (var i = 0; i < 50; i++) {
-    var vk = bvGet('com_fac_' + i, null);
-    if (vk) data['com_fac_' + i] = vk;
-    var pk = bvGet('com_cli_' + i, null);
-    if (pk) data['com_cli_' + i] = pk;
-  }
-  var blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'bv_dashboard_backup_' + new Date().toISOString().split('T')[0] + '.json';
-  a.click();
-}
-
-function importData(inp) {
-  var file = inp.files[0];
-  if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    try {
-      var data = JSON.parse(e.target.result);
-      Object.entries(data).forEach(function(entry) {
-        var k = entry[0], v = entry[1];
-        if (k === 'exportDate' || k === 'version') return;
-        bvSet(k, v);
-      });
-      renderSaldos(); renderV(); renderNotas(); renderCheques(); renderAgResumen();
-      alert('Datos importados correctamente (' + data.exportDate + ')');
-    } catch(err) { alert('Error al importar: archivo invalido'); }
-  };
-  reader.readAsText(file);
-  inp.value = '';
-}
-
-// Init
-document.addEventListener('DOMContentLoaded', function() {
-  // Set date
-  var el = document.getElementById('navDate');
-  if (el) el.innerHTML = '<b>' + DIAS_S[HOY_DATE.getDay()] + ' ' + HOY_DATE.getDate() + ' jul 2026</b><br>Alta Gracia, Cordoba';
-
-  // Init renders
-  renderSaldos();
-  renderV();
-  renderAgResumen();
-
-  // Dashboard pattern mini-list
-  window._patLista = PAT;
-  var plistEl = document.getElementById('plist');
-  if (plistEl) {
-    plistEl.innerHTML = PAT.slice(0,5).map(function(a, i) {
-      var col = a.nivel==='rojo' ? 'var(--red)' : 'var(--amber)';
-      var bc = a.nivel==='rojo' ? 'br2' : 'ba2';
-      return '<div class="pi" data-pi="' + i + '" onclick="openPatIdx(parseInt(this.dataset.pi))">' +
-        '<div class="pdot" style="background:' + col + '"></div>' +
-        '<div class="pinfo"><div class="pcli">' + a.cliente + '</div><div class="psub">' + a.dias_sin + 'd sin comprar</div></div>' +
-        '<div class="pbadge ' + bc + '">' + a.ratio + 'x</div></div>';
-    }).join('');
-  }
-
-  // Update deuda card from real VENC data
-  (function(){
-    var paid = bvGet('paid_facs',[]);
-    var v = VENC.filter(function(f){ return paid.indexOf(f.num)<0; });
-    var total = v.reduce(function(s,f){return s+f.pe;},0);
-    var el = document.getElementById('deudaTotal');
-    var el2 = document.getElementById('deudaCount');
-    if(el) el.textContent = '$' + (total/1e6).toFixed(1) + 'M';
-    if(el2) el2.textContent = v.length + ' facturas · ver →';
-  })();
-
-  // Render stock summary in dashboard
-  (function(){
-    var cba = STOCK_DATA.cba;
-    var cat = STOCK_DATA.cat;
-    var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
-    var lines = [];
-    var rupturas = [];
-    skus.forEach(function(s){
-      var c = cba.find(function(r){return r.sku===s;})||{u:0,cj:0};
-      var t = cat.find(function(r){return r.sku===s;})||{u:0,cj:0};
-      var total_u = (+c.u||0)+(+t.u||0);
-      var vp = STOCK_DATA.ventas_prom[s]||1;
-      var meses = total_u/vp;
-      if(total_u<=0) rupturas.push(s);
-    });
-    var el = document.getElementById('stockResumen');
-    var el2 = document.getElementById('stockSubtitle');
-    if(el){
-      // P3000 summary
-      var p3cba = (cba.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
-      var p3cat = (cat.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
-      el.innerHTML = '<div class="mval2" style="font-size:20px;color:var(--green)">' + (p3cba+p3cat).toFixed(0) + ' cj P3000</div>';
-    }
-    if(el2){
-      if(rupturas.length>0){
-        el2.innerHTML = '<span style="color:var(--red)">⚠ Ruptura: '+rupturas.join(', ')+'</span>';
-      } else {
-        el2.innerHTML = 'Ver detalle &rarr;';
-      }
-    }
-  })();
-
-  // Pre-load cheques Pixel Grafica if none exist
-  if (!bvGet('cheques', []).length) {
-    bvSet('cheques', [{"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-07-31", "num": "67670351", "concepto": "Etiquetas lote 1"}, {"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-08-15", "num": "67670352", "concepto": "Etiquetas lote 1"}, {"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-08-30", "num": "67670353", "concepto": "Etiquetas lote 1"}, {"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-09-14", "num": "67670355", "concepto": "Etiquetas lote 1"}]);
-    renderCheques();
-  }
-
-  // Load async
-  loadDolar();
-  loadClima();
-  renderAlertas();
-  // Sync from Google Sheet on startup - load first, then render
-  document.getElementById('syncStatus').textContent = 'Cargando desde Sheet...';
-  document.getElementById('syncStatus').style.color = 'var(--text3)';
-  syncFromSheet();
-});
-
-
-
-// ===== GOOGLE SHEET SYNC =====
-var SHEET_URL = 'https://script.google.com/macros/s/AKfycbxKN5kzEj-zPWFfyKny4BWdN85tcesW6vhvua8hH3KDhikmw-K2UOPgIvJk5oOwwA1M/exec';
-var _localCache = {};
-
-async function bvGetSync(k, def) {
-  // Try cache first
-  if (_localCache[k] !== undefined) return _localCache[k];
-  // Try localStorage as fallback
-  try {
-    var local = localStorage.getItem('bv_' + k);
-    if (local) { _localCache[k] = JSON.parse(local); return _localCache[k]; }
-  } catch(e) {}
-  // Try Google Sheet
-  try {
-    var r = await fetch(SHEET_URL + '?key=' + encodeURIComponent(k));
-    var txt = await r.text();
-    if (txt) {
-      var val = JSON.parse(txt);
-      _localCache[k] = val;
-      localStorage.setItem('bv_' + k, txt);
-      return val;
-    }
-  } catch(e) {}
-  return def;
-}
-
-async function bvSetSync(k, v) {
-  var txt = JSON.stringify(v);
-  // Save locally always
-  localStorage.setItem('bv_' + k, txt);
-  _localCache[k] = v;
-  // Save to Sheet async (no await - fire and forget)
-  fetch(SHEET_URL, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({key: k, value: txt})
-  }).catch(function() {});
-}
-
-// Override sync functions
-function bvGet(k, def) {
-  try { return JSON.parse(localStorage.getItem('bv_' + k)) || def; } catch(e) { return def; }
-}
-function bvSet(k, v) {
-  var txt = JSON.stringify(v);
-  localStorage.setItem('bv_' + k, txt);
-  // Sync to Sheet via GET (avoids CORS issues)
-  var url = SHEET_URL + '?action=set&key=' + encodeURIComponent(k) + '&value=' + encodeURIComponent(txt);
-  fetch(url).catch(function() {});
-}
-
-// Load from Sheet on startup
-async function syncFromSheet() {
-  var keys = ['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli','finanzas'];
-  var synced = 0;
-  for (var i = 0; i < keys.length; i++) {
-    try {
-      var r = await fetch(SHEET_URL + '?key=' + encodeURIComponent(keys[i]));
-      var txt = await r.text();
-      if (txt && txt.length > 2) {
-        localStorage.setItem('bv_' + keys[i], txt);
-        synced++;
-      }
-    } catch(e) {}
-  }
-  // Always re-render after sync attempt
-  renderSaldos();
-  renderV();
-  renderNotas();
-  renderCheques();
-  renderAgResumen();
-  if (synced > 0) {
-    document.getElementById('syncStatus').textContent = 'Sincronizado ✓ ' + new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
-    document.getElementById('syncStatus').style.color = 'var(--green)';
-  } else {
-    document.getElementById('syncStatus').textContent = 'Sin conexion al Sheet - datos locales';
-    document.getElementById('syncStatus').style.color = 'var(--text3)';
-  }
-}
-
-// Export to Sheet (full backup)
-async function exportToSheet() {
-  var keys = ['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli','finanzas'];
-  var el = document.getElementById('syncStatus');
-  el.textContent = 'Exportando...';
-  el.style.color = 'var(--amber)';
-  var ok = 0;
-  for (var i = 0; i < keys.length; i++) {
-    var v = localStorage.getItem('bv_' + keys[i]);
-    if (!v) continue;
-    try {
-      var url = SHEET_URL + '?action=set&key=' + encodeURIComponent(keys[i]) + '&value=' + encodeURIComponent(v);
-      await fetch(url);
-      ok++;
-    } catch(e) {}
-  }
-  el.textContent = 'Exportado ' + ok + ' claves a Google Sheet';
-  el.style.color = 'var(--green)';
-}
-
-// ===== FINANZAS =====
-var FIN_DATA = {
-  ventas_2025: [12526240.18, 11986431.96, 14941834.68, 12217756.780000001, 22146872.15, 9480551.4, 10746884.0, 9295242.0, 18823142.4, 15471271.32, 29492151.200000003, 11513952.0],
-  ventas_2026_proy: [26823350.42, 10227779.8, 15283292.6, 22015161.8, 6751308.800000001, 21301303.6, 8831056.4, 13766253, 27877074, 22912953, 43677876, 17052163],
-  ventas_2026_real: [26823350.42, 10227779.8, 15283292.6, 22015161.8, 6751308.800000001, 21301303.6, 8831056.4, 0, 0, 0, 0, 0],
-  total_2025: 178642330.07,
-  total_2026_proy: 236519572.42000002,
-  mes_actual: 6,
+// Finanzas
+var FIN_DATA={
+  ventas_2025:[12526240.18, 11986431.96, 14941834.68, 12217756.780000001, 22146872.15, 9480551.4, 10746884.0, 9295242.0, 18823142.4, 15471271.32, 29492151.200000003, 11513952.0],
+  ventas_2026_proy:[26823350.42, 10227779.8, 15283292.6, 22015161.8, 6751308.800000001, 21301303.6, 8831056.4, 13766253, 27877074, 22912953, 43677876, 17052163],
+  ventas_2026_real:[26823350.42, 10227779.8, 15283292.6, 22015161.8, 6751308.800000001, 21301303.6, 8831056.4, 0, 0, 0, 0, 0],
+  total_2025:178642330,
+  total_2026_proy:236519572,
+  mes_actual:6,
 };
+var MARGEN_REAL=0.43;
+var LITROS_TN=1099;
+var MESES_FIN=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
-var MARGEN_REAL = 0.43; var LITROS_TN = 1099; var MESES_FIN = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-
-function getFin() {
-  return bvGet('finanzas', {
-    oficina: 300000,
-    logistica: 200000,
-    sueldo: 2000000,
-    sueldo_paolo: 200000,
-    seguro_nacho: 150000,
-    seguro_paolo: 100000,
-    cm: 350000,
-    combustible: 500000,
-    varios: 1000000,
-    cuota_aove: 0,
-    margen_bruto_pct: 43,
-    tn_compradas: 20,
-    precio_aove_usd: 4700,
-    tc: 1475,
-    nota: ''
+function getFin(){
+  return bvGet('finanzas',{
+    oficina:300000,logistica:200000,sueldo:2000000,sueldo_paolo:200000,
+    seguro_nacho:150000,seguro_paolo:100000,cm:350000,combustible:500000,
+    varios:1000000,cuota_aove:0,margen_bruto_pct:43,nota:''
   });
 }
 
-function calcFinanzas() {
-  var fin = getFin();
-  var cheques = bvGet('cheques', []);
-  var totalCheques = cheques.reduce(function(s,c){ return s + (+c.monto||0); }, 0);
-
-  var totalCostFijos = fin.oficina + fin.logistica + fin.sueldo + fin.sueldo_paolo +
-    fin.seguro_nacho + fin.seguro_paolo + fin.cm + fin.combustible + fin.varios + fin.cuota_aove;
-
-  // Mes actual (julio)
-  var ventasMesActual = FIN_DATA.ventas_2026_real[FIN_DATA.mes_actual] || 0;
-  var ventasMesProy = FIN_DATA.ventas_2026_proy[FIN_DATA.mes_actual] || 0;
-  var costoMercMes = ventasMesProy * (1 - fin.margen_bruto_pct/100);
-  var margenBrutoMes = ventasMesProy * fin.margen_bruto_pct / 100;
-  var margenNetoMes = margenBrutoMes - totalCostFijos;
-
-  // Año proyectado
-  var totalCostFijosAnual = totalCostFijos * 12;
-  var costoMercAnual = FIN_DATA.total_2026_proy * (1 - fin.margen_bruto_pct/100);
-  var margenBrutoAnual = FIN_DATA.total_2026_proy * fin.margen_bruto_pct / 100;
-  var margenNetoAnual = margenBrutoAnual - totalCostFijosAnual;
-
-  return {
-    fin: fin,
-    totalCostFijos: totalCostFijos,
-    totalCheques: totalCheques,
-    ventasMesActual: ventasMesActual,
-    ventasMesProy: ventasMesProy,
-    margenBrutoMes: margenBrutoMes,
-    margenNetoMes: margenNetoMes,
-    costoMercMes: costoMercMes,
-    margenBrutoAnual: margenBrutoAnual,
-    margenNetoAnual: margenNetoAnual,
-    totalCostFijosAnual: totalCostFijosAnual,
-    costoMercAnual: costoMercAnual,
-  };
+function calcFinanzas(){
+  var fin=getFin();
+  var cheques=bvGet('cheques',[]);
+  var totalCheques=cheques.reduce(function(s,c){return s+(+c.monto||0);},0);
+  var totalFijos=fin.oficina+fin.logistica+fin.sueldo+fin.sueldo_paolo+
+    fin.seguro_nacho+fin.seguro_paolo+fin.cm+fin.combustible+fin.varios+fin.cuota_aove;
+  var ventasMesProy=FIN_DATA.ventas_2026_proy[FIN_DATA.mes_actual]||0;
+  var margenMes=ventasMesProy*fin.margen_bruto_pct/100;
+  var netoMes=margenMes-totalFijos;
+  var margenAnual=FIN_DATA.total_2026_proy*fin.margen_bruto_pct/100;
+  var fijosAnual=totalFijos*12;
+  var netoAnual=margenAnual-fijosAnual;
+  return{fin:fin,totalFijos:totalFijos,totalCheques:totalCheques,
+    ventasMesProy:ventasMesProy,margenMes:margenMes,netoMes:netoMes,
+    margenAnual:margenAnual,netoAnual:netoAnual,fijosAnual:fijosAnual};
 }
 
-function fmtM(n) {
-  var abs = Math.abs(n);
-  if (abs >= 1e9) return (n/1e9).toFixed(1) + 'B';
-  if (abs >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
-  return '$' + Math.round(n).toLocaleString('es');
+function fmtM(n){
+  var abs=Math.abs(n);
+  var s=n<0?'-':'';
+  if(abs>=1e6)return s+'$'+(abs/1e6).toFixed(1)+'M';
+  return s+'$'+Math.round(abs).toLocaleString('es');
 }
-function fmtMfull(n) { return '$' + Math.round(n).toLocaleString('es'); }
-function colorN(n) { return n >= 0 ? 'var(--green)' : 'var(--red)'; }
+function colorN(n){return n>=0?'var(--green)':'var(--red)';}
 
-function renderFinanzas() {
-  var r = calcFinanzas();
-  var fin = r.fin;
-  var el = document.getElementById('sec-finanzas-content');
-  if (!el) return;
+function renderFinanzas(){
+  var r=calcFinanzas();
+  var fin=r.fin;
+  var el=document.getElementById('sec-finanzas-content');
+  if(!el)return;
 
-  el.innerHTML = '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px">' +
+  var rubros=[
+    ['oficina','Oficina Alta Gracia'],['logistica','Logistica Alberdi'],
+    ['sueldo','Sueldo Nacho (GG)'],['sueldo_paolo','Sueldo Paolo (ventas)'],
+    ['seguro_nacho','Seguro auto Nacho'],['seguro_paolo','Seguro auto Paolo'],
+    ['cm','Community Manager'],['combustible','Combustible general'],
+    ['varios','Varios / imprevistos'],['cuota_aove','Cuota AOVE (sep-26)'],
+  ];
 
-    // Card 1: Ventas mes
-    '<div class="card">' +
-      '<div class="ctitle">Julio 2026</div>' +
-      '<div class="mval2" style="color:var(--amber)">' + fmtM(r.ventasMesActual) + '</div>' +
-      '<div class="msub">Real al 20/jul</div>' +
-      '<div class="mhint">Proy. mes: ' + fmtM(r.ventasMesProy) + '</div>' +
-    '</div>' +
+  el.innerHTML=
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px">'+
+    '<div class="card"><div class="ctitle">Julio 2026</div>'+
+    '<div class="mval2" style="color:var(--amber)">'+fmtM(FIN_DATA.ventas_2026_real[6]||0)+'</div>'+
+    '<div class="msub">Mes completo</div></div>'+
 
-    // Card 2: Margen bruto mes
-    '<div class="card">' +
-      '<div class="ctitle">Margen bruto mes</div>' +
-      '<div class="mval2" style="color:var(--green)">' + fmtM(r.margenBrutoMes) + '</div>' +
-      '<div class="msub">' + fin.margen_bruto_pct + '% sobre ventas proy.</div>' +
-      '<div class="mhint">Costo mercaderia: ' + fmtM(r.costoMercMes) + '</div>' +
-    '</div>' +
+    '<div class="card"><div class="ctitle">Margen bruto mes</div>'+
+    '<div class="mval2" style="color:var(--green)">'+fmtM(r.margenMes)+'</div>'+
+    '<div class="msub">'+fin.margen_bruto_pct+'% sobre ventas proy.</div></div>'+
 
-    // Card 3: Costos fijos mes
-    '<div class="card click" onclick="openFinEdit()">' +
-      '<div class="ctitle">Costos fijos mes <span style="font-size:9px;color:var(--text3);font-weight:400;text-transform:none">editar</span></div>' +
-      '<div class="mval2" style="color:var(--red)">' + fmtM(r.totalCostFijos) + '</div>' +
-      '<div class="msub">$4,8M/mes · 9 rubros reales</div>' +
-      '<div class="mhint">+ cuota AOVE + otros</div>' +
-    '</div>' +
+    '<div class="card click" onclick="openFinEdit()">'+
+    '<div class="ctitle">Costos fijos mes <span style="font-size:9px;color:var(--text3);font-weight:400;text-transform:none">editar</span></div>'+
+    '<div class="mval2" style="color:var(--red)">'+fmtM(r.totalFijos)+'</div>'+
+    '<div class="msub">9 rubros reales</div></div>'+
 
-    // Card 4: Resultado neto mes
-    '<div class="card">' +
-      '<div class="ctitle">Resultado neto mes</div>' +
-      '<div class="mval2" style="color:' + colorN(r.margenNetoMes) + '">' + fmtM(r.margenNetoMes) + '</div>' +
-      '<div class="msub">' + (r.margenNetoMes >= 0 ? 'Superavit' : 'Deficit') + ' estimado</div>' +
-      '<div class="mhint">Sobre proyeccion del mes</div>' +
-    '</div>' +
+    '<div class="card"><div class="ctitle">Resultado neto mes</div>'+
+    '<div class="mval2" style="color:'+colorN(r.netoMes)+'">'+fmtM(r.netoMes)+'</div>'+
+    '<div class="msub">'+(r.netoMes>=0?'Superavit':'Deficit')+' estimado</div></div>'+
+    '</div>'+
 
-  '</div>' +
+    '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px">'+
+    '<div class="card"><div class="ctitle">Ventas 2026 proy.</div>'+
+    '<div class="mval2" style="color:var(--amber)">'+fmtM(FIN_DATA.total_2026_proy)+'</div>'+
+    '<div class="msub">+48% vs 2025 ('+fmtM(FIN_DATA.total_2025)+')</div></div>'+
 
-  // Fila 2: Año completo
-  '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px">' +
+    '<div class="card"><div class="ctitle">Margen bruto anual</div>'+
+    '<div class="mval2" style="color:var(--green)">'+fmtM(r.margenAnual)+'</div>'+
+    '<div class="msub">'+fin.margen_bruto_pct+'% sobre ventas</div></div>'+
 
-    '<div class="card">' +
-      '<div class="ctitle">Ventas 2026 proy.</div>' +
-      '<div class="mval2" style="color:var(--amber)">' + fmtM(FIN_DATA.total_2026_proy) + '</div>' +
-      '<div class="msub">+48% vs 2025 (' + fmtM(FIN_DATA.total_2025) + ')</div>' +
-    '</div>' +
+    '<div class="card"><div class="ctitle">Costos fijos anuales</div>'+
+    '<div class="mval2" style="color:var(--red)">'+fmtM(r.fijosAnual)+'</div>'+
+    '<div class="msub">x12 meses</div></div>'+
 
-    '<div class="card">' +
-      '<div class="ctitle">Margen bruto anual</div>' +
-      '<div class="mval2" style="color:var(--green)">' + fmtM(r.margenBrutoAnual) + '</div>' +
-      '<div class="msub">' + fin.margen_bruto_pct + '% sobre ventas</div>' +
-    '</div>' +
+    '<div class="card"><div class="ctitle">Resultado neto anual</div>'+
+    '<div class="mval2" style="color:'+colorN(r.netoAnual)+'">'+fmtM(r.netoAnual)+'</div>'+
+    '<div class="msub">USD '+(r.netoAnual/1475).toFixed(0)+' (TC $1.475)</div></div>'+
+    '</div>'+
 
-    '<div class="card">' +
-      '<div class="ctitle">Costos fijos anuales</div>' +
-      '<div class="mval2" style="color:var(--red)">' + fmtM(r.totalCostFijosAnual) + '</div>' +
-      '<div class="msub">x12 meses</div>' +
-    '</div>' +
-
-    '<div class="card">' +
-      '<div class="ctitle">Resultado neto anual</div>' +
-      '<div class="mval2" style="color:' + colorN(r.margenNetoAnual) + '">' + fmtM(r.margenNetoAnual) + '</div>' +
-      '<div class="msub">' + (r.margenNetoAnual >= 0 ? 'Superavit proyectado' : 'Deficit proyectado') + '</div>' +
-    '</div>' +
-
-  '</div>' +
-
-  // Fila 3: Desglose costos + cheques
-  '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px">' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px">'+
 
     // Desglose costos
-    '<div class="card">' +
-      '<div class="ctitle">Desglose costos mensuales <span class="ctag tag-amber" style="cursor:pointer" onclick="openFinEdit()">editar</span></div>' +
-      ['oficina:Oficina Alta Gracia', 'logistica:Logistica Alberdi',
-       'sueldo:Sueldo Nacho (GG)', 'sueldo_paolo:Sueldo Paolo (ventas)',
-       'seguro_nacho:Seguro auto Nacho', 'seguro_paolo:Seguro auto Paolo',
-       'cm:Community Manager', 'combustible:Combustible general',
-       'varios:Varios / imprevistos', 'cuota_aove:Cuota AOVE (desde sep-26)'].map(function(item) {
-        var parts = item.split(':');
-        var k = parts[0], lbl = parts[1];
-        var v = fin[k] || 0;
-        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">' +
-          '<span style="color:var(--text2)">' + lbl + '</span>' +
-          '<span style="font-weight:500;color:' + (v>0?'var(--red)':'var(--text3)') + '">' + (v>0?fmtMfull(v):'—') + '</span>' +
-          '</div>';
-      }).join('') +
-      '<div style="display:flex;justify-content:space-between;padding:10px 0;font-size:14px;font-weight:600">' +
-        '<span>Total</span><span style="color:var(--red)">' + fmtMfull(r.totalCostFijos) + '</span>' +
-      '</div>' +
-    '</div>' +
+    '<div class="card"><div class="ctitle">Desglose mensual <span class="ctag tag-amber" style="cursor:pointer" onclick="openFinEdit()">editar</span></div>'+
+    rubros.map(function(row){
+      var v=fin[row[0]]||0;
+      return '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px">'+
+        '<span style="color:var(--text2)">'+row[1]+'</span>'+
+        '<span style="font-weight:500;color:'+(v>0?'var(--red)':'var(--text3)')+'">'+
+        (v>0?'$'+v.toLocaleString('es'):'&mdash;')+'</span></div>';
+    }).join('')+
+    '<div style="display:flex;justify-content:space-between;padding:8px 0;font-size:14px;font-weight:600">'+
+    '<span>Total</span><span style="color:var(--red)">$'+r.totalFijos.toLocaleString('es')+'</span></div></div>'+
 
-    // Cheques emitidos
-    '<div class="card">' +
-      '<div class="ctitle">Cheques emitidos <span class="ctag tag-amber">' + fmtM(r.totalCheques) + '</span></div>' +
-      (function() {
-        var ch = bvGet('cheques', []);
-        if (!ch.length) return '<div style="font-size:12px;color:var(--text3);padding:10px 0">Sin cheques cargados.<br>Agregalos en la seccion Cheques.</div>';
-        var HOY2 = new Date(2026,6,20);
-        return ch.slice(0,8).map(function(c) {
-          var f = new Date(c.fecha + 'T12:00:00');
-          var dias = Math.round((f - HOY2)/(1000*60*60*24));
-          var col = dias < 0 ? 'var(--red)' : dias < 7 ? 'var(--amber)' : 'var(--text2)';
-          var tag = dias < 0 ? 'VENCIDO' : dias === 0 ? 'HOY' : 'en ' + dias + 'd';
-          return '<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px">' +
-            '<div><div style="font-weight:500">' + c.ben + '</div><div style="font-size:10px;color:' + col + '">' + tag + ' &middot; ' + c.fecha + '</div></div>' +
-            '<div style="font-weight:600;color:var(--amber)">$' + (+c.monto).toLocaleString('es') + '</div>' +
-            '</div>';
-        }).join('');
-      })() +
-    '</div>' +
+    // Cheques
+    '<div class="card"><div class="ctitle">Cheques emitidos <span class="ctag tag-amber">'+fmtM(r.totalCheques)+'</span></div>'+
+    (function(){
+      var ch=bvGet('cheques',[]);
+      if(!ch.length)return '<div style="font-size:12px;color:var(--text3);padding:10px 0">Sin cheques. Agregalos en Cheques.</div>';
+      return ch.slice(0,8).map(function(c){
+        var f=new Date(c.fecha+'T12:00:00');
+        var dias=Math.round((f-HOY_DATE)/(1000*60*60*24));
+        var col=dias<0?'var(--red)':dias<7?'var(--amber)':'var(--text2)';
+        var tag=dias<0?'VENCIDO':dias===0?'HOY':'en '+dias+'d';
+        return '<div style="display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px">'+
+          '<div><div style="font-weight:500">'+c.ben+'</div><div style="font-size:10px;color:'+col+'">'+tag+' &middot; '+fmtFecha(c.fecha)+'</div></div>'+
+          '<div style="font-weight:600;color:var(--amber)">$'+c.monto.toLocaleString('es')+'</div></div>';
+      }).join('');
+    })()+
+    '</div>'+
 
     // Observaciones
-    '<div class="card">' +
-      '<div class="ctitle">Analisis y observaciones</div>' +
-      (function() {
-        var r2 = calcFinanzas();
-        var obs = [];
-        var ptoEq = r2.totalCostFijos / (r2.fin.margen_bruto_pct/100);
-        obs.push({txt: 'Punto de equilibrio mensual: ' + fmtM(ptoEq), col: 'var(--text2)'});
-        obs.push({txt: 'Para cubrir costos necesitas vender ' + fmtM(ptoEq) + '/mes con margen del ' + r2.fin.margen_bruto_pct + '%', col: 'var(--text2)'});
-        if (FIN_DATA.ventas_2026_proy[FIN_DATA.mes_actual] > ptoEq) {
-          obs.push({txt: 'Julio 2026 esta por encima del punto de equilibrio proyectado', col: 'var(--green)'});
-        } else {
-          obs.push({txt: 'Julio esta por debajo del punto de equilibrio - mes estacional bajo', col: 'var(--amber)'});
-        }
-        obs.push({txt: 'Crecimiento 2026 vs 2025: +48% - ritmo excepcional', col: 'var(--green)'});
-        obs.push({txt: 'Precio AOVE: USD 4.700/tn · 20 tn · cuota $11,55M/mes desde sep-26', col: 'var(--amber)'});
-        obs.push({txt: 'Costo total/litro: $8.481 (AOVE $6.309 + fason+etiq $2.173)', col: 'var(--text2)'});
-        obs.push({txt: 'Margen real 43% — precio venta $14.886/lt promedio facturas reales', col: 'var(--green)'});
-        obs.push({txt: 'Neto proyectado: 15tn=USD 32.500 · 20tn=USD 56.400 (fijos $4,8M/mes)', col: 'var(--green)'});
-        obs.push({txt: 'Pto. equilibrio: 749 lts/mes (8,18 tn/ano) — ritmo actual 1.100 lts/mes', col: 'var(--text2)'});
-        obs.push({txt: 'Mayor riesgo: concentracion Waggon (33% volumen historico)', col: 'var(--red)'});
-        obs.push({txt: 'Deuda pendiente: $10,5M en 52 facturas (reporte 21/jul/2026)', col: 'var(--amber)'});
-        return obs.map(function(o) {
-          return '<div style="display:flex;align-items:flex-start;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.4">' +
-            '<div style="width:6px;height:6px;border-radius:50%;background:' + o.col + ';flex-shrink:0;margin-top:4px"></div>' +
-            '<div style="color:var(--text2)">' + o.txt + '</div></div>';
-        }).join('');
-      })() +
-    '</div>' +
+    '<div class="card"><div class="ctitle">Analisis</div>'+
+    (function(){
+      var obs=[
+        {txt:'Precio AOVE: USD 4.700/tn &middot; 20 tn &middot; cuota $11,55M/mes desde sep-26',col:'var(--amber)'},
+        {txt:'Costo total/litro: $8.481 (AOVE $6.309 + fason+etiq $2.173)',col:'var(--text2)'},
+        {txt:'Margen real 43% &mdash; precio venta $14.886/lt promedio facturas',col:'var(--green)'},
+        {txt:'Neto proy: 15tn=USD 32.500 &middot; 20tn=USD 56.400',col:'var(--green)'},
+        {txt:'Pto. equilibrio: 749 lts/mes (8,18 tn/ano) &mdash; ritmo actual 1.100 lts/mes',col:'var(--text2)'},
+        {txt:'Riesgo: concentracion Waggon (33% volumen historico)',col:'var(--red)'},
+        {txt:'Deuda pendiente: $13,7M en 69 facturas (23/jul/2026)',col:'var(--amber)'},
+      ];
+      return obs.map(function(o){
+        return '<div style="display:flex;align-items:flex-start;gap:8px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;line-height:1.4">'+
+          '<div style="width:6px;height:6px;border-radius:50%;background:'+o.col+';flex-shrink:0;margin-top:4px"></div>'+
+          '<div style="color:var(--text2)">'+o.txt+'</div></div>';
+      }).join('');
+    })()+
+    '</div></div>'+
 
-  '</div>' +
+    // Tabla comparativa
+    '<div class="card"><div class="ctitle">Ventas mensuales 2025 vs 2026 proyectado</div>'+
+    '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">'+
+    '<tr><td style="color:var(--text3);padding:4px 8px;width:40px">Mes</td>'+
+    MESES_FIN.map(function(m){return '<td style="text-align:center;color:var(--text3);padding:4px;min-width:48px">'+m+'</td>';}).join('')+
+    '<td style="text-align:right;color:var(--text3);padding:4px 8px">Total</td></tr>'+
+    '<tr><td style="color:var(--text2);padding:4px 8px">2025</td>'+
+    FIN_DATA.ventas_2025.map(function(v){return '<td style="text-align:center;color:var(--blue);padding:4px">'+(v>=1e6?(v/1e6).toFixed(1)+'M':Math.round(v/1e3)+'k')+'</td>';}).join('')+
+    '<td style="text-align:right;color:var(--blue);font-weight:600;padding:4px 8px">'+fmtM(FIN_DATA.total_2025)+'</td></tr>'+
+    '<tr><td style="color:var(--text2);padding:4px 8px">2026</td>'+
+    FIN_DATA.ventas_2026_proy.map(function(v,i){
+      var isReal=i<=FIN_DATA.mes_actual;
+      var col=isReal?'var(--amber)':'var(--text3)';
+      return '<td style="text-align:center;color:'+col+';padding:4px">'+(v>=1e6?(v/1e6).toFixed(1)+'M':Math.round(v/1e3)+'k')+(isReal?'':' *')+'</td>';
+    }).join('')+
+    '<td style="text-align:right;color:var(--amber);font-weight:600;padding:4px 8px">'+fmtM(FIN_DATA.total_2026_proy)+' *</td></tr>'+
+    '</table></div>'+
+    '<div style="font-size:10px;color:var(--text3);margin-top:8px">* proyectado +48% sobre 2025 &middot; Amarillo = real &middot; Gris = proyectado</div></div>'+
 
-  // Grafico de barras mensual
-  '<div class="card">' +
-    '<div class="ctitle">Ventas mensuales 2025 vs 2026 proyectado</div>' +
-    '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:11px">' +
-      '<tr>' +
-        '<td style="color:var(--text3);padding:4px 8px;width:40px">Mes</td>' +
-        MESES_FIN.map(function(m){ return '<td style="text-align:center;color:var(--text3);padding:4px 4px;min-width:50px">' + m + '</td>'; }).join('') +
-        '<td style="text-align:right;color:var(--text3);padding:4px 8px">Total</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td style="color:var(--text2);padding:4px 8px">2025</td>' +
-        FIN_DATA.ventas_2025.map(function(v){ return '<td style="text-align:center;color:var(--blue);padding:4px">' + (v>=1e6?(v/1e6).toFixed(1)+'M':Math.round(v/1e3)+'k') + '</td>'; }).join('') +
-        '<td style="text-align:right;color:var(--blue);font-weight:600;padding:4px 8px">' + fmtM(FIN_DATA.total_2025) + '</td>' +
-      '</tr>' +
-      '<tr>' +
-        '<td style="color:var(--text2);padding:4px 8px">2026</td>' +
-        FIN_DATA.ventas_2026_proy.map(function(v,i){
-          var isReal = i <= FIN_DATA.mes_actual;
-          var col = isReal ? 'var(--amber)' : 'var(--text3)';
-          var txt = v>=1e6?(v/1e6).toFixed(1)+'M':Math.round(v/1e3)+'k';
-          return '<td style="text-align:center;color:' + col + ';padding:4px">' + txt + (isReal?'':' *') + '</td>';
-        }).join('') +
-        '<td style="text-align:right;color:var(--amber);font-weight:600;padding:4px 8px">' + fmtM(FIN_DATA.total_2026_proy) + ' *</td>' +
-      '</tr>' +
-    '</table>' +
-    '<div style="font-size:10px;color:var(--text3);margin-top:8px">* proyectado con crecimiento +48% sobre 2025 &middot; Amarillo = real &middot; Gris = proyectado</div>' +
-    '</div>' +
-  '</div>' +
-
-  // Nota libre
-  '<div class="card" style="margin-top:14px">' +
-    '<div class="ctitle">Notas financieras</div>' +
-    '<textarea class="notainp" id="finNota" rows="2" placeholder="Notas, comentarios, condiciones de la negociacion AOVE...">' + (fin.nota||'') + '</textarea>' +
-    '<button class="notabtn" style="margin-top:6px" onclick="saveFinNota()">Guardar nota financiera</button>' +
-  '</div>';
+    // Nota libre
+    '<div class="card" style="margin-top:14px"><div class="ctitle">Notas financieras</div>'+
+    '<textarea class="notainp" id="finNota" rows="2" placeholder="Precio AOVE acordado, condiciones, observaciones...">'+(fin.nota||'')+'</textarea>'+
+    '<button class="notabtn" style="margin-top:6px" onclick="saveFinNota()">Guardar nota financiera</button></div>';
 }
 
-function openFinEdit() {
-  var fin = getFin();
-  var box = document.getElementById('mbox');
-  box.innerHTML = '<div class="mhdr"><div class="mtitle">Editar costos mensuales</div><button class="mclose" onclick="closeM()">&times;</button></div>' +
-    [
-      ['oficina', 'Oficina Alta Gracia (alquiler + SS)', '300000'],
-      ['logistica', 'Logistica y deposito Alberdi', '200000'],
-      ['sueldo', 'Sueldo Nacho (Gerente General)', '2000000'],
-      ['sueldo_paolo', 'Sueldo Paolo (Sub-GG ventas)', '200000'],
-      ['seguro_nacho', 'Seguro auto Nacho', '150000'],
-      ['seguro_paolo', 'Seguro auto Paolo', '100000'],
-      ['cm', 'Community Manager', '350000'],
-      ['combustible', 'Combustible general', '500000'],
-      ['varios', 'Varios / imprevistos', '1000000'],
-      ['cuota_aove', 'Cuota AOVE mensual (desde sep-26)', '0'],
-      ['margen_bruto_pct', 'Margen bruto % real (43% con fasoneo)', '43'],
-    ].map(function(row) {
-      return '<div style="margin-bottom:10px"><div class="mlbl" style="margin-bottom:4px">' + row[1] + '</div>' +
-        '<input class="minp" id="fin_' + row[0] + '" type="number" value="' + (fin[row[0]] || row[2]) + '"></div>';
-    }).join('') +
+function openFinEdit(){
+  var fin=getFin();
+  var rubros=[
+    ['oficina','Oficina Alta Gracia (alquiler + SS)','300000'],
+    ['logistica','Logistica y deposito Alberdi','200000'],
+    ['sueldo','Sueldo Nacho (Gerente General)','2000000'],
+    ['sueldo_paolo','Sueldo Paolo (Sub-GG ventas)','200000'],
+    ['seguro_nacho','Seguro auto Nacho','150000'],
+    ['seguro_paolo','Seguro auto Paolo','100000'],
+    ['cm','Community Manager','350000'],
+    ['combustible','Combustible general','500000'],
+    ['varios','Varios / imprevistos','1000000'],
+    ['cuota_aove','Cuota AOVE mensual (desde sep-26)','0'],
+    ['margen_bruto_pct','Margen bruto % real (43% con fasoneo)','43'],
+  ];
+  var box=document.getElementById('mbox');
+  box.innerHTML='<div class="mhdr"><div class="mtitle">Editar costos mensuales</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+    rubros.map(function(row){
+      return '<div style="margin-bottom:10px"><div class="mlbl" style="margin-bottom:4px">'+row[1]+'</div>'+
+        '<input class="minp" id="fin_'+row[0]+'" type="number" value="'+(fin[row[0]]||row[2])+'"></div>';
+    }).join('')+
     '<div class="mbtns"><button class="mbtn btn-p" onclick="saveFinEdit()">Guardar</button><button class="mbtn btn-s" onclick="closeM()">Cancelar</button></div>';
-  document.getElementById('overlay').style.display = 'flex';
+  document.getElementById('overlay').style.display='flex';
 }
 
-function saveFinEdit() {
-  var fin = getFin();
-  ['oficina','logistica','sueldo','sueldo_paolo','seguro_nacho','seguro_paolo','cm','combustible','varios','cuota_aove','margen_bruto_pct'].forEach(function(k) {
-    var el = document.getElementById('fin_' + k);
-    if (el) fin[k] = parseFloat(el.value) || 0;
+function saveFinEdit(){
+  var fin=getFin();
+  ['oficina','logistica','sueldo','sueldo_paolo','seguro_nacho','seguro_paolo',
+   'cm','combustible','varios','cuota_aove','margen_bruto_pct'].forEach(function(k){
+    var el=document.getElementById('fin_'+k);
+    if(el)fin[k]=parseFloat(el.value)||0;
   });
-  bvSet('finanzas', fin);
+  bvSet('finanzas',fin);
   closeM();
   renderFinanzas();
 }
 
-function saveFinNota() {
-  var fin = getFin();
-  fin.nota = document.getElementById('finNota').value;
-  bvSet('finanzas', fin);
+function saveFinNota(){
+  var fin=getFin();
+  fin.nota=document.getElementById('finNota').value;
+  bvSet('finanzas',fin);
   alert('Nota guardada');
 }
+
+// Modal
+function openVenc(num){
+  var f=VENC.find(function(v){return v.num===num;});
+  if(!f)return;
+  var com=bvGet('com_fac_'+num,'');
+  var box=document.getElementById('mbox');
+  box.innerHTML='<div class="mhdr"><div class="mtitle">Factura #'+f.num+'</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+    '<div class="mrow"><div class="mlbl">Cliente</div><div class="mval">'+f.cliente+'</div></div>'+
+    '<div class="mrow"><div class="mlbl">Fecha</div><div class="mval">'+f.fecha+'</div></div>'+
+    '<div class="mrow"><div class="mlbl">Monto total</div><div class="mval">$'+f.monto.toLocaleString('es')+'</div></div>'+
+    '<div class="mrow"><div class="mlbl">Pendiente</div><div class="mval" style="color:var(--red)">$'+f.pe.toLocaleString('es')+'</div></div>'+
+    '<div class="mrow"><div class="mlbl">Dias vencida</div><div class="mval" style="color:var(--red)">'+f.dias+' dias</div></div>'+
+    '<div style="margin-top:14px"><div class="mlbl" style="margin-bottom:5px">Comentario</div>'+
+    '<input class="minp" id="com_fac" value="'+com.replace(/"/g,'&quot;')+'" placeholder="Ej: Acordamos pago para el 25/jul...">'+
+    '</div><div style="margin-top:12px"><div class="mlbl" style="margin-bottom:5px">Registrar pago</div>'+
+    '<div style="display:flex;gap:6px;margin-bottom:8px">'+
+    '<input class="minp" id="pago_monto" type="number" placeholder="Monto $" style="flex:1">'+
+    '<input class="minp" id="pago_fecha" type="date" style="flex:1" value="2026-07-23">'+
+    '</div></div>'+
+    '<div class="mbtns">'+
+    '<button class="mbtn btn-p" onclick="markPagada('+f.num+','+f.pe+')">Pago total</button>'+
+    '<button class="mbtn btn-g" onclick="markParcial('+f.num+')">Pago parcial</button>'+
+    '<button class="mbtn btn-s" onclick="saveComFac('+f.num+')">Guardar comentario</button>'+
+    '<button class="mbtn btn-s" onclick="closeM()">Cerrar</button>'+
+    '</div>';
+  document.getElementById('overlay').style.display='flex';
+}
+
+function openM(type){
+  var box=document.getElementById('mbox');
+  var s=getSaldos();
+  var h='';
+  if(type==='bancos'){
+    h='<div class="mhdr"><div class="mtitle">Cuentas bancarias</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      ['macro','santander','mp'].map(function(k){
+        var labels={macro:'Banco Macro',santander:'Santander Rio',mp:'Mercado Pago'};
+        return '<div style="margin-bottom:12px"><div class="mlbl" style="margin-bottom:4px">'+labels[k]+' (negativo si descubierto)</div>'+
+          '<input class="minp" id="inp_'+k+'" type="number" placeholder="Saldo ARS" value="'+(s[k]||'')+'"></div>';
+      }).join('')+
+      '<div class="mbtns"><button class="mbtn btn-p" onclick="saveBancos()">Guardar</button><button class="mbtn btn-s" onclick="closeM()">Cancelar</button></div>';
+  } else if(type==='julio'){
+    h='<div class="mhdr"><div class="mtitle">Julio 2026</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      '<div class="mrow"><div class="mlbl">Ventas julio 2026</div><div class="mval" style="color:var(--amber)">$8.831.056</div></div>'+
+      '<div class="mrow"><div class="mlbl">Julio 2025</div><div class="mval" style="color:var(--text2)">$10.746.884</div></div>'+
+      '<div class="mrow"><div class="mlbl">Variacion</div><div class="mval" style="color:var(--red)">-18% (mes estacional bajo)</div></div>'+
+      '<p style="font-size:12px;color:var(--text2);margin-top:12px">Julio es historicamente un mes bajo. El promedio proyectado anual es $27M/mes.</p>';
+  } else if(type==='h1'){
+    h='<div class="mhdr"><div class="mtitle">Crecimiento H1 2026</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      '<div class="mrow"><div class="mlbl">H1 2025</div><div class="mval">$83.299.687</div></div>'+
+      '<div class="mrow"><div class="mlbl">H1 2026</div><div class="mval" style="color:var(--green)">$111.233.253</div></div>'+
+      '<div class="mrow"><div class="mlbl">Variacion</div><div class="mval" style="color:var(--green)">+$27.933.566 (+33,5%)</div></div>'+
+      '<p style="font-size:12px;color:var(--text2);margin-top:12px">Motores: clientes nuevos (Medano, Activate) &middot; P3000 domina el volumen &middot; Aceitunas creciendo</p>';
+  } else if(type==='stock'){
+    h='<div class="mhdr"><div class="mtitle">Stock actual</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      '<p style="font-size:12px;color:var(--text2);margin-bottom:12px">Ver seccion Stock para detalle completo por deposito.</p>'+
+      '<div class="mbtns"><button class="mbtn btn-p" onclick="nav(\'stock\',null);closeM()">Ir a Stock</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
+  } else if(type==='w_waggon'){
+    h='<div class="mhdr"><div class="mtitle">Alerta: Waggon</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      '<div class="mrow"><div class="mlbl">Dias sin comprar aceitunas</div><div class="mval" style="color:var(--red)">31 dias</div></div>'+
+      '<div class="mrow"><div class="mlbl">Patron habitual</div><div class="mval">cada 12 dias</div></div>'+
+      '<div class="mrow"><div class="mlbl">Ultimo pedido aceitunas</div><div class="mval">8/jul/2026</div></div>'+
+      '<div class="mrow"><div class="mlbl">Pepinillos</div><div class="mval" style="color:var(--red)">47 dias</div></div>'+
+      '<div class="mbtns"><button class="mbtn btn-g" data-aid="waggon" onclick="markAlertaDone(this.dataset.aid);closeM()">\u2713 Marcar contactado</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
+  } else if(type==='w_aove'){
+    h='<div class="mhdr"><div class="mtitle">Negociacion AOVE</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      '<div class="mrow"><div class="mlbl">Precio acordado</div><div class="mval">USD 4.700/tn</div></div>'+
+      '<div class="mrow"><div class="mlbl">Toneladas</div><div class="mval">20 tn (en negociacion bajar a 15)</div></div>'+
+      '<div class="mrow"><div class="mlbl">Cuota 20tn</div><div class="mval">$11,55M/mes desde sep-26</div></div>'+
+      '<div class="mrow"><div class="mlbl">Cuota 15tn</div><div class="mval">$8,67M/mes desde sep-26</div></div>'+
+      '<div style="margin-top:14px"><div class="mlbl" style="margin-bottom:5px">Guardar resultado final</div>'+
+      '<textarea class="minp" id="notaAOVE" rows="3" placeholder="Precio final, tn, condiciones..."></textarea>'+
+      '<div class="mbtns"><button class="mbtn btn-p" onclick="saveAOVE()">Guardar</button>'+
+      '<button class="mbtn btn-g" data-aid="aove" onclick="markAlertaDone(this.dataset.aid);closeM()">\u2713 Marcar resuelto</button>'+
+      '<button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div></div>';
+  } else if(type==='w_etiq'){
+    h='<div class="mhdr"><div class="mtitle">Etiquetas en camino</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
+      '<div class="mrow"><div class="mlbl">P1000 (6 planchas)</div><div class="mval" style="color:var(--amber)">En produccion</div></div>'+
+      '<div class="mrow"><div class="mlbl">V500 (2 planchas)</div><div class="mval" style="color:var(--amber)">En produccion</div></div>'+
+      '<div class="mrow"><div class="mlbl">Llegada estimada</div><div class="mval">~30 jul 2026</div></div>'+
+      '<div class="mbtns"><button class="mbtn btn-g" data-aid="etiq" onclick="markAlertaDone(this.dataset.aid);closeM()">\u2713 Marcar recibido</button><button class="mbtn btn-s" onclick="closeM()">Cerrar</button></div>';
+  }
+  if(h){box.innerHTML=h;document.getElementById('overlay').style.display='flex';}
+}
+
+function closeM(e){
+  if(e&&e.target!==document.getElementById('overlay'))return;
+  document.getElementById('overlay').style.display='none';
+}
+
+function saveBancos(){
+  var s=getSaldos();
+  ['macro','santander','mp'].forEach(function(k){
+    var el=document.getElementById('inp_'+k);
+    if(el){var v=parseFloat(el.value);if(!isNaN(v))s[k]=v;}
+  });
+  bvSet('saldos',s);
+  renderSaldos();
+  closeM();
+}
+
+function saveComFac(num){
+  var com=document.getElementById('com_fac').value.trim();
+  bvSet('com_fac_'+num,com);
+  closeM();renderV();
+}
+
+function markPagada(num,pe){
+  var monto=parseFloat(document.getElementById('pago_monto').value||pe);
+  var fecha=document.getElementById('pago_fecha').value||'2026-07-23';
+  var fechaFmt=fecha.split('-').reverse().join('/');
+  var pagos=bvGet('pagos',[]);
+  pagos.push({num:num,monto:monto,fecha:fechaFmt,tipo:'total'});
+  bvSet('pagos',pagos);
+  var paid=bvGet('paid_facs',[]);
+  if(paid.indexOf(num)<0)paid.push(num);
+  bvSet('paid_facs',paid);
+  closeM();renderV();
+  alert('Factura #'+num+' pagada el '+fechaFmt+'\n$'+monto.toLocaleString('es'));
+}
+
+function markParcial(num){
+  var monto=parseFloat(document.getElementById('pago_monto').value||0);
+  var fecha=document.getElementById('pago_fecha').value||'2026-07-23';
+  if(!monto){alert('Ingresa el monto del pago parcial');return;}
+  var fechaFmt=fecha.split('-').reverse().join('/');
+  var pagos=bvGet('pagos',[]);
+  pagos.push({num:num,monto:monto,fecha:fechaFmt,tipo:'parcial'});
+  bvSet('pagos',pagos);
+  closeM();
+  alert('Pago parcial $'+monto.toLocaleString('es')+' registrado el '+fechaFmt);
+}
+
+function saveAOVE(){
+  var t=document.getElementById('notaAOVE').value.trim();
+  if(!t){closeM();return;}
+  var ns=bvGet('notas',[]);
+  ns.unshift({t:'[AOVE] '+t,ts:new Date().toLocaleDateString('es-AR')});
+  bvSet('notas',ns);
+  closeM();
+  alert('Guardado en Notas');
+}
+
+// Sheet sync
+async function syncFromSheet(){
+  var keys=['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli','finanzas','stock_cba','stock_cat','alertas_state'];
+  var el=document.getElementById('syncStatus');
+  if(el){el.textContent='Cargando...';el.style.color='var(--text3)';}
+  var synced=0;
+  for(var i=0;i<keys.length;i++){
+    try{
+      var r=await fetch(SHEET_URL+'?key='+encodeURIComponent(keys[i]));
+      var txt=await r.text();
+      if(txt&&txt.length>2){localStorage.setItem('bv_'+keys[i],txt);synced++;}
+    }catch(e){}
+  }
+  renderSaldos();renderV();renderNotas();renderCheques();renderAgResumen();renderAlertas();
+  // Update STOCK_DATA if saved
+  var savedCba=bvGet('stock_cba',null);
+  var savedCat=bvGet('stock_cat',null);
+  if(savedCba)STOCK_DATA.cba=savedCba;
+  if(savedCat)STOCK_DATA.cat=savedCat;
+  updateStockCard();
+  if(el){
+    var now=new Date().toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
+    el.textContent=synced>0?'\u2713 Sync '+now:'\u26a0 Sin conexion';
+    el.style.color=synced>0?'var(--green)':'var(--text3)';
+  }
+}
+
+// Export/Import
+function exportData(){
+  var keys=['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli','finanzas','stock_cba','stock_cat','alertas_state'];
+  var data={exportDate:new Date().toLocaleDateString('es-AR'),version:'2.0'};
+  keys.forEach(function(k){data[k]=bvGet(k,null);});
+  // Export comments
+  for(var i=0;i<100;i++){
+    var vk=bvGet('com_fac_'+i,null);if(vk)data['com_fac_'+i]=vk;
+    var pk=bvGet('com_cli_'+i,null);if(pk)data['com_cli_'+i]=pk;
+  }
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='bv_backup_'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();
+}
+
+function importData(inp){
+  var file=inp.files[0];if(!file)return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var data=JSON.parse(e.target.result);
+      Object.entries(data).forEach(function(entry){
+        var k=entry[0],v=entry[1];
+        if(k==='exportDate'||k==='version')return;
+        bvSet(k,v);
+      });
+      renderSaldos();renderV();renderNotas();renderCheques();renderAgResumen();renderAlertas();
+      alert('Importado OK ('+data.exportDate+')');
+    }catch(err){alert('Error al importar');}
+  };
+  reader.readAsText(file);
+  inp.value='';
+}
+
+// INIT
+document.addEventListener('DOMContentLoaded',function(){
+  // Apply theme
+  if(localStorage.getItem('bv_theme')==='light'){
+    document.body.classList.add('light');
+    var btn=document.getElementById('themeBtn');
+    if(btn)btn.innerHTML='&#9790; Modo oscuro';
+  }
+
+  // Date
+  var el=document.getElementById('navDate');
+  if(el)el.innerHTML='<b>'+DIAS_S[HOY_DATE.getDay()]+' '+HOY_DATE.getDate()+' jul 2026</b><br>Alta Gracia, Cordoba';
+
+  // Load saved stock
+  var savedCba=bvGet('stock_cba',null);
+  var savedCat=bvGet('stock_cat',null);
+  if(savedCba)STOCK_DATA.cba=savedCba;
+  if(savedCat)STOCK_DATA.cat=savedCat;
+
+  // Init cheques Pixel Grafica if empty
+  if(!bvGet('cheques',[]).length){
+    bvSet('cheques',[{"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-07-31", "num": "67670351", "concepto": "Etiquetas lote 1"}, {"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-08-15", "num": "67670352", "concepto": "Etiquetas lote 1"}, {"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-08-30", "num": "67670353", "concepto": "Etiquetas lote 1"}, {"ben": "Pixel Grafica", "monto": 464125, "fecha": "2026-09-14", "num": "67670355", "concepto": "Etiquetas lote 1"}]);
+  }
+
+  // Render all
+  renderSaldos();
+  renderV();
+  renderAgResumen();
+  renderAlertas();
+  updateStockCard();
+
+  // Init dashboard pattern mini-list
+  window._patLista=PAT;
+  var plistEl=document.getElementById('plist');
+  if(plistEl){
+    plistEl.innerHTML=PAT.slice(0,5).map(function(a,i){
+      var col=a.nivel==='rojo'?'var(--red)':'var(--amber)';
+      var bc=a.nivel==='rojo'?'br2':'ba2';
+      return '<div class="pi" data-pi="'+i+'" onclick="openPatIdx(parseInt(this.dataset.pi))">'+
+        '<div class="pdot" style="background:'+col+'"></div>'+
+        '<div class="pinfo"><div class="pcli">'+a.cliente+'</div>'+
+        '<div class="psub">'+a.dias_sin+'d sin comprar</div></div>'+
+        '<div class="pbadge '+bc+'">'+a.ratio+'x</div></div>';
+    }).join('');
+  }
+
+  // Async
+  var cachedDolar=JSON.parse(localStorage.getItem('bv_last_dolar')||'null');
+  if(cachedDolar)renderDolarCard(cachedDolar,false);
+  loadDolar();
+  loadClima();
+  setInterval(loadDolar,5*60*1000);
+  setInterval(loadClima,5*60*1000);
+
+  // Auto-sync from sheet
+  setTimeout(syncFromSheet,1500);
+});
 
 </script>
 </body>
