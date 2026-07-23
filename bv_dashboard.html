@@ -153,6 +153,7 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div class="nav-item" onclick="nav('vencidas',this)">&#10696; &nbsp;Facturas vencidas</div>
     <div class="nav-item" onclick="nav('clientes',this)">&#9711; &nbsp;Clientes patron</div>
     <div class="nav-item" onclick="nav('agenda',this)">&#9839; &nbsp;Agenda</div>
+    <div class="nav-item" onclick="nav('stock',this)">&#9744; &nbsp;Stock</div>
     <div class="nav-item" onclick="nav('finanzas',this)">&#9783; &nbsp;Finanzas</div>
     <div class="nav-sep"></div>
     <div class="nav-item" onclick="nav('notas',this)">&#9633; &nbsp;Notas</div>
@@ -210,10 +211,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div class="mval2" style="color:var(--red)" id="deudaTotal">$10,5M</div>
     <div class="msub" id="deudaCount">52 facturas &middot; ver &rarr;</div>
   </div>
-  <div class="card click" onclick="openM('stock')">
-    <div class="ctitle">Stock P3000</div>
-    <div class="mval2">55 cj</div>
-    <div class="msub">220u &middot; ~1,1 mes</div>
+  <div class="card click" onclick="nav('stock',document.querySelector('.nav-item:nth-child(4)'))">
+    <div class="ctitle">Stock total</div>
+    <div id="stockResumen">
+      <div class="mval2" style="font-size:20px">CBA + CAT</div>
+      <div class="msub" id="stockSubtitle">Ver detalle &rarr;</div>
+    </div>
   </div>
 
   <div class="card s2">
@@ -282,6 +285,10 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
   </div>
 </div>
 
+<div class="section" id="sec-stock">
+  <div id="sec-stock-content"></div>
+</div>
+
 <div class="section" id="sec-finanzas">
   <div id="sec-finanzas-content" style="padding:0"></div>
 </div>
@@ -344,6 +351,7 @@ function nav(id, el) {
   if (id === 'agenda') renderAgFull();
   if (id === 'notas') renderNotas();
   if (id === 'cheques') renderCheques();
+  if (id === 'stock') { renderStock(); }
   if (id === 'finanzas') { renderFinanzas(); var fc=document.getElementById('sec-finanzas'); if(fc){ var inner=document.getElementById('sec-finanzas-content'); if(inner) inner.innerHTML=''; renderFinanzas(); } }
 }
 
@@ -954,6 +962,89 @@ function toggleInactivos() {
   renderPFull();
 }
 
+
+// ===== STOCK =====
+var STOCK_DATA = {"fecha": "23/07/2026", "cba": [{"cod": 200, "sku": "P250", "u": 26, "cj": 2.17}, {"cod": 201, "sku": "P500", "u": -1, "cj": -0.08}, {"cod": 202, "sku": "P1000", "u": 0, "cj": 0.0}, {"cod": 203, "sku": "P2000", "u": 0, "cj": 0.0}, {"cod": 204, "sku": "P3000", "u": 177, "cj": 44.25}, {"cod": 205, "sku": "V250", "u": 280, "cj": 11.67}, {"cod": 206, "sku": "V500", "u": 40, "cj": 3.33}], "cat": [{"sku": "P250", "u": 180, "cj": 15.0}, {"sku": "P500", "u": 0, "cj": 0.0}, {"sku": "P1000", "u": 480, "cj": 40.0}, {"sku": "P2000", "u": 96, "cj": 24.0}, {"sku": "P3000", "u": 704, "cj": 176.0}, {"sku": "V250", "u": 456, "cj": 19.0}, {"sku": "V500", "u": 720, "cj": 60.0}], "ventas_prom": {"P250": 11, "P500": 46, "P1000": 52, "P2000": 25, "P3000": 198, "V250": 125, "V500": 125}};
+
+function renderStock() {
+  var el = document.getElementById('sec-stock-content');
+  if (!el) return;
+
+  var cba = STOCK_DATA.cba;
+  var cat = STOCK_DATA.cat;
+  var vp = STOCK_DATA.ventas_prom;
+  var ucj = {P250:12,P500:12,P1000:12,P2000:4,P3000:4,V250:24,V500:12};
+  var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
+
+  function cobertura(u, sku) {
+    var vm = vp[sku] || 1;
+    if (u <= 0) return {txt:'Ruptura', col:'var(--red)'};
+    var m = u / vm;
+    if (m < 1) return {txt: m.toFixed(1) + ' mes', col:'var(--red)'};
+    if (m < 2) return {txt: m.toFixed(1) + ' meses', col:'var(--amber)'};
+    return {txt: m.toFixed(1) + ' meses', col:'var(--green)'};
+  }
+
+  function fila(sku, u, cj, showCob) {
+    var cob = showCob ? cobertura(u, sku) : null;
+    var uCol = u < 0 ? 'var(--red)' : u === 0 ? 'var(--text3)' : 'var(--text)';
+    return '<tr>' +
+      '<td style="font-weight:600;color:var(--accent)">' + sku + '</td>' +
+      '<td style="text-align:right;color:' + uCol + '">' + u + '</td>' +
+      '<td style="text-align:right;color:var(--text2)">' + cj.toFixed(2) + '</td>' +
+      (showCob ? '<td style="text-align:right;color:' + cob.col + ';font-size:11px">' + cob.txt + '</td>' : '') +
+      '</tr>';
+  }
+
+  function tabla(titulo, data, showCob, color) {
+    var cat_map = {};
+    data.forEach(function(r){ cat_map[r.sku] = r; });
+    var rows = skus.map(function(s){
+      var r = cat_map[s] || {sku:s,u:0,cj:0};
+      return fila(s, r.u, r.cj, showCob);
+    }).join('');
+    var total_u = data.reduce(function(s,r){return s+(+r.u||0);},0);
+    var total_cj = data.reduce(function(s,r){return s+(+r.cj||0);},0);
+    return '<div class="card" style="flex:1;min-width:200px">' +
+      '<div class="ctitle" style="color:' + color + '">' + titulo + '</div>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:13px">' +
+      '<thead><tr style="font-size:10px;color:var(--text3)">' +
+      '<th style="text-align:left;padding:4px 0">SKU</th>' +
+      '<th style="text-align:right">Unid.</th>' +
+      '<th style="text-align:right">Cajas</th>' +
+      (showCob ? '<th style="text-align:right">Cobert.</th>' : '') +
+      '</tr></thead><tbody>' + rows +
+      '<tr style="border-top:1px solid var(--border);font-weight:600;font-size:12px">' +
+      '<td>TOTAL</td><td style="text-align:right">' + total_u + '</td>' +
+      '<td style="text-align:right">' + total_cj.toFixed(2) + '</td>' +
+      (showCob ? '<td></td>' : '') + '</tr>' +
+      '</tbody></table></div>';
+  }
+
+  // Consolidated
+  var consol = skus.map(function(s) {
+    var c = cba.find(function(r){return r.sku===s;}) || {u:0,cj:0};
+    var t = cat.find(function(r){return r.sku===s;}) || {u:0,cj:0};
+    return {sku:s, u:(+c.u||0)+(+t.u||0), cj:(+c.cj||0)+(+t.cj||0)};
+  });
+
+  el.innerHTML =
+    '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:14px">' +
+      tabla('Cordoba &mdash; Alberdi', cba, true, 'var(--blue)') +
+      tabla('Catamarca &mdash; Promet', cat, false, 'var(--amber)') +
+      tabla('Consolidado total', consol, true, 'var(--green)') +
+    '</div>' +
+    '<div class="card">' +
+      '<div class="ctitle">Leyenda cobertura</div>' +
+      '<div style="display:flex;gap:20px;font-size:12px">' +
+      '<span style="color:var(--green)">&#9632; 2+ meses</span>' +
+      '<span style="color:var(--amber)">&#9632; 1-2 meses</span>' +
+      '<span style="color:var(--red)">&#9632; Ruptura / menos de 1 mes</span>' +
+      '</div>' +
+      '<div style="font-size:11px;color:var(--text3);margin-top:6px">Cobertura basada en ventas promedio reales (jun25-jul26). Fecha: ' + STOCK_DATA.fecha + '</div>' +
+    '</div>';
+}
+
 function exportData() {
   var keys = ['saldos','notas','cheques','agenda','pagos','paid_facs','estados_cli'];
   var data = {exportDate: new Date().toLocaleDateString('es-AR'), version: '1.0'};
@@ -1026,6 +1117,38 @@ document.addEventListener('DOMContentLoaded', function() {
     var el2 = document.getElementById('deudaCount');
     if(el) el.textContent = '$' + (total/1e6).toFixed(1) + 'M';
     if(el2) el2.textContent = v.length + ' facturas · ver →';
+  })();
+
+  // Render stock summary in dashboard
+  (function(){
+    var cba = STOCK_DATA.cba;
+    var cat = STOCK_DATA.cat;
+    var skus = ['P250','P500','P1000','P2000','P3000','V250','V500'];
+    var lines = [];
+    var rupturas = [];
+    skus.forEach(function(s){
+      var c = cba.find(function(r){return r.sku===s;})||{u:0,cj:0};
+      var t = cat.find(function(r){return r.sku===s;})||{u:0,cj:0};
+      var total_u = (+c.u||0)+(+t.u||0);
+      var vp = STOCK_DATA.ventas_prom[s]||1;
+      var meses = total_u/vp;
+      if(total_u<=0) rupturas.push(s);
+    });
+    var el = document.getElementById('stockResumen');
+    var el2 = document.getElementById('stockSubtitle');
+    if(el){
+      // P3000 summary
+      var p3cba = (cba.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
+      var p3cat = (cat.find(function(r){return r.sku==='P3000';})||{cj:0}).cj;
+      el.innerHTML = '<div class="mval2" style="font-size:20px;color:var(--green)">' + (p3cba+p3cat).toFixed(0) + ' cj P3000</div>';
+    }
+    if(el2){
+      if(rupturas.length>0){
+        el2.innerHTML = '<span style="color:var(--red)">⚠ Ruptura: '+rupturas.join(', ')+'</span>';
+      } else {
+        el2.innerHTML = 'Ver detalle &rarr;';
+      }
+    }
   })();
 
   // Pre-load cheques Pixel Grafica if none exist
