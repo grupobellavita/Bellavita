@@ -197,6 +197,12 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
 
 <!-- DASHBOARD -->
 <div class="section active" id="sec-dash">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
+  <div>
+    <div style="font-size:18px;font-weight:600" id="dashFecha"></div>
+    <div style="font-size:12px;color:var(--text3)">Alta Gracia, Cordoba &middot; Bella Vita</div>
+  </div>
+</div>
 <div class="grid g4">
   <div class="card s2" id="dolarCard"><div class="ctitle">Tipo de cambio</div><div class="loading"><span class="sp">&#8635;</span> Cargando...</div></div>
   <div class="card" id="climaCard"><div class="ctitle">Clima &middot; Alta Gracia</div><div class="loading"><span class="sp">&#8635;</span></div></div>
@@ -205,7 +211,8 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSy
     <div class="brow"><div class="bname">&#127970; Macro</div><div class="bval empty" id="sm">&mdash;</div></div>
     <div class="brow"><div class="bname">&#127970; Santander</div><div class="bval empty" id="ss">&mdash;</div></div>
     <div class="brow"><div class="bname">&#128179; Mercado Pago</div><div class="bval empty" id="smp">&mdash;</div></div>
-    <div class="btrow"><div class="bname" style="color:var(--text);font-weight:500">Total</div><div id="stotal">&mdash;</div></div>
+    <div class="brow"><div class="bname">&#127482;&#127480; USD efectivo/caja</div><div class="bval empty" id="susd">&mdash;</div></div>
+    <div class="btrow"><div class="bname" style="color:var(--text);font-weight:500">Total ARS</div><div id="stotal">&mdash;</div></div>
   </div>
   <div class="card click" onclick="openM('julio')">
     <div class="ctitle">Julio 2026</div>
@@ -483,7 +490,7 @@ async function loadClima(){
 }
 
 // Saldos
-function getSaldos(){return bvGet('saldos',{macro:0,santander:0,mp:0});}
+function getSaldos(){return bvGet('saldos',{macro:0,santander:0,mp:0,usd:0});}
 function fmtS(n){
   if(n===0||n===null||n===undefined)return null;
   if(n<0)return '<span style="color:var(--red)">-$'+Math.abs(Number(n)).toLocaleString('es')+'</span>';
@@ -500,12 +507,28 @@ function renderSaldos(){
     el.innerHTML=v||'&mdash;';
     el.className='bval'+(v?'':' empty');
   });
+  // USD account
+  var usdEl=document.getElementById('susd');
+  if(usdEl){
+    var usd=+s.usd||0;
+    if(usd===0){usdEl.innerHTML='&mdash;';usdEl.className='bval empty';}
+    else if(usd<0){usdEl.innerHTML='<span style="color:var(--red)">-USD '+Math.abs(usd).toLocaleString('es')+'</span>';usdEl.className='bval';}
+    else{usdEl.innerHTML='<span style="color:var(--blue)">USD '+usd.toLocaleString('es')+'</span>';usdEl.className='bval';}
+  }
   var t=(+s.macro||0)+(+s.santander||0)+(+s.mp||0);
   var stEl=document.getElementById('stotal');
   if(stEl){
     if(t===0)stEl.innerHTML='&mdash;';
     else if(t<0){stEl.innerHTML='<span style="color:var(--red)">-$'+Math.abs(t).toLocaleString('es')+'</span>';}
     else stEl.innerHTML='<span style="color:var(--green)">$'+t.toLocaleString('es')+'</span>';
+  }
+  // Show USD separately in total row
+  var usdTot=+s.usd||0;
+  if(usdTot!==0){
+    var tc=bvGet('last_dolar',null);
+    var tcVal=tc?tc.prom_bna:1475;
+    var usdArs=usdTot*tcVal;
+    if(stEl)stEl.innerHTML+='<div style="font-size:10px;color:var(--blue);margin-top:2px">+ USD '+usdTot.toLocaleString('es')+' = $'+Math.round(usdArs).toLocaleString('es')+' (TC $'+tcVal.toLocaleString('es')+')</div>';
   }
 }
 
@@ -1218,10 +1241,10 @@ function openM(type){
   var h='';
   if(type==='bancos'){
     h='<div class="mhdr"><div class="mtitle">Cuentas bancarias</div><button class="mclose" onclick="closeM()">&times;</button></div>'+
-      ['macro','santander','mp'].map(function(k){
-        var labels={macro:'Banco Macro',santander:'Santander Rio',mp:'Mercado Pago'};
+      ['macro','santander','mp','usd'].map(function(k){
+        var labels={macro:'Banco Macro (ARS)',santander:'Santander Rio (ARS)',mp:'Mercado Pago (ARS)',usd:'USD efectivo / caja'};
         return '<div style="margin-bottom:12px"><div class="mlbl" style="margin-bottom:4px">'+labels[k]+' (negativo si descubierto)</div>'+
-          '<input class="minp" id="inp_'+k+'" type="number" placeholder="Saldo ARS" value="'+(s[k]||'')+'"></div>';
+          '<input class="minp" id="inp_'+k+'" type="number" placeholder="'+(k==='usd'?'Saldo USD':'Saldo ARS')+'" value="'+(s[k]||'')+'"></div>';
       }).join('')+
       '<div class="mbtns"><button class="mbtn btn-p" onclick="saveBancos()">Guardar</button><button class="mbtn btn-s" onclick="closeM()">Cancelar</button></div>';
   } else if(type==='julio'){
@@ -1275,7 +1298,7 @@ function closeM(e){
 
 function saveBancos(){
   var s=getSaldos();
-  ['macro','santander','mp'].forEach(function(k){
+  ['macro','santander','mp','usd'].forEach(function(k){
     var el=document.getElementById('inp_'+k);
     if(el){var v=parseFloat(el.value);if(!isNaN(v))s[k]=v;}
   });
@@ -1400,7 +1423,12 @@ document.addEventListener('DOMContentLoaded',function(){
 
   // Date
   var el=document.getElementById('navDate');
-  if(el)el.innerHTML='<b>'+DIAS_S[HOY_DATE.getDay()]+' '+HOY_DATE.getDate()+' jul 2026</b><br>Alta Gracia, Cordoba';
+  // Use real current date
+  var hoy = new Date();
+  var mesesFull = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  if(el)el.innerHTML='<b>'+DIAS_S[hoy.getDay()]+' '+hoy.getDate()+' de '+mesesFull[hoy.getMonth()]+' '+hoy.getFullYear()+'</b><br>Alta Gracia, Cordoba';
+  var dashFechaEl = document.getElementById('dashFecha');
+  if(dashFechaEl)dashFechaEl.textContent=DIAS_S[hoy.getDay()]+' '+hoy.getDate()+' de '+mesesFull[hoy.getMonth()]+' '+hoy.getFullYear();
 
   // Load saved stock
   var savedCba=bvGet('stock_cba',null);
