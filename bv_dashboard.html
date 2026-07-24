@@ -429,27 +429,51 @@ function renderDolarCard(data,isCache){
 
 async function loadDolar(){
   var c=document.getElementById('dolarCard');
-  try{
-    var r=await fetch('https://api.dolarapi.com/v1/dolares');
-    var d=await r.json();
-    var blue=d.find(function(x){return x.casa==='blue';})||{compra:0,venta:0};
-    var of=d.find(function(x){return x.casa==='oficial';})||{compra:0,venta:0};
+  // Try multiple APIs in sequence
+  var apis=[
+    async function(){
+      var r=await fetch('https://api.dolarapi.com/v1/dolares');
+      var d=await r.json();
+      var blue=d.find(function(x){return x.casa==='blue';})||{compra:0,venta:0};
+      var of=d.find(function(x){return x.casa==='oficial';})||{compra:0,venta:0};
+      return{bna_c:+of.compra,bna_v:+of.venta,blue_c:+blue.compra,blue_v:+blue.venta};
+    },
+    async function(){
+      var r=await fetch('https://api.bluelytics.com.ar/v2/latest');
+      var d=await r.json();
+      return{bna_c:d.oficial.value_buy,bna_v:d.oficial.value_sell,
+             blue_c:d.blue.value_buy,blue_v:d.blue.value_sell};
+    },
+    async function(){
+      var r=await fetch('https://dolarito.ar/api/v1/quotations');
+      var d=await r.json();
+      var of=d.oficial||d.Oficial||{buy:0,sell:0};
+      var bl=d.blue||d.Blue||{buy:0,sell:0};
+      return{bna_c:+of.buy||+of.compra||0,bna_v:+of.sell||+of.venta||0,
+             blue_c:+bl.buy||+bl.compra||0,blue_v:+bl.sell||+bl.venta||0};
+    }
+  ];
+  var result=null;
+  for(var i=0;i<apis.length;i++){
+    try{result=await apis[i]();if(result&&result.bna_v>0)break;}catch(e){}
+  }
+  if(result&&result.bna_v>0){
     var now=new Date();
     var nowStr=now.toLocaleDateString('es-AR')+' '+now.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'});
     var data={
-      bna_compra:Math.round(+of.compra),bna_venta:Math.round(+of.venta),
-      blue_compra:Math.round(+blue.compra),blue_venta:Math.round(+blue.venta),
-      prom_bna:Math.round((+of.compra+(+of.venta))/2),
-      prom_blue:Math.round((+blue.compra+(+blue.venta))/2),
+      bna_compra:Math.round(result.bna_c),bna_venta:Math.round(result.bna_v),
+      blue_compra:Math.round(result.blue_c),blue_venta:Math.round(result.blue_v),
+      prom_bna:Math.round((result.bna_c+result.bna_v)/2),
+      prom_blue:Math.round((result.blue_c+result.blue_v)/2),
       updated:nowStr
     };
-    bvGet('last_dolar',null); // just to keep pattern
     localStorage.setItem('bv_last_dolar',JSON.stringify(data));
     renderDolarCard(data,false);
-  }catch(e){
+  }else{
     var last=JSON.parse(localStorage.getItem('bv_last_dolar')||'null');
     if(last)renderDolarCard(last,true);
-    else if(c)c.innerHTML='<div class="ctitle">Tipo de cambio</div><div style="font-size:12px;color:var(--text3);padding:10px 0">Sin conexion &mdash; sin datos previos</div>';
+    else if(c)c.innerHTML='<div class="ctitle">Tipo de cambio</div>'+
+      '<div style="font-size:12px;color:var(--text3);padding:10px 0">Sin conexion &mdash; sin datos previos</div>';
   }
 }
 
